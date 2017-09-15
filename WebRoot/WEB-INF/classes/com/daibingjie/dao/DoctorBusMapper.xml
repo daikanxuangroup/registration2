@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.daibingjie.dao.DoctorBusMapper">
+
+
+
+                  <!-- 医生生界面初始化的方法 -->
+     <resultMap type="com.daibingjie.pojo.Registration" id="reg_book">
+     <id column="rid"  property="rid"/>
+     <result column="snum" property="snum"/>
+      <result column="state" property="state"/>
+      
+     <association property="cards" javaType="com.daibingjie.pojo.Cards">
+     <id column="cid" property="cid"/>
+     <result column="pname" property="pname"/>
+     <result column="sex" property="sex"/>
+   
+     </association>
+     <association property="bookable" javaType="com.daibingjie.pojo.Bookable">
+       <id column="bid" property="bid"/>
+       <result column="bdate" property="bdate"/>
+     </association>   
+     </resultMap>
+	<select id="findPat" resultMap="reg_book" >
+	select r.rid,r.cid,r.bid,r.snum,r.state,c.pname,c.sex,b.bdate from registration r , bookable b ,cards c
+	      where r.bid=b.bid and c.cid=r.cid and 
+	       b.DOID=#{doid} and b.bdate=trunc(sysdate) and state=1
+	</select>
+		
+	 <!-- 点击病人查看 信息 -->	
+	<select id="findcard" resultType="com.daibingjie.pojo.Cards">
+	 select * from cards where cid =#{cid} 
+	</select>
+	
+	
+	<!-- 查看病人本部门历史病历 -->
+	<resultMap type="com.daibingjie.pojo.History" id="hist">
+		<id column="hiid"  property="hiid"/>
+     <result column="hidate" property="hidate"/>
+     <result column="deal" property="deal"/>
+     <result column="brief" property="brief"/>
+      <association property="doctors" javaType="com.daibingjie.pojo.Doctors">
+       <id column="doid" property="doid"/>
+       <result column="doname" property="doname"/>
+       <result column="title" property="title"/>
+     </association> 
+       <association property="cards" javaType="com.daibingjie.pojo.Cards">
+       <id column="cid" property="cid"/>
+       <result column="pname" property="pname"/>
+       <result column="sex" property="sex"/>
+     </association> 
+      <association property="prescripton" javaType="com.daibingjie.pojo.Prescripton">
+       <id column="prid" property="prid"/>
+     </association>  
+	</resultMap>
+	
+	<select id="findHis" resultMap="hist">
+  select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,p.prid,h.hidate,d.doid,c.cid from history h , doctors d ,cards c ,prescripton p
+      where h.doid= d.doid and c.cid=h.cid and p.prid=h.prid and
+       c.cid =#{cid}  and d.deid=#{deid}
+	</select>
+	
+	<resultMap type="com.daibingjie.pojo.Drugandprescripton" id="drugan">
+		<id column="prid" property="prid"/>
+		<id column="drid" property="drid"/>
+		<result column="drnum" property="drnum"/>
+			
+ 	<association property="prescripton" javaType="com.daibingjie.pojo.Prescripton">
+			<id column="prid" property="prid"/>
+	</association>
+	<association property="drug" javaType="com.daibingjie.pojo.Drug">
+       <id column="drid" property="drid"/>
+       <result column="drname" property="drname"/>
+       <result column="drprice" property="drprice"/>
+    <association property="drugtype" javaType="com.daibingjie.pojo.Drugtype">
+      	 <id column="dyid" property="dyid"/>
+      	 <result column="dyname" property="dyname"/>      
+      	 </association>
+    </association>	
+	</resultMap>
+	
+	
+	<select id="findDrug" resultMap="drugan" >	        
+	select dp.prid,dp.drnum,dr.drid, dr.drname,dr.drprice,dy.dyname,dy.dyid
+	from drugandprescripton dp , drug dr ,prescripton p ,drugtype dy 
+	where dp.drid=dr.drid  and p.prid=dp.prid and dy.dyid=dr.dyid and p.prid =#{prid} 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
