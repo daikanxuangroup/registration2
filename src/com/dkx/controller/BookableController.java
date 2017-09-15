@@ -73,8 +73,12 @@ public class BookableController {
 		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		List<String> bklist = printWeekdays(calendar);
+		List<String> list = printWeekdays(calendar);
 		
-		List<WeekBean> list = service.findBookable( bklist , deid);
+		List<WeekBean> bklist = service.findBookable( list , deid);
+		List<String> wklist = onlyWeek(calendar);
+		modelMap.put("bklist", list);
+		modelMap.put("wklist", wklist);
+		return "bkbleBus/bookable";
 	}
 }
