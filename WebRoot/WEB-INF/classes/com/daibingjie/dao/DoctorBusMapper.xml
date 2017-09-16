@@ -26,7 +26,7 @@
 	<select id="findPat" resultMap="reg_book" >
 	select r.rid,r.cid,r.bid,r.snum,r.state,c.pname,c.sex,b.bdate from registration r , bookable b ,cards c
 	      where r.bid=b.bid and c.cid=r.cid and 
-	       b.DOID=#{doid} and b.bdate=trunc(sysdate) and state=1
+	       b.DOID=#{doid} and b.bdate=trunc(sysdate) and state > 0
 	</select>
 		
 	 <!-- 点击病人查看 信息 -->	
@@ -57,9 +57,16 @@
 	</resultMap>
 	
 	<select id="findHis" resultMap="hist">
-  select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,p.prid,h.hidate,d.doid,c.cid from history h , doctors d ,cards c ,prescripton p
+<!--   select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,p.prid,h.hidate,d.doid,c.cid from history h , doctors d ,cards c ,prescripton p
       where h.doid= d.doid and c.cid=h.cid and p.prid=h.prid and
+       c.cid =#{cid}  and d.deid=#{deid} -->
+       
+       	  select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,h.prid,h.hidate,d.doid,c.cid from history h ,
+	   doctors d ,cards c
+      where h.doid= d.doid and c.cid=h.cid  and
        c.cid =#{cid}  and d.deid=#{deid}
+       
+       
 	</select>
 	
 	<resultMap type="com.daibingjie.pojo.Drugandprescripton" id="drugan">
@@ -83,10 +90,14 @@
 	
 	
 	<select id="findDrug" resultMap="drugan" >	        
-	select dp.prid,dp.drnum,dr.drid, dr.drname,dr.drprice,dy.dyname,dy.dyid
+	 select dp.prid,dp.drnum,dr.drid, dr.drname,dr.drprice,dy.dyname,dy.dyid
 	from drugandprescripton dp , drug dr ,prescripton p ,drugtype dy 
-	where dp.drid=dr.drid  and p.prid=dp.prid and dy.dyid=dr.dyid and p.prid =#{prid} 
+	where dp.drid=dr.drid  and p.prid=dp.prid and dy.dyid=dr.dyid and p.prid =#{prid}  
+	
+
 	</select>
+	
+	
 	
 	
 	<resultMap type="com.daibingjie.pojo.Druganddeparts" id="Drugand">
@@ -111,7 +122,7 @@
 		
 	</resultMap>
 	
-	<select id="finddru" resultMap="Drugand">
+	<select id="finddru" resultMap="Drugand" >
 	 select dr.drid, de.deid ,dr.drname,dr.drprice,dr.drsum ,dy.dyid,dy.dyname from 
 	 druganddeparts d ,drug dr ,departs de ,drugtype dy
       where d.drid=dr.drid and  d.deid=de.deid  and dy.dyid=dr.dyid 
@@ -122,21 +133,6 @@
 	</select>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 </mapper>

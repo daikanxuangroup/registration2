@@ -27,7 +27,7 @@ import com.daibingjie.service.DoctorBusService;
 
 @Controller
 @SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards"})
-public class doctorBusController  {
+public class DoctorBusController  {
 	
 	@Resource(name="doctorBusService")
 	public DoctorBusService doctorBusService;
@@ -94,7 +94,6 @@ public class doctorBusController  {
 		By2State bs=doctorBusService.findBystate(rid);
 		
 		Cards cards=doctorBusService.findcard(cid);
-		System.out.println("进入xinx的"+bs.getBy2());
 		modelMap.put("cards", cards);
 		modelMap.put("rid", rid);
 		modelMap.put("bs", bs);
@@ -173,7 +172,7 @@ public class doctorBusController  {
 			}			
 		}
 		return mgs;		
-	}
+	}		
 	@RequestMapping("finddrandpr")
 	public String finddrandpr(HttpSession session,
 			ModelMap modelMap){
@@ -198,5 +197,30 @@ public class doctorBusController  {
 		return "doctorBus/prescription";
 		
 	}
-		
+	
+		/*	添加病历信息*/
+	
+	@RequestMapping("addHi")	
+	public String addHi(
+			@RequestParam("deal")Integer deal,
+			@RequestParam("brief")String  brief,
+			@RequestParam("cid")Integer cid,
+			@RequestParam("rid")Integer rid,
+			HttpSession session){
+		String url = "";
+		By2State bs =(By2State) session.getAttribute("bs");	
+		Doctors doctors= (Doctors) session.getAttribute("doctors");
+			if(deal==1){		
+				//添加病历
+			/*	 cid, doid, prid,brief, deal,I rid*/
+				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),0,brief, deal,rid)){
+					url= "redirect:index";	
+				}
+			}else{
+				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),bs.getBy2(),brief, deal,rid)){
+					url="redirect:index";
+				}				
+			}		
+			return url;			
+	}	
 }

@@ -39,8 +39,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
 </nav>
 <div class="page-container">
+					<!-- 	action="addHi" -->
+	<form class="form form-horizontal" id="form-article-add"  action="addHi">
 
-	<form class="form form-horizontal" id="form-article-add">
 		<div id="tab-system" class="HuiTab">
 		<!-- 	<div class="tabBar cl">
 				<span>基本设置</span>
@@ -49,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-2">
-						
+							
 						病人姓名：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						${cards.pname }
@@ -60,6 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						诊疗卡号：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 					${cards.cid }
+					
 					</div>
 				</div>
 				<div class="row cl">
@@ -102,13 +104,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="radio-box">
 							<input name="deal" type="radio" id="deal3" value="3">
-							<label for="deal3">办理住院</label>
+							<label for="deal3">办理住院</label>	
+							<input type="hidden" value="${cards.cid }" name="cid">
+							<input type="hidden" value="${rid }" name="rid">
 						</div>
 						<span >
 						<button id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','800','800')" ><i class="Hui-iconfont">&#xe647;</i> 开药</button> &nbsp;
 				<%-- 		<c:if test="${by2 > 100}"> --%>
 						<button id="btn2" onClick="javascript:member_add('药方信息','finddrandpr','800','500')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</button>
-			<%-- 			</c:if> --%>
+			
 						</span>
 					</div>
 				</div>
@@ -117,8 +121,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>&nbsp;&nbsp;&nbsp;&nbsp;
-				<button onClick="article_save_submit();" class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+			<button  type="submit" class="btn btn-primary radius" ><i class="Hui-iconfont">&#xe615;</i> 提交病历</button> 
+			<!--  	<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>  -->
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<!-- 	<button onClick="article_save_submit();" class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button> -->
 				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i> 取消&nbsp;</button>
 			</div>
 		</div>
@@ -167,8 +173,8 @@ $(function(){
    		}  
 	});  
   		
-  		
-	$("#form-article-add").validate({
+/*   		
+ 	$("#form-article-add").validate({
 		rules:{
 		//诊断结果字符长度限制在4到100
 			brief:{
@@ -181,11 +187,12 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
+			
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "xxxxxxx" ,
+				url: "addHi",
 				success: function(data){
-					layer.msg('添加成功!',{icon:1,time:1000});
+					layer.msg('病历添加成功!',{icon:1,time:1000});
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
 					layer.msg('error!',{icon:1,time:1000});
@@ -195,9 +202,10 @@ $(function(){
 			parent.$('.btn-refresh').click();
 			parent.layer.close(index);
 		}
-	});
+	}); */
+	
 });
-
+ 
 function addpres(title,url,w,h){
 /* 	var index = layer.open({
 		type: 2,

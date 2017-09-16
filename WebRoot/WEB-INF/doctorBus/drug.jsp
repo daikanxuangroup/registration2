@@ -130,9 +130,6 @@ function addDrandPre(drid,rid){
 }
 
 
-
-
-/*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }

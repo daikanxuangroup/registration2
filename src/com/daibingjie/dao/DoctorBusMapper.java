@@ -47,6 +47,16 @@ public interface DoctorBusMapper {
 			@Param("brief")String brief,
 			@Param("deal")Integer deal);
 	
+	@Insert(" insert into history(hiid,cid,doid,brief,deal) values"
+			+ "(#{hiid},#{cid},#{doid},#{brief},#{deal})")
+	@SelectKey(keyProperty="hiid",statement="select seq_history.nextval from dual",
+	resultType=int.class,before=true)
+	int allHistory2(
+			@Param("cid")Integer pid,
+			@Param("doid")Integer doid,
+			@Param("brief")String brief,
+			@Param("deal")Integer deal);
+	
 	/**
 	 * 查看病人药方,点击药方选项 能看到病人在本部门历史用药情况
 	 * 
@@ -120,7 +130,7 @@ public interface DoctorBusMapper {
 	
 	
 	@Update("update registration  set by2=#{by2} where rid =#{rid}")
-	int updaby2(@Param("rid") Integer by2,@Param("by2") Integer state);
+	int updaby2(@Param("rid") Integer rid,@Param("by2") Integer by2);
 	
 	/**
 	 * 查询药品 部门和数量
