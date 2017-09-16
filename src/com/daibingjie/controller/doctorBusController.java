@@ -1,5 +1,6 @@
 package com.daibingjie.controller;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +28,8 @@ import com.daibingjie.pojo.Registration;
 import com.daibingjie.service.DoctorBusService;
 
 @Controller
-@SessionAttributes(types=Integer.class,value={"doctors","state"})
+
+@SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards"})
 public class DoctorBusController  {
 	
 	@Resource(name="doctorBusService")
@@ -92,10 +95,11 @@ public class DoctorBusController  {
 			ModelMap modelMap,HttpSession session){
 		
 		By2State bs=doctorBusService.findBystate(rid);
+		
 		Cards cards=doctorBusService.findcard(cid);
 		modelMap.put("cards", cards);
 		modelMap.put("rid", rid);
-		session.setAttribute("bs", bs);
+		modelMap.put("bs", bs);
 		return "doctorBus/xinx";
 		
 	}
@@ -131,9 +135,10 @@ public class DoctorBusController  {
 		 * 药品ID
 		 */
 		// 拿到诊疗by2     如果有值就是 今天的 药方ID	
-		System.out.println("111111");
+	
 		By2State bs =(By2State) session.getAttribute("bs");
 		Integer by2state=bs.getBy2();
+		String mgs="false";
 		// 如果没有 就新增  药方
 		if(by2state<100 || by2state==null){
 			// 拿出医生对象
@@ -142,8 +147,12 @@ public class DoctorBusController  {
 			by2state=doctorBusService.allPrescripton(1, doctors.getDoid(), drid);
 			// 修改状态 
 			if(0<doctorBusService.updaby2(rid, by2state)){
-				System.out.println(by2state);
+		
+				 bs=doctorBusService.findBystate(rid);
+				 modelMap.put("bs", bs);
+
 				// 是否Ajax
+				mgs="true";
 			}		
 			
 		}else{
@@ -153,41 +162,103 @@ public class DoctorBusController  {
 			if(temp ==null ){
 				if(0<doctorBusService.alldrugpres(drid, by2state, 1)){
 					// 是否用Ajax 
-					
+				
+					mgs="true";
 				}
 			}else{
 				// 有就把数量+1
 				int sum = temp.getDrnum()+1;
 				if(0<doctorBusService.updatedrug(sum, drid, by2state)){
 					// 是否用Ajax 
-					
+					mgs="true";
 				}
 			}			
 		}
-		return null;		
-	}
+		return mgs;		
+	}		
 	@RequestMapping("finddrandpr")
-	public String finddrandpr(
-			ModelMap modelMap,
-			@RequestParam("prid")Integer prid,
-			@RequestParam("pname") String pname){
+	public String finddrandpr(HttpSession session,
+			ModelMap modelMap){
 		/**
 		 * 查看药方项
 		 */
-		Map<Integer, Drugandprescripton> map=doctorBusService.findMap(prid);
+		
+		By2State bs =(By2State) session.getAttribute("bs");
+		Cards cards=(Cards) session.getAttribute("cards");
+		Map<Integer, Drugandprescripton> map=doctorBusService.findMap(bs.getBy2());
+		
 		double sum = 0;
 		Iterator<Drugandprescripton> it = map.values().iterator();
 		// 累加购物项集合每个购物项的小计价格
 		while (it.hasNext()) {
-			sum += it.next().getSum();
-			
+			sum += it.next().getSum();		
 		}	
 		modelMap.put("sum", sum);
 		modelMap.put("map", map);
-		modelMap.put("pname", pname);
+		modelMap.put("pname", cards.getPname());
 		System.out.println("  --- "+sum);
 		return "doctorBus/prescription";
 		
 	}
+	
+		/*	添加病历信息*/
+	
+	@RequestMapping("addHi")
+	@ResponseBody
+	public Object addHi(
+			@RequestParam("deal")Integer deal,
+			@RequestParam("brief")String  brief,
+			@RequestParam("cid")Integer cid,
+			@RequestParam("rid")Integer rid,
+			HttpSession session){
+		By2State bs =(By2State) session.getAttribute("bs");	
+		Doctors doctors= (Doctors) session.getAttribute("doctors");
+		System.out.println("进入");
+		Map<String,String> map=new HashMap<String,String>();
+			if(deal==1){		
+				//添加病历
+			/*	 cid, doid, prid,brief, deal,I rid*/
+				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),0,brief, deal,rid)){
+					map.put("map", "ok");	
+				}
+			}else{
+				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),bs.getBy2(),brief, deal,rid)){
+					map.put("map", "ok");	
+				}				
+			}		
+			return map;			
+	}	
 		
+	@RequestMapping("removes")
+	@ResponseBody
+	public String removes(
+			@RequestParam("drid")Integer drid,
+			@RequestParam("prid")Integer prid,
+			ModelMap modelMap){
+		String mgs="false";
+		if(0<doctorBusService.deletedrug(drid,prid)){		
+			mgs="true";
+		}
+		/*删除药方项*/		
+		return mgs;		
+	}
+	
+	
+	@RequestMapping("updahi")
+	@ResponseBody
+	public String updahi(
+			@RequestParam("drid")Integer drid,
+			@RequestParam("prid")Integer prid,
+			@RequestParam("num")Integer num){
+		System.out.println("进入修改");
+		/*修改药方项*/
+		String mgs="false";
+		if(0<doctorBusService.updatedrug(num,drid,prid)){
+			
+			mgs="true";
+		}
+			
+		return mgs;
+		
+	}
 }

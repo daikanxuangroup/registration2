@@ -54,25 +54,27 @@ public class DoctorBusService {
 	 */
 	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
 	public int allHistory(Integer cid,Integer doid,Integer prid,String brief,
-			Integer deal){
-		int count = doctorBusMapper.allHistory(cid, doid, prid, brief, deal);
+			Integer deal,Integer rid){
+		int  count=0;
+		if(brief==null ||brief.length()<1){
+			brief="这个医生很懒,什么都没留下";
+		}
+		if( prid >1 ){
+			System.out.println("有药方的操作");
+			
+			doctorBusMapper.allHistory(cid, doid, prid, brief, deal);
+			
+		}else{
+			System.out.println("没药的操作");
+			doctorBusMapper.allHistory2(cid, doid,brief, deal);
+			
+		}
+		      doctorBusMapper.updaby2(rid, 0);
+		      count=  doctorBusMapper.updarig(rid, 0);
+		
 			return count;
 			
 	}
-	
-	/** 
-	 * 给病人添加病例  诊疗卡ID 医生ID ） 信息  -诊断结果  方案  （回家不开药）
-	 * 
-	 */
-	public int allHistory(Integer cid,Integer doid,String brief,Integer deal){
-		int count = doctorBusMapper.allHistory(cid, doid, null, brief, deal);
-			return count;
-			
-	}
-	
-	
-	
-	
 	
 	/**
 	 * 点击药方 创建 药方单 并拿到 药方id ,初始化未结账 1 

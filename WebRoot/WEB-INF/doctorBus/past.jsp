@@ -56,11 +56,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 				<th width="25"><input type="checkbox" name="" value=""></th> -->
 				<th width="40">主治医生</th>
 				<th width="80">病人姓名</th>							
-				<th width="100">病人性别</th>
+				<th width="40">病人性别</th>
 				<th width="90">医生职位</th>
-				<th width="130">病历状况</th>
-				<th width="70">处理翻案</th>
-				<th width="150">就医时间</th>
+				<th width="80">病历状况</th>
+				<th width="170">处理翻案</th>
+				<th width="100">就医时间</th>
 			<!-- 	<th width="">地址</th> -->			
 				<th width="100">查看药方</th>
 			</tr>
@@ -89,11 +89,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- <span class="label label-success radius">未整疗</span> -->
 				<fmt:formatDate value="${hist.hidate }" pattern="yyyy-MM-dd"/>
 				</td>
-				<c:if test="${hist.prescripton.prid != null}">			
+					
 				<td class="td-manage">
-				<%-- <a title="" href="javascript:;" onclick="findprid(${hist.prescripton.prid})" class="ml-5" style="text-decoration:none"> --%>
-			<a href="javascript:findprid('${hist.cards.pname}-药方信息','findprid?prid=${hist.prescripton.prid}',1,800,500)"  class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe665;</i>查看药方</a></td>
+				<c:if test="${hist.prescripton.prid != null}">		
+				
+			<a href="javascript:findprid('${hist.cards.pname}-药方信息','findprid?prid=${hist.prescripton.prid}',1,800,500)"  class="btn btn-primary radius"> <i class="Hui-iconfont">&#xe665;</i>查看药方</a>
 				</c:if>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>
