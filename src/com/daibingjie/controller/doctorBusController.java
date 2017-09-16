@@ -27,7 +27,7 @@ import com.daibingjie.service.DoctorBusService;
 
 @Controller
 @SessionAttributes(types=Integer.class,value={"doctors","state"})
-public class doctorBusController  {
+public class DoctorBusController  {
 	
 	@Resource(name="doctorBusService")
 	public DoctorBusService doctorBusService;
