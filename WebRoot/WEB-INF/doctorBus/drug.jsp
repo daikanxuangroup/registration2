@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
-	 <a href="javascript:;" onclick="member_add('药方信息','finddrandpr?prid=10005&pname=daibingjie','800','500')" 
+	 <a href="javascript:;" onclick="member_add('药方信息','finddrandpr','800','500')" 
 	 class="btn btn-primary radius">
 		<i class="Hui-iconfont">&#xe665;</i> 查看药方</a></span> </div>
 	<div class="mt-20">
@@ -71,8 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<c:choose>
 					<c:when test="${dr.drstate eq 1}"><span class="label label-success radius">已启用</span></c:when>
 					<c:otherwise><span class="label label-defaunt radius">已停用</span></c:otherwise>
-				</c:choose>
-				
+				</c:choose>	
 				</td> --%>
 				<td class="td-manage">
 			
@@ -115,14 +114,17 @@ function price_clear(){
 }
 
 function addDrandPre(drid,rid){
-	$.ajsx({
-			type:'POST',
+	$.ajax({
+			type:'post',
 			url:'drandpr',
-			data:{drid:drid,rid:rid},
-/* 			dataType: 'json', */
+			data:{"drid":drid,"rid":rid},
+ 	
 			success: function(data){
-				alert("1");
-			
+				if(data=="true"){
+				
+					layer.msg("添加成功",{icon:6,time:1500,size:50});
+				}
+
 			}
 	});
 }

@@ -105,9 +105,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label for="deal3">办理住院</label>
 						</div>
 						<span >
-						<button id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','10002')" ><i class="Hui-iconfont">&#xe647;</i> 开药</button> &nbsp;
+						<button id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','800','800')" ><i class="Hui-iconfont">&#xe647;</i> 开药</button> &nbsp;
 				<%-- 		<c:if test="${by2 > 100}"> --%>
-						<button id="btn2" onClick="javascript:alert('药方')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</button>
+						<button id="btn2" onClick="javascript:member_add('药方信息','finddrandpr','800','500')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</button>
 			<%-- 			</c:if> --%>
 						</span>
 					</div>
@@ -198,14 +198,18 @@ $(function(){
 	});
 });
 
-function addpres(title,url,id){
-	var index = layer.open({
+function addpres(title,url,w,h){
+/* 	var index = layer.open({
 		type: 2,
 		title: title,	
 		content: url
 	});
-	layer.full(index);
+	layer.full(index); */
+	layer_show(title,url,w,h);
 
+}
+function member_add(title,url,w,h){
+	layer_show(title,url,w,h);
 }
 
 

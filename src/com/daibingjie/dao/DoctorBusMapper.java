@@ -90,8 +90,8 @@ public interface DoctorBusMapper {
 	/**
 	 * 修改药方项
 	 */
-	@Update(" update drugandprescripton set drnum=@{drnum}"
-			+ " where drid=@{drid} and prid=#{prid}")
+	@Update(" update drugandprescripton set drnum=#{drnum}"
+			+ " where drid=#{drid} and prid=#{prid}")
 	int updatedrug(
 			@Param("drnum") Integer drnum,
 			@Param("drid") Integer drid,
@@ -133,7 +133,7 @@ public interface DoctorBusMapper {
 			@Param("price2")Double price2);
 	
 		/*	   今天挂号单卡号状态*/
-	@Select("select state,c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
+	@Select("select state,r.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
 	By2State findBystate(@Param("rid") Integer rid);
 	
 	/*	  查看备用2 里是否有今天的药方*/

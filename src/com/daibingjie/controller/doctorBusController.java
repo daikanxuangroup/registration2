@@ -26,7 +26,7 @@ import com.daibingjie.pojo.Registration;
 import com.daibingjie.service.DoctorBusService;
 
 @Controller
-@SessionAttributes(types=Integer.class,value={"doctors","state"})
+@SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards"})
 public class doctorBusController  {
 	
 	@Resource(name="doctorBusService")
@@ -92,10 +92,12 @@ public class doctorBusController  {
 			ModelMap modelMap,HttpSession session){
 		
 		By2State bs=doctorBusService.findBystate(rid);
+		
 		Cards cards=doctorBusService.findcard(cid);
+		System.out.println("进入xinx的"+bs.getBy2());
 		modelMap.put("cards", cards);
 		modelMap.put("rid", rid);
-		session.setAttribute("bs", bs);
+		modelMap.put("bs", bs);
 		return "doctorBus/xinx";
 		
 	}
@@ -131,9 +133,10 @@ public class doctorBusController  {
 		 * 药品ID
 		 */
 		// 拿到诊疗by2     如果有值就是 今天的 药方ID	
-		System.out.println("111111");
+	
 		By2State bs =(By2State) session.getAttribute("bs");
 		Integer by2state=bs.getBy2();
+		String mgs="false";
 		// 如果没有 就新增  药方
 		if(by2state<100 || by2state==null){
 			// 拿出医生对象
@@ -142,8 +145,12 @@ public class doctorBusController  {
 			by2state=doctorBusService.allPrescripton(1, doctors.getDoid(), drid);
 			// 修改状态 
 			if(0<doctorBusService.updaby2(rid, by2state)){
-				System.out.println(by2state);
+		
+				 bs=doctorBusService.findBystate(rid);
+				 modelMap.put("bs", bs);
+
 				// 是否Ajax
+				mgs="true";
 			}		
 			
 		}else{
@@ -153,38 +160,40 @@ public class doctorBusController  {
 			if(temp ==null ){
 				if(0<doctorBusService.alldrugpres(drid, by2state, 1)){
 					// 是否用Ajax 
-					
+				
+					mgs="true";
 				}
 			}else{
 				// 有就把数量+1
 				int sum = temp.getDrnum()+1;
 				if(0<doctorBusService.updatedrug(sum, drid, by2state)){
 					// 是否用Ajax 
-					
+					mgs="true";
 				}
 			}			
 		}
-		return null;		
+		return mgs;		
 	}
 	@RequestMapping("finddrandpr")
-	public String finddrandpr(
-			ModelMap modelMap,
-			@RequestParam("prid")Integer prid,
-			@RequestParam("pname") String pname){
+	public String finddrandpr(HttpSession session,
+			ModelMap modelMap){
 		/**
 		 * 查看药方项
 		 */
-		Map<Integer, Drugandprescripton> map=doctorBusService.findMap(prid);
+		
+		By2State bs =(By2State) session.getAttribute("bs");
+		Cards cards=(Cards) session.getAttribute("cards");
+		Map<Integer, Drugandprescripton> map=doctorBusService.findMap(bs.getBy2());
+		
 		double sum = 0;
 		Iterator<Drugandprescripton> it = map.values().iterator();
 		// 累加购物项集合每个购物项的小计价格
 		while (it.hasNext()) {
-			sum += it.next().getSum();
-			
+			sum += it.next().getSum();		
 		}	
 		modelMap.put("sum", sum);
 		modelMap.put("map", map);
-		modelMap.put("pname", pname);
+		modelMap.put("pname", cards.getPname());
 		System.out.println("  --- "+sum);
 		return "doctorBus/prescription";
 		
