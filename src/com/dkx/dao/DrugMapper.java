@@ -16,12 +16,13 @@ import com.dkx.pojo.Drug;
 import com.dkx.pojo.Drugtype;
 
 
-
 @Repository("drugMapper")
 public interface DrugMapper {
 	
+	//查所有药
 	List<Drug> findAll(@Param("price1")Double price1,@Param("price2")Double price2);
 	
+	//查药
 	@Select("select * from drug where drid = #{drid}")
 	Drug findDrug(Integer drid);
 	
@@ -29,10 +30,12 @@ public interface DrugMapper {
 	@Update("update drug set drstate = #{drstate} where drid = #{drid}")
 	int drugState(@Param("drid")Integer drid,@Param("drstate")Integer drstate);
 	
+	//新增药品
 	@Insert("insert into drug(drid,dyid,drname,drsum,drprice,drstate) values (#{drid},#{dyid},#{drname},#{drsum},#{drprice},1 )")
 	@SelectKey(keyProperty="drid",statement = "select seq_drug.nextval from dual",resultType = int.class,before = true)
 	int add(Drug drug);
 	
+	//可用的药品类型
 	@Select("select dyid,dyname,dystate from DRUGTYPE where dystate = 1")
 	List<Drugtype> findAllDy();
 	
@@ -40,9 +43,11 @@ public interface DrugMapper {
 	@Select("select * from departs where deexist=1 ")
 	List<Departs> findDep();
 	
+	//查药品主键
 	@Select("select seq_drug.currval from dual")
 	int findseq();
 	
+	//新增药品科室关系
 	@Insert("insert into druganddeparts(drid,deid) values(#{drid},#{deid})")
 	int addDrugDe(@Param("drid") Integer drid ,@Param("deid") Integer deid);
 	
@@ -53,6 +58,7 @@ public interface DrugMapper {
 	//删除药品科室关系
 	@Delete("delete from druganddeparts where drid = #{drid}")
 	int removeDrDe(@Param("drid") Integer drid);
+	
 	//修改药品
 	@Update("update drug set dyid=#{dyid},drname=#{drname},drsum=#{drsum},drprice=#{drprice},drstate=#{drstate} where drid = #{drid}" )
 	int modifyDrug(Drug drug);

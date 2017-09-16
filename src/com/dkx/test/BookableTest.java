@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.daibingjie.pojo.Doctors;
 import com.dkx.pojo.WeekBean;
 import com.dkx.service.BookableService;
 
@@ -92,7 +93,12 @@ public class BookableTest {
 		System.out.println("--------");
 		list.forEach(System.out::println);
 		System.out.println("----");
-		
 	}
 
+    @Test
+    public void addBK(){
+    	Integer deid = 1;
+    	List<Doctors> dl = service.findDoctors(deid);
+    	dl.forEach(System.out::println);
+    }
 }

@@ -92,12 +92,22 @@ public class BookableController {
 		return "bkbleBus/bookable";
 	}
 	
+	public String addBK(@RequestParam(value="deid")Integer deid,
+			@RequestParam(value="datetime")String datetime){
+		
+		return "redirect : findBK";
+	}
+	
 	@RequestMapping("gotoBK")
 	public String findBK(ModelMap modelMap){
 		
 		System.out.println("准备排班");
 		
 		List<Departs> delist = dservice.findDep(); //科室
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String  datetime = dateFormat.format(new Date());
+		modelMap.put("datetime", datetime);
 		modelMap.put("delist", delist);
 		return "bkbleBus/bookable";
 	}
