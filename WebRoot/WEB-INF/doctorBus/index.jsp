@@ -49,10 +49,7 @@ var time=year+"年"+month+"月"+date+"日 "+week+" "+hour+":"+minu+":"+sec; //�
 clock.innerHTML=time; //显示系统时间 
 } 
 
-/*  function voids(cid){
 
-	window.location.href="past?cid="+cid;
-}  */
 
 
 function diagnose(cid){
@@ -127,7 +124,7 @@ function give(rid){
 				<td class="td-status"><span class="label label-success radius">未诊疗</span></td>
 				<td class="td-manage">
 					<!-- <a href="javascript:cha()"><i class="Hui-iconfont">&#xe665;</i>诊断</a> -->
-				<a data-href="" data-title="医疗方案" href="javascript:;" onClick ="rid_show('xx科室门诊','xinx?cid=${reg.cards.cid}','10002')" >
+				<a data-href="" data-title="医疗方案" href="javascript:;" onClick ="rid_show('医疗方案','xinx?cid=${reg.cards.cid}&rid=${reg.rid}','10002')" >
 				<i class="Hui-iconfont">&#xe6df;</i>诊断</a>
 				
 		<%-- 		<a title="诊断" href="javascript:;" onclick="diagnose(${reg.rid})" class="ml-5" style="text-decoration:none">
@@ -161,8 +158,7 @@ $(function(){
 		  {"orderable":false,"aTargets":[0,1,2,3,4,5,6,7]}// 制定列不参与排序
 		]
 	});
-	
-	window.setInterval("realSysTime(clock)",100); //实时获取并显示系统时间 
+	window.setInterval("realSysTime(clock)",100);
 });
 
 function rid_show(title,url,id){
@@ -189,8 +185,8 @@ function picture_show(title,url,id){
 }
 
 function give(rid){
-	alert("1");
-	$.ajax({
+	layer.confirm('是否放弃治疗',function(index){
+		$.ajax({
 		url:'stateprg',
 		data:{'rid':rid},
 		type:'post',
@@ -199,7 +195,11 @@ function give(rid){
 		
 		}
 		
+	});	
+	
+	layer.close(index);
 	});
+	
 
 }
 
