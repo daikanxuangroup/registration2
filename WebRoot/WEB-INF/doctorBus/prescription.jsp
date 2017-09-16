@@ -38,8 +38,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  		 <span class="r">此药方合计：<strong style="color: red;" ><span id="zongja"> ${sum}</span></strong> 元&nbsp; &nbsp;</span> </div>
 
 	<div class="mt-20"> 
-	
-	<table class="table table-border table-bordered table-hover table-bg table-sort">
+<!-- 	-->
+	<table class="table table-border table-bordered table-hover table-bg  table-sort">
 		<thead>
 			<tr class="text-c">
 <!-- 				<th width="25"><input type="checkbox" name="" value=""></th> -->
@@ -54,8 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<tbody>
 		<c:forEach items="${map}" var="maps" varStatus="rows">
-			<tr class="text-c">
-	
+			<tr class="text-c" id="tr${rows.index+1 }">
 				<td>${rows.index+1 }</td>
 				<td> ${maps.value.drug.drname} </td>
 				<td > ${maps.value.drug.drprice }			
@@ -63,13 +62,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </td>
 				<td>
 <%-- 				<a onclick="addsum(${rows.index+1 })"><i class="Hui-iconfont Hui-iconfont-add"></i></a>&nbsp; --%>
-			<input onblur="pxp(${maps.value.drug.drid},${maps.value.drug.drprice },${maps.value.drnum })" type="number" class="input-text" step="1" 
+			<input onblur="updahi(${maps.value.drug.drid},${maps.value.drug.drprice },${maps.value.drnum },${maps.key},${bs.by2})" type="number" class="input-text" step="1" 
 			 name="sun" min="1" id="${maps.value.drug.drid}" value="${maps.value.drnum }" style="width: 60px" >	
 			<%-- 	&nbsp;<a onclick="subsum(${rows.index+1 })"><i class="Hui-iconfont">&#xe6a1;</i></a> --%>	
 				</td>
 				<td><span id="xiao${rows.index+1 }"> ${maps.value.sum }</span></td>
 				<td>
-				<a href="" class="btn btn-primary radius"> 移除此药品</a>
+				<a href="javascript:removes(${rows.index+1 },${maps.value.drug.drid},${bs.by2})" class="btn btn-primary radius"> 移除此药品</a>
 				</td>
 			</tr>
 			</c:forEach>
@@ -112,20 +111,53 @@ function findprid(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
 
-function pxp(xid,price,sum){
-	 var sums = document.getElementById(xid).value; 
-	if(sums==0){
+function updahi(xid,price,sum,drid,prid){
+	var sums = document.getElementById(xid).value; 
+ 	if(sums==0){
 	layer.alert("最小值为 1");
 	}
-	var chajia=(sums-sum)*price;
+	if(sums!=sum){ 
 	
-	document.getElementById("xiao"+xid).value;
-	document.getElementById("xiao"+xid).innerHTML=(sums*price);
-	var zhongjia = document.getElementById("zongja").innerHTML;
-	var sum1= parseFloat(zhongjia)+chajia;
-	document.getElementById("zongja").innerHTML=sum1;
-
+		$.ajax({
+			type:'post',
+			url:'updahi',
+			data:{"drid":drid,"prid":prid,"sun":sums},
+			success: function(data){
+			if(data=="true"){	
+					
+				layer.msg("修改成功",{icon:6,time:8000});
+				var chajia=(sums-sum)*price;	
+				document.getElementById("xiao"+xid).innerHTML=(sums*price);
+				var zhongjia = document.getElementById("zongja").innerHTML;
+				var sum1= parseFloat(zhongjia)+chajia;
+				document.getElementById("zongja").innerHTML=sum1;							
+				}
+			}
+		});
+	} 
 }
+
+function removes(xid,drid,prid){
+		$.ajax({
+			type:'post',
+			url:'removes',
+			data:{"drid":drid,"prid":prid},
+			success: function(data){
+				if(data=="true"){			
+					layer.msg("成功移除",{icon:6,time:1000,size:50});
+/* 					var  zhongjia1= document.getElementById("zongja").innerHTML;								
+					var zhongjia2 = document.getElementById("xiao"+xid).innerHTML;				
+					var temp=parseFloat(zhongjia1);
+					var temp2=parseFloat2(zhongjia2);
+					document.getElementById("zongja").innerHTML=temp;	 */			
+					$("#tr"+xid).remove();
+				}
+
+			}
+	});
+}
+
+
 
 
 /* 

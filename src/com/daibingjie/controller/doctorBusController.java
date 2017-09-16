@@ -1,5 +1,6 @@
 package com.daibingjie.controller;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -200,27 +202,62 @@ public class DoctorBusController  {
 	
 		/*	添加病历信息*/
 	
-	@RequestMapping("addHi")	
-	public String addHi(
+	@RequestMapping("addHi")
+	@ResponseBody
+	public Object addHi(
 			@RequestParam("deal")Integer deal,
 			@RequestParam("brief")String  brief,
 			@RequestParam("cid")Integer cid,
 			@RequestParam("rid")Integer rid,
 			HttpSession session){
-		String url = "";
 		By2State bs =(By2State) session.getAttribute("bs");	
 		Doctors doctors= (Doctors) session.getAttribute("doctors");
+		System.out.println("进入");
+		Map<String,String> map=new HashMap<String,String>();
 			if(deal==1){		
 				//添加病历
 			/*	 cid, doid, prid,brief, deal,I rid*/
 				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),0,brief, deal,rid)){
-					url= "redirect:index";	
+					map.put("map", "ok");	
 				}
 			}else{
 				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),bs.getBy2(),brief, deal,rid)){
-					url="redirect:index";
+					map.put("map", "ok");	
 				}				
 			}		
-			return url;			
+			return map;			
 	}	
+		
+	@RequestMapping("removes")
+	@ResponseBody
+	public String removes(
+			@RequestParam("drid")Integer drid,
+			@RequestParam("prid")Integer prid,
+			ModelMap modelMap){
+		String mgs="false";
+		if(0<doctorBusService.deletedrug(drid,prid)){		
+			mgs="true";
+		}
+		/*删除药方项*/		
+		return mgs;		
+	}
+	
+	
+	@RequestMapping("updahi")
+	@ResponseBody
+	public String updahi(
+			@RequestParam("drid")Integer drid,
+			@RequestParam("prid")Integer prid,
+			@RequestParam("num")Integer num){
+		System.out.println("进入修改");
+		/*修改药方项*/
+		String mgs="false";
+		if(0<doctorBusService.updatedrug(num,drid,prid)){
+			
+			mgs="true";
+		}
+			
+		return mgs;
+		
+	}
 }

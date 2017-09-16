@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </nav>
 <div class="page-container">
 					<!-- 	action="addHi" -->
-	<form class="form form-horizontal" id="form-article-add"  action="addHi">
+	<form class="form form-horizontal" id="form-article-add" >
 
 		<div id="tab-system" class="HuiTab">
 		<!-- 	<div class="tabBar cl">
@@ -109,9 +109,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" value="${rid }" name="rid">
 						</div>
 						<span >
-						<button id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','800','800')" ><i class="Hui-iconfont">&#xe647;</i> 开药</button> &nbsp;
+						<a id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','800','800')" ><i class="Hui-iconfont">&#xe647;</i> 开药</a> &nbsp;
 				<%-- 		<c:if test="${by2 > 100}"> --%>
-						<button id="btn2" onClick="javascript:member_add('药方信息','finddrandpr','800','500')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</button>
+						<a id="btn2" onClick="javascript:member_add('药方信息','finddrandpr','800','500')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</a>
 			
 						</span>
 					</div>
@@ -121,8 +121,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-			<button  type="submit" class="btn btn-primary radius" ><i class="Hui-iconfont">&#xe615;</i> 提交病历</button> 
-			<!--  	<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>  -->
+		<!-- 	<button  type="submit" class="btn btn-primary radius" ><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>  -->
+		<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<!-- 	<button onClick="article_save_submit();" class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button> -->
 				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i> 取消&nbsp;</button>
@@ -173,7 +173,7 @@ $(function(){
    		}  
 	});  
   		
-/*   		
+ 		
  	$("#form-article-add").validate({
 		rules:{
 		//诊断结果字符长度限制在4到100
@@ -186,33 +186,30 @@ $(function(){
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
-		submitHandler:function(form){
-			
+		submitHandler:function(form){	
+		alert("s1");		
 			$(form).ajaxSubmit({
 				type: 'post',
 				url: "addHi",
+				dataType:"json",
 				success: function(data){
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.location.reload();
+					parent.layer.close(index);
 					layer.msg('病历添加成功!',{icon:1,time:1000});
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
 					layer.msg('error!',{icon:1,time:1000});
 				}
 			});
-			var index = parent.layer.getFrameIndex(window.name);
-			parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+		
 		}
-	}); */
+	});  
 	
 });
  
 function addpres(title,url,w,h){
-/* 	var index = layer.open({
-		type: 2,
-		title: title,	
-		content: url
-	});
-	layer.full(index); */
+
 	layer_show(title,url,w,h);
 
 }
