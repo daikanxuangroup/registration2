@@ -25,7 +25,7 @@ public interface DrugMapper {
 	@Select("select * from drug where drid = #{drid}")
 	Drug findDrug(Integer drid);
 	
-	//该状态
+	//改状态
 	@Update("update drug set drstate = #{drstate} where drid = #{drid}")
 	int drugState(@Param("drid")Integer drid,@Param("drstate")Integer drstate);
 	

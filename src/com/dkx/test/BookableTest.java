@@ -1,4 +1,4 @@
-package com.dkx.controller;
+package com.dkx.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,9 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Controller;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dkx.pojo.WeekBean;
 import com.dkx.service.BookableService;
 
-@Controller
-public class BookableController {
 
-	@Resource(name = "bookableService")
-	private  BookableService service;
+public class BookableTest {
+
+	private BookableService service;
+	@Before
+	public void init(){
+		ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
+		service=ctx.getBean("bookableService",BookableService.class);	
+	}	
 	
 	//设置一周第一天为星期天
 	private static final int FIRST_DAY = Calendar.SUNDAY;
@@ -56,10 +61,11 @@ public class BookableController {
 	/*
 	 * 查询科室所有医生的周排班情况
 	 */
-	@RequestMapping("findBK")
-	public String findBK(@RequestParam(value="deid")Integer deid,
-			@RequestParam(value="datetime")String datetime,
-			ModelMap modelMap){
+    @Test
+	public void findBK(){
+		
+		Integer deid = 1;
+		String datetime = "2017-09-16";
 		
 		System.out.println("查询排班");
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
@@ -77,8 +83,11 @@ public class BookableController {
 		
 		List<WeekBean> bklist = service.findBookable( list , deid);
 		List<String> wklist = onlyWeek(calendar);
-		modelMap.put("bklist", list);
-		modelMap.put("wklist", wklist);
-		return "bkbleBus/bookable";
+		
+		
+		bklist.forEach(System.out :: println);
+		System.out.println("--------");
+		wklist.forEach(System.out :: println);
 	}
+
 }
