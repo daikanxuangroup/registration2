@@ -36,6 +36,7 @@ public interface DrugMapper {
 	@Select("select dyid,dyname,dystate from DRUGTYPE where dystate = 1")
 	List<Drugtype> findAllDy();
 	
+	//查询所有可用科室
 	@Select("select * from departs where deexist=1 ")
 	List<Departs> findDep();
 	

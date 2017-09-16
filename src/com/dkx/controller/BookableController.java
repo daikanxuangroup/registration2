@@ -14,14 +14,18 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dkx.pojo.Departs;
 import com.dkx.pojo.WeekBean;
 import com.dkx.service.BookableService;
+import com.dkx.service.DrugService;
 
 @Controller
 public class BookableController {
 
 	@Resource(name = "bookableService")
 	private  BookableService service;
+	@Resource(name = "drugService")
+	private  DrugService dservice;
 	
 	//设置一周第一天为星期天
 	private static final int FIRST_DAY = Calendar.SUNDAY;
@@ -73,12 +77,28 @@ public class BookableController {
 		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(date);
 		List<String> list = printWeekdays(calendar);
 		
-		List<WeekBean> bklist = service.findBookable( list , deid);
-		List<String> wklist = onlyWeek(calendar);
-		modelMap.put("bklist", list);
+		List<Departs> delist = dservice.findDep(); //科室
+		List<WeekBean> bklist = service.findBookable( list , deid); //排班
+		List<String> wklist = onlyWeek(calendar2); //日期_列名
+		modelMap.put("deid", deid);
+		modelMap.put("datetime", datetime);
+		modelMap.put("delist", delist);
+		modelMap.put("bklist", bklist);
 		modelMap.put("wklist", wklist);
+		return "bkbleBus/bookable";
+	}
+	
+	@RequestMapping("gotoBK")
+	public String findBK(ModelMap modelMap){
+		
+		System.out.println("准备排班");
+		
+		List<Departs> delist = dservice.findDep(); //科室
+		modelMap.put("delist", delist);
 		return "bkbleBus/bookable";
 	}
 }
