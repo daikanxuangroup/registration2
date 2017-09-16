@@ -18,18 +18,12 @@
   </resultMap>
   
   <select id="findBK" resultMap="week-result">
-  	select distinct  do.doid,do.doname,'上午' time,
+  	select distinct  do.doid,do.doname,
        <foreach collection="bklist" separator="," item="item" index="index">
-       	(select decode(count(*) ,0,'','可预约') from BOOKABLE where doid = do.doid and starttime = -1 and bdate=to_date(#{item},'yyyy-MM-dd')) reg${index+1} 
+       	(select decode(count(*) ,0,'休息','可预约') from BOOKABLE where doid = do.doid and starttime = -1 and bdate=to_date(#{item},'yyyy-MM-dd')) areg${index+1},
+       	(select decode(count(*) ,0,'休息','可预约') from BOOKABLE where doid = do.doid and starttime = 1 and bdate=to_date(#{item},'yyyy-MM-dd')) preg${index+1}
        </foreach>
  	from doctors do left join  bookable b on b.doid = do.doid  where do.deid = #{deid}  and do.doexist =1 
- 	union all 
- 	select distinct  do.doid,do.doname,'下午' time,
-       <foreach collection="bklist" separator="," item="item" index="index">
-       	(select decode(count(*) ,0,'','可预约') from BOOKABLE where doid = do.doid and starttime = 1 and bdate=to_date(#{item},'yyyy-MM-dd')) reg${index+1}
-       </foreach>
- 	from doctors do left join  bookable b on b.doid = do.doid  where do.deid =  #{deid}  and do.doexist =1  
- 	group by do.doid,do.doname,b.starttime order by time
   </select>
   
   

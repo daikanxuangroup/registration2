@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.daibingjie.pojo.Doctors;
 import com.dkx.pojo.WeekBean;
 import com.dkx.service.BookableService;
 
@@ -51,7 +52,7 @@ public class BookableTest {
     	List<String> list = new ArrayList<String>();
         setToFirstDay(calendar);
         for (int i = 0; i < 7; i++) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  EE");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd EE");
             String s = dateFormat.format(calendar.getTime());
             list.add(s);
             calendar.add(Calendar.DATE, 1);
@@ -65,7 +66,7 @@ public class BookableTest {
 	public void findBK(){
 		
 		Integer deid = 1;
-		String datetime = "2017-09-16";
+		String datetime = "2017-09-15";
 		
 		System.out.println("查询排班");
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
@@ -79,15 +80,25 @@ public class BookableTest {
 		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(date);
+		
 		List<String> list = printWeekdays(calendar);
+		List<String> wklist = onlyWeek(calendar2);
 		
 		List<WeekBean> bklist = service.findBookable( list , deid);
-		List<String> wklist = onlyWeek(calendar);
-		
 		
 		bklist.forEach(System.out :: println);
-		System.out.println("--------");
 		wklist.forEach(System.out :: println);
+		System.out.println("--------");
+		list.forEach(System.out::println);
+		System.out.println("----");
 	}
 
+    @Test
+    public void addBK(){
+    	Integer deid = 1;
+    	List<Doctors> dl = service.findDoctors(deid);
+    	dl.forEach(System.out::println);
+    }
 }
