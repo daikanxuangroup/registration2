@@ -89,12 +89,37 @@
 	</select>
 	
 	
+	<resultMap type="com.daibingjie.pojo.Druganddeparts" id="Drugand">
+		<id column="drid" property="drid" />
+		<id column="deid" property="deid"/>
+		
+	<association property="drug" javaType="com.daibingjie.pojo.Drug" >
+		<id column="drid" property="drid"/>
+		<result column="drname" property="drname"/>
+		<result column="drprice" property="drprice"/>
+		<result column="drsum" property="drsum"/>	
+			
+		<association  property="drugtype" javaType="com.daibingjie.pojo.Drugtype">
+		<result column="dyid" property="dyid"/>
+		<result column="dyname" property="dyname"/>
+		</association>	
+	</association>
 	
+		<association property="departs" javaType="com.daibingjie.pojo.Departs">
+		<id column="deid" property="deid"/>	
+		</association>
+		
+	</resultMap>
 	
-	
-	
-	
-	
+	<select id="finddru" resultMap="Drugand">
+	 select dr.drid, de.deid ,dr.drname,dr.drprice,dr.drsum ,dy.dyid,dy.dyname from 
+	 druganddeparts d ,drug dr ,departs de ,drugtype dy
+      where d.drid=dr.drid and  d.deid=de.deid  and dy.dyid=dr.dyid 
+      and d.deid=#{deid} and dr.drstate=1 
+        
+     <if test="price1 != null"> and dr.drprice &gt;= #{price1}</if>
+   <if test="price2 != null"> and dr.drprice &lt;= #{price2}</if> 
+	</select>
 	
 	
 	

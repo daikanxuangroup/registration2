@@ -15,10 +15,12 @@ public class Drug implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private Integer dyid;
 	private Integer drid;
 	private Drugtype drugtype;
 	private String drname;
-	private Short drsum;
+	private Integer drsum;
 	private Double drprice;
 	private Integer drstate;
 	private String by1;
@@ -32,18 +34,12 @@ public class Drug implements java.io.Serializable {
 	public Drug() {
 	}
 
-	/** minimal constructor */
-	public Drug(Integer drid, String drname, Short drsum, Double drprice, Integer drstate) {
-		this.drid = drid;
-		this.drname = drname;
-		this.drsum = drsum;
-		this.drprice = drprice;
-		this.drstate = drstate;
-	}
 
-	/** full constructor */
-	public Drug(Integer drid, Drugtype drugtype, String drname, Short drsum, Double drprice, Integer drstate,
-			String by1, Integer by2, Set drugandprescriptons, Set druganddepartses) {
+
+	public Drug(Integer dyid, Integer drid, Drugtype drugtype, String drname, Integer drsum, Double drprice,
+			Integer drstate, String by1, Integer by2, Set drugandprescriptons, Set druganddepartses) {
+		super();
+		this.dyid = dyid;
 		this.drid = drid;
 		this.drugtype = drugtype;
 		this.drname = drname;
@@ -56,7 +52,17 @@ public class Drug implements java.io.Serializable {
 		this.druganddepartses = druganddepartses;
 	}
 
+
+
 	// Property accessors
+
+	public Integer getDyid() {
+		return dyid;
+	}
+
+	public void setDyid(Integer dyid) {
+		this.dyid = dyid;
+	}
 
 	public Integer getDrid() {
 		return this.drid;
@@ -82,11 +88,11 @@ public class Drug implements java.io.Serializable {
 		this.drname = drname;
 	}
 
-	public Short getDrsum() {
+	public Integer getDrsum() {
 		return this.drsum;
 	}
 
-	public void setDrsum(Short drsum) {
+	public void setDrsum(Integer drsum) {
 		this.drsum = drsum;
 	}
 

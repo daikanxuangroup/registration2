@@ -36,15 +36,17 @@ public class LogonController {
 	      
 		Admins adm = loginService.find(aname, pwd);
 	      if (adm != null) {
+	    	  Integer state=adm.getState();
+	    	  modelMap.put("state",state);// 用来判断用户的身份
 	    	  if(adm.getState()==2){
-	    		  Integer state=adm.getState();
+	    		 
 	    		Doctors doctors=loginService.findDeid(adm.getDoid());  
-	    		modelMap.put("state",state);// 用来判断用户的身份
+	    		
 	    		modelMap.put("doctors", doctors);// 医生药用的
 	    	
 	    /*		session.setAttribute("state",state );
 	    		session.setAttribute("doctors", doctors);*/
-	    		  url = "redirect:/index.jsp";
+	    		  url = "index";
 	    	  }    	       
 	      } else {
 	        message = "?message=1";

@@ -1,6 +1,8 @@
 package com.daibingjie.test;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +10,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.daibingjie.pojo.Admins;
+import com.daibingjie.pojo.By2State;
 import com.daibingjie.pojo.Cards;
 import com.daibingjie.pojo.Doctors;
+import com.daibingjie.pojo.Druganddeparts;
 import com.daibingjie.pojo.Drugandprescripton;
 import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Registration;
@@ -45,8 +49,8 @@ public class DoctorBusTest {
 	@Test
 	public void allPrescripton(){
 		// 开药 拿到药方ID
-		int count =doctorBusService.allPrescripton(1, 1);
-		System.out.println("药方id"+count);		
+/*		int count =doctorBusService.allPrescripton(1, 1,1);
+		System.out.println("药方id"+count);	*/	
 	}
 	
 	@Test
@@ -73,16 +77,41 @@ public class DoctorBusTest {
 	 
 	 System.out.println(list.size());
 	 for(Drugandprescripton d:list){
-		 System.out.println(d.getDrug().getDrname()+"  "+d.getPrescripton().getPrid()+" "+d.getDrug().getDrugtype().getDyname());
+		 System.out.println(d.getDrnum());
 	 }
 		
 	}
+	
+	@Test
+	public void findDrug2(){	
+		
+		Map<Integer, Drugandprescripton> map =doctorBusService.findMap(10005);
+		Iterator<Drugandprescripton> lt=map.values().iterator();
+		while (lt.hasNext()) {
+			
+		System.out.println(lt.next().getDrug().getDrname());
+		System.out.println(lt.next().getDrug().getDrprice());
+		System.out.println(lt.next().getDrnum());
+	System.out.println(lt.next().getSum());
+			
+		}
+		
+	}
+	
+	
 	@Test
 	public void login (){
-		Admins adm = loginService.find("daibingjie", "111111");
-		System.out.println(adm.getDoid());
-		Doctors doctors =loginService.findDeid(1);
-		System.out.println(doctors.getDeid());
+		By2State bystate=doctorBusService.findBystate(1);
+		System.out.println(bystate.getState()+  +bystate.getBy2());
+	}
+	
+	@Test
+	public void Drugand (){
+		List<Druganddeparts> drdep=doctorBusService.finddru(1,10d,60d);
+		System.out.println(drdep.size());
+		for(Druganddeparts d:drdep){
+			System.out.println(d.getDrug().getDrugtype().getDyname());
+		}
 	}
 	
 	

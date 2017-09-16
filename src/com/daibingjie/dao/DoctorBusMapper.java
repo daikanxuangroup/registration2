@@ -10,7 +10,10 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import com.daibingjie.pojo.By2State;
 import com.daibingjie.pojo.Cards;
+import com.daibingjie.pojo.Departs;
+import com.daibingjie.pojo.Druganddeparts;
 import com.daibingjie.pojo.Drugandprescripton;
 import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Prescripton;
@@ -114,6 +117,29 @@ public interface DoctorBusMapper {
 	
 	@Update("update  registration set state=#{state} where rid=#{rid}")
 	int updarig(@Param("rid") Integer rid,@Param("state") Integer state);
+	
+	
+	@Update("update registration  set by2=#{by2} where rid =#{rid}")
+	int updaby2(@Param("rid") Integer by2,@Param("by2") Integer state);
+	
+	/**
+	 * 查询药品 部门和数量
+	 * @return
+	 */
+	
+	List<Druganddeparts> finddru(
+			@Param("deid") Integer deid,
+			@Param("price1")Double price1,
+			@Param("price2")Double price2);
+	
+		/*	   今天挂号单卡号状态*/
+	@Select("select state,c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
+	By2State findBystate(@Param("rid") Integer rid);
+	
+	/*	  查看备用2 里是否有今天的药方*/
+	@Select(" select c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0 ")
+	int findby2(@Param("rid") Integer rid);
+	
 	
 	
 }

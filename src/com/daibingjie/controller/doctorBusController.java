@@ -1,6 +1,8 @@
 package com.daibingjie.controller;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.daibingjie.pojo.By2State;
 import com.daibingjie.pojo.Cards;
 import com.daibingjie.pojo.Doctors;
+import com.daibingjie.pojo.Druganddeparts;
 import com.daibingjie.pojo.Drugandprescripton;
 import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Registration;
@@ -83,19 +87,107 @@ public class doctorBusController  {
 		
 	}
 	@RequestMapping("xinx")
-	public String xinx(@RequestParam("cid")Integer cid,ModelMap modelMap){
+	public String xinx(@RequestParam("cid")Integer cid,
+			@RequestParam("rid")Integer rid,
+			ModelMap modelMap,HttpSession session){
+		
+		By2State bs=doctorBusService.findBystate(rid);
 		Cards cards=doctorBusService.findcard(cid);
 		modelMap.put("cards", cards);
+		modelMap.put("rid", rid);
+		session.setAttribute("bs", bs);
 		return "doctorBus/xinx";
 		
 	}
-
-
 	
-	
-	
-	
-	
-	
-	
+	@RequestMapping("drug")
+	public String drug(@RequestParam(
+			value="price1",required=false)Double price1,
+			@RequestParam(value="price2",required=false)Double price2,
+			@RequestParam("cid")Integer cid,@RequestParam("rid")Integer rid,
+			ModelMap modelMap,HttpSession session){
+		/**
+		 * 转药品页面
+		 */
+		Doctors doctors= (Doctors) session.getAttribute("doctors");
+		List<Druganddeparts> drlist= doctorBusService.finddru(doctors.getDeid(),price1,price2);
+		modelMap.put("price1", price1);
+		modelMap.put("price2", price2);
+		modelMap.put("drlist", drlist);
+		modelMap.put("rid", rid);
+		return "doctorBus/drug";
+		
+	}
+	@RequestMapping("drandpr")
+	@ResponseBody
+	public String drandpr(ModelMap modelMap,
+			HttpSession session,
+			@RequestParam(value="drid")Integer drid
+			,@RequestParam("rid")Integer rid){
+		/**
+		 * 诊疗卡id
+		 * 页面拿到订单rid
+		 * 是否有没有处理完的药方单
+		 * 药品ID
+		 */
+		// 拿到诊疗by2     如果有值就是 今天的 药方ID	
+		System.out.println("111111");
+		By2State bs =(By2State) session.getAttribute("bs");
+		Integer by2state=bs.getBy2();
+		// 如果没有 就新增  药方
+		if(by2state<100 || by2state==null){
+			// 拿出医生对象
+			Doctors doctors= (Doctors) session.getAttribute("doctors");
+			// 创建药方添加 药方项 
+			by2state=doctorBusService.allPrescripton(1, doctors.getDoid(), drid);
+			// 修改状态 
+			if(0<doctorBusService.updaby2(rid, by2state)){
+				System.out.println(by2state);
+				// 是否Ajax
+			}		
+			
+		}else{
+			Map<Integer, Drugandprescripton> map=doctorBusService.findMap(by2state);
+			Drugandprescripton temp = map.get(drid);
+			// 没有就创建 新的订单项
+			if(temp ==null ){
+				if(0<doctorBusService.alldrugpres(drid, by2state, 1)){
+					// 是否用Ajax 
+					
+				}
+			}else{
+				// 有就把数量+1
+				int sum = temp.getDrnum()+1;
+				if(0<doctorBusService.updatedrug(sum, drid, by2state)){
+					// 是否用Ajax 
+					
+				}
+			}			
+		}
+		return null;		
+	}
+	@RequestMapping("finddrandpr")
+	public String finddrandpr(
+			ModelMap modelMap,
+			@RequestParam("prid")Integer prid,
+			@RequestParam("pname") String pname){
+		/**
+		 * 查看药方项
+		 */
+		Map<Integer, Drugandprescripton> map=doctorBusService.findMap(prid);
+		double sum = 0;
+		Iterator<Drugandprescripton> it = map.values().iterator();
+		// 累加购物项集合每个购物项的小计价格
+		while (it.hasNext()) {
+			sum += it.next().getSum();
+			
+		}	
+		modelMap.put("sum", sum);
+		modelMap.put("map", map);
+		modelMap.put("pname", pname);
+		System.out.println("  --- "+sum);
+		return "doctorBus/prescription";
+		
+	}
+		
 }

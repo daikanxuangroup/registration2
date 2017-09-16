@@ -1,10 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML >
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -16,17 +18,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
 	<link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui/css/H-ui.min.css" />
 	<link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/css/H-ui.admin.css" />
 	<link rel="stylesheet" type="text/css" href="<%=path %>/lib/Hui-iconfont/1.0.8/iconfont.css" />
 	<link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/skin/default/skin.css" id="skin" />
 	<link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/css/style.css" />
-
   </head>
   
   <body>
-  
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+   <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
 	<span class="c-gray en">&gt;</span>
 	门诊业务
 	<span class="c-gray en">&gt;</span>
@@ -49,14 +52,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 						病人姓名：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						东方不败
+						${cards.pname }
 					</div>
 				</div>
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-2">
 						诊疗卡号：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						78729821
+					${cards.cid }
 					</div>
 				</div>
 				<div class="row cl">
@@ -64,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 						性别：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						雌雄同体
+						${cards.sex }
 					</div>
 				</div>
 				<div class="row cl">
@@ -72,7 +75,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 						出生年月：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						1980-02
+				 ${fn:substring(cards.idcard,6,10)}年 ${fn:substring(cards.idcard,10,12)}月 ${fn:substring(cards.idcard,12,14)}日
+				
 					</div>
 				</div>
 				
@@ -80,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>诊断结论：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<!-- <input type="text" class="input-text" value="" placeholder="" id="brief" name="brief"> -->
-						<textarea class="textarea" id="brief" name="brief" placeholder="不少于4个字符，不多于200个字符。"></textarea>
+						<textarea class="textarea" id="brief" name="brief" placeholder="不少于4个字符，不多于200个字符。"  style="width: 620px; height: 220px"></textarea>
 					</div>
 				</div>
 
@@ -101,8 +105,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label for="deal3">办理住院</label>
 						</div>
 						<span >
-						<button id="btn1" onClick="javascript:alert('开药')" ><i class="Hui-iconfont">&#xe647;</i> 开药</button> &nbsp;
+						<button id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','10002')" ><i class="Hui-iconfont">&#xe647;</i> 开药</button> &nbsp;
+				<%-- 		<c:if test="${by2 > 100}"> --%>
 						<button id="btn2" onClick="javascript:alert('药方')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</button>
+			<%-- 			</c:if> --%>
 						</span>
 					</div>
 				</div>
@@ -140,7 +146,6 @@ $(function(){
 	$("#tab-system").Huitab({
 		index:0
 	});
-
 	//页面加载时，默认开药、药方按钮禁用
 	var btn1 = document.getElementById('btn1'); 
 	var btn2 = document.getElementById('btn2'); 
@@ -193,7 +198,20 @@ $(function(){
 	});
 });
 
+function addpres(title,url,id){
+	var index = layer.open({
+		type: 2,
+		title: title,	
+		content: url
+	});
+	layer.full(index);
+
+}
+
+
+
+
 </script>
-<!--/请在上方写此页面业务相关的脚本-->
-</body>
+   
+  </body>
 </html>
