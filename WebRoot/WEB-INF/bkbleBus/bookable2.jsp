@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 查询排班</button>
 		<a class="btn btn-primary radius" data-title="自动排班" data-href="javascript:autoBK();"  href="javascript:autoBK();">
-		<i class="Hui-iconfont">&#xe600;</i> 自动排班2</a>
+		<i class="Hui-iconfont">&#xe600;</i> 自动排班</a>
 	</div>
 	</form>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:delBK();" class="btn btn-danger radius">
