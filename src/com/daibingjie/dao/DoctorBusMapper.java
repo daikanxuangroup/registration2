@@ -47,6 +47,16 @@ public interface DoctorBusMapper {
 			@Param("brief")String brief,
 			@Param("deal")Integer deal);
 	
+	@Insert(" insert into history(hiid,cid,doid,brief,deal) values"
+			+ "(#{hiid},#{cid},#{doid},#{brief},#{deal})")
+	@SelectKey(keyProperty="hiid",statement="select seq_history.nextval from dual",
+	resultType=int.class,before=true)
+	int allHistory2(
+			@Param("cid")Integer pid,
+			@Param("doid")Integer doid,
+			@Param("brief")String brief,
+			@Param("deal")Integer deal);
+	
 	/**
 	 * 查看病人药方,点击药方选项 能看到病人在本部门历史用药情况
 	 * 
@@ -90,8 +100,8 @@ public interface DoctorBusMapper {
 	/**
 	 * 修改药方项
 	 */
-	@Update(" update drugandprescripton set drnum=@{drnum}"
-			+ " where drid=@{drid} and prid=#{prid}")
+	@Update(" update drugandprescripton set drnum=#{drnum}"
+			+ " where drid=#{drid} and prid=#{prid}")
 	int updatedrug(
 			@Param("drnum") Integer drnum,
 			@Param("drid") Integer drid,
@@ -120,7 +130,7 @@ public interface DoctorBusMapper {
 	
 	
 	@Update("update registration  set by2=#{by2} where rid =#{rid}")
-	int updaby2(@Param("rid") Integer by2,@Param("by2") Integer state);
+	int updaby2(@Param("rid") Integer rid,@Param("by2") Integer by2);
 	
 	/**
 	 * 查询药品 部门和数量
@@ -133,13 +143,11 @@ public interface DoctorBusMapper {
 			@Param("price2")Double price2);
 	
 		/*	   今天挂号单卡号状态*/
-	@Select("select state,c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
+	@Select("select state,r.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
 	By2State findBystate(@Param("rid") Integer rid);
 	
 	/*	  查看备用2 里是否有今天的药方*/
 	@Select(" select c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0 ")
 	int findby2(@Param("rid") Integer rid);
-	
-	
-	
+
 }
