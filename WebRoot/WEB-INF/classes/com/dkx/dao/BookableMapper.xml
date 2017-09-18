@@ -20,11 +20,17 @@
   <select id="findBK" resultMap="week-result">
   	select distinct  do.doid,do.doname,
        <foreach collection="bklist" separator="," item="item" index="index">
-       	(select decode(count(*) ,0,'休息','可预约') from BOOKABLE where doid = do.doid and starttime = -1 and bdate=to_date(#{item},'yyyy-MM-dd')) areg${index+1},
-       	(select decode(count(*) ,0,'休息','可预约') from BOOKABLE where doid = do.doid and starttime = 1 and bdate=to_date(#{item},'yyyy-MM-dd')) preg${index+1}
+       	(select decode(count(*) ,0,' ','可预约') from BOOKABLE where doid = do.doid and starttime = -1 and bdate=to_date(#{item},'yyyy-MM-dd')) areg${index+1},
+       	(select decode(count(*) ,0,' ','可预约') from BOOKABLE where doid = do.doid and starttime = 1 and bdate=to_date(#{item},'yyyy-MM-dd')) preg${index+1}
        </foreach>
  	from doctors do left join  bookable b on b.doid = do.doid  where do.deid = #{deid}  and do.doexist =1 
   </select>
   
   
+  <insert id="addBK" parameterType="com.daibingjie.pojo.Bookable">
+  	<selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="bkid">  
+       select Seq_Bookable.nextval from dual
+   </selectKey> 
+  	INSERT INTO Bookable(bid,doid,bdate,starttime,used,bnum,ynum,xcum,xcyum) VALUES (#{bkid},#{bk.doctors.doid},#{bk.bdate},#{bk.starttime},#{bk.used},#{bk.bnum},#{bk.ynum},#{bk.xcum},#{bk.xcyum})
+  </insert>
 </mapper>
