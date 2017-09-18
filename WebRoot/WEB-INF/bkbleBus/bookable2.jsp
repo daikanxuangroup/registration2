@@ -182,7 +182,6 @@ function delBK(){
   					location.href="findBK?deid="+deid+"&datetime="+datetime;
   				});
 			}else{
-				alert(data.result);
 				var deid = data.deid;
 				layer.alert('此周排班表中存在已上线信息，无法删除。未上线部分已更新！', {
   					skin: 'layui-layer-molv' 

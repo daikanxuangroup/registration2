@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.daibingjie.aop.AuthPassport;
 import com.daibingjie.pojo.Bookable;
 import com.daibingjie.pojo.Doctors;
 import com.daibingjie.service.LoginService;
@@ -75,6 +76,7 @@ public class BookableController {
      * @param modelMap
      * @return
      */
+    @AuthPassport
 	@RequestMapping("gotoBK")
 	public String findBK(ModelMap modelMap){
 		
@@ -91,6 +93,7 @@ public class BookableController {
 	/*
 	 * 查询科室所有医生的周排班情况----json版
 	 */
+    @AuthPassport
 	@RequestMapping("findBK2")
 	@ResponseBody
 	public Object findBK(@RequestParam(value="deid")Integer deid,
@@ -131,6 +134,7 @@ public class BookableController {
 	/*
 	 * 查询科室所有医生的周排班情况
 	 */
+    @AuthPassport
 	@RequestMapping("findBK")
 	public String findBK(@RequestParam(value="deid")Integer deid,
 			@RequestParam(value="datetime")String datetime,
@@ -164,6 +168,7 @@ public class BookableController {
 	}
 	
 	//增加排班
+    @AuthPassport
 	@RequestMapping("addBK")
 	public String addBK(@RequestParam(value="deid")Integer deid,
 			@RequestParam(value="datetime")String datetime){
@@ -192,6 +197,7 @@ public class BookableController {
 	 * @param datetime
 	 * @return
 	 */
+    @AuthPassport
 	@RequestMapping("delBK")
 	@ResponseBody
 	public Object delBK(@RequestParam(value="doid")Integer doid,

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.daibingjie.aop.AuthPassport;
 import com.dkx.pojo.Departs;
 import com.dkx.pojo.Drug;
 import com.dkx.pojo.Drugtype;
@@ -23,6 +24,7 @@ public class DrugController {
 	@Resource(name = "drugService")
 	private  DrugService service;
 	
+	@AuthPassport
 	@RequestMapping("findDrug")
 	public String findAll(@RequestParam(value="price1",required=false)Double price1,@RequestParam(value="price2",required=false)Double price2,
 			ModelMap modelMap){
@@ -33,6 +35,7 @@ public class DrugController {
 		return "burgBus/drug-list";
 	}
 	
+	@AuthPassport
 	@RequestMapping("drugState")
 	@ResponseBody
 	public Object drayState(@RequestParam(value="drid")Integer drid,@RequestParam(value="drstate")Integer drstate){
@@ -45,6 +48,7 @@ public class DrugController {
 		return map;
 	}
 	
+	@AuthPassport
 	@RequestMapping("editDrug")
 	public String addOrEdit(@RequestParam(value="drid")Integer drid,ModelMap modelMap){
 		Drug drug = new Drug();
@@ -64,6 +68,7 @@ public class DrugController {
 		return "burgBus/drug";
 	}
 	
+	@AuthPassport
 	@RequestMapping("editOver")
 	@ResponseBody
 	public Object editOver(@RequestParam(value="drid") Integer drid,
