@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.daibingjie.pojo.Doctors;
 import com.dkx.dao.BookableMapper;
 import com.dkx.pojo.WeekBean;
 
@@ -22,5 +23,8 @@ public class BookableService {
 		// TODO Auto-generated method stub
 		return mapper.findBK(list, deid);
 	}
-
+	
+	public List<Doctors> findDoctors(Integer deid){
+		return mapper.findAllDoc(deid);
+	}
 }

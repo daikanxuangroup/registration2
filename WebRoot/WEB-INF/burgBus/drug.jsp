@@ -156,9 +156,6 @@ $(function(){
                         alert("系统出现错误，请联系管理员");
                     }
                 });
-			/* var index = parent.layer.getFrameIndex(window.name);
-			window.parent.location.reload();
-			parent.layer.close(index); */
 		}
 	});
 	

@@ -34,7 +34,6 @@ import com.daibingjie.service.DoctorBusService;
 @SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards"})
 public class DoctorBusController  {
 	
-	
 	@Resource(name="doctorBusService")
 	public DoctorBusService doctorBusService;
 	
@@ -209,13 +208,14 @@ public class DoctorBusController  {
 		modelMap.put("sum", sum);
 		modelMap.put("map", map);
 		modelMap.put("pname", cards.getPname());
-	
+
 		return "doctorBus/prescription";
 		
 	}
 	
 		/*	添加病历信息*/
 	
+
 	@AuthPassport
 	@RequestMapping("addHi")
 	@ResponseBody
@@ -227,7 +227,7 @@ public class DoctorBusController  {
 			HttpSession session){
 		By2State bs =(By2State) session.getAttribute("bs");	
 		Doctors doctors= (Doctors) session.getAttribute("doctors");
-	
+
 		Map<String,String> map=new HashMap<String,String>();
 			if(deal==1){		
 				//添加病历
@@ -242,7 +242,7 @@ public class DoctorBusController  {
 			}		
 			return map;			
 	}	
-	
+
 	@AuthPassport
 	@RequestMapping("removes")
 	@ResponseBody
@@ -250,7 +250,6 @@ public class DoctorBusController  {
 			@RequestParam("drid")Integer drid,
 			@RequestParam("prid")Integer prid,
 			ModelMap modelMap){
-	
 		String mgs="false";
 		if(0<doctorBusService.deletedrug(drid,prid)){		
 			mgs="true";

@@ -123,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe616;</i> 排班管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="admin-role.html" data-title="医生坐诊排班" href="javascript:void(0)">医生坐诊排班</a></li>
+					<li><a data-href="gotoBK" data-title="医生坐诊排班" href="javascript:void(0)">医生坐诊排班</a></li>
 			</ul>
 		</dd>
 	</dl>
