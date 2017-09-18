@@ -3,9 +3,6 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.daibingjie.dao.DoctorBusMapper">
-
-
-
                   <!-- 医生生界面初始化的方法 -->
      <resultMap type="com.daibingjie.pojo.Registration" id="reg_book">
      <id column="rid"  property="rid"/>
@@ -57,23 +54,18 @@
 	</resultMap>
 	
 	<select id="findHis" resultMap="hist">
-<!--   select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,p.prid,h.hidate,d.doid,c.cid from history h , doctors d ,cards c ,prescripton p
-      where h.doid= d.doid and c.cid=h.cid and p.prid=h.prid and
-       c.cid =#{cid}  and d.deid=#{deid} -->
-       
        	  select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,h.prid,h.hidate,d.doid,c.cid from history h ,
 	   doctors d ,cards c
       where h.doid= d.doid and c.cid=h.cid  and
-       c.cid =#{cid}  and d.deid=#{deid}
-       
-       
+       c.cid =#{cid}  and d.deid=#{deid}   
 	</select>
 	
+	
+		
 	<resultMap type="com.daibingjie.pojo.Drugandprescripton" id="drugan">
 		<id column="prid" property="prid"/>
 		<id column="drid" property="drid"/>
-		<result column="drnum" property="drnum"/>
-			
+		<result column="drnum" property="drnum"/>		
  	<association property="prescripton" javaType="com.daibingjie.pojo.Prescripton">
 			<id column="prid" property="prid"/>
 	</association>
@@ -87,39 +79,29 @@
       	 </association>
     </association>	
 	</resultMap>
-	
-	
+		
 	<select id="findDrug" resultMap="drugan" >	        
 	 select dp.prid,dp.drnum,dr.drid, dr.drname,dr.drprice,dy.dyname,dy.dyid
 	from drugandprescripton dp , drug dr ,prescripton p ,drugtype dy 
 	where dp.drid=dr.drid  and p.prid=dp.prid and dy.dyid=dr.dyid and p.prid =#{prid}  
 	
-
 	</select>
-	
-	
-	
-	
 	<resultMap type="com.daibingjie.pojo.Druganddeparts" id="Drugand">
 		<id column="drid" property="drid" />
-		<id column="deid" property="deid"/>
-		
+		<id column="deid" property="deid"/>		
 	<association property="drug" javaType="com.daibingjie.pojo.Drug" >
 		<id column="drid" property="drid"/>
 		<result column="drname" property="drname"/>
 		<result column="drprice" property="drprice"/>
-		<result column="drsum" property="drsum"/>	
-			
+		<result column="drsum" property="drsum"/>			
 		<association  property="drugtype" javaType="com.daibingjie.pojo.Drugtype">
 		<result column="dyid" property="dyid"/>
 		<result column="dyname" property="dyname"/>
 		</association>	
 	</association>
-	
 		<association property="departs" javaType="com.daibingjie.pojo.Departs">
 		<id column="deid" property="deid"/>	
-		</association>
-		
+		</association>	
 	</resultMap>
 	
 	<select id="finddru" resultMap="Drugand" >

@@ -214,11 +214,5 @@ public class DoctorBusService {
 	public int findby2( Integer rid){
 		
 		return doctorBusMapper.findby2(rid);
-	}
-	
-	
-	
-
-	
-	
+	}	
 }

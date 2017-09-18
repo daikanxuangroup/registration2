@@ -71,13 +71,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="footer">NEWER医院后台管理系统</div>
 <script type="text/javascript" src="<%=path %>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/static/h-ui/js/H-ui.min.js"></script>
-
-	<script type="text/javascript">		
+<script type="text/javascript">
+	
+	$(function(){
+	if (window != top)  
+		top.location.href ="login.jsp";   
+		
+	})
+	
+	</script>
+	<script type="text/javascript">	
+		
 		function change(){
 	
 			var time = new Date();
 			var timestamp = time.getSeconds();
 			$("#Verify").attr("src","${pageContext.request.contextPath}/imagecode.html?timestamp="+timestamp);			
+			
 		}
 		
 			

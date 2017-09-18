@@ -149,7 +149,5 @@ public interface DoctorBusMapper {
 	/*	  查看备用2 里是否有今天的药方*/
 	@Select(" select c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0 ")
 	int findby2(@Param("rid") Integer rid);
-	
-	
-	
+
 }

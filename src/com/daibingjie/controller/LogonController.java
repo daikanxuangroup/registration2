@@ -39,7 +39,7 @@ public class LogonController {
 	    	  Integer state=adm.getState();
 	    	  modelMap.put("state",state);// 用来判断用户的身份
 	    	  if(adm.getState()==2){
-	    		 
+	    		 session.setMaxInactiveInterval(60*60*2);
 	    		Doctors doctors=loginService.findDeid(adm.getDoid());  
 	    		
 	    		modelMap.put("doctors", doctors);// 医生药用的

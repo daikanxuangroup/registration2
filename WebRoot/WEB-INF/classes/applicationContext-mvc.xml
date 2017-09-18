@@ -20,6 +20,20 @@
 <!-- 	<mvc:resources location="/" mapping="/resources/**"/> -->
 	<mvc:default-servlet-handler/>
 	
+<!-- 	   <mvc:interceptors>
+	    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />  
+        如果不定义 mvc:mapping path 将拦截所有的URL请求
+        <bean class="com.daibingjie.aop.AuthorityIPInterceptor"></bean>
+    </mvc:interceptors> -->
+	
+		<mvc:interceptors>  
+      <!--   国际化操作拦截器 如果采用基于（请求/Session/Cookie）则必需配置 -->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />  
+<!--         如果不定义 mvc:mapping path 将拦截所有的URL请求 -->
+        <bean class="com.daibingjie.aop.AuthInterceptor"></bean>
+    </mvc:interceptors>  
+	
+	
 	<!-- 开启注解 -->
 	<mvc:annotation-driven/>
 	<!-- 定义视图解析器，将视图逻辑名解析为/WEB-INF/views/*.jsp -->

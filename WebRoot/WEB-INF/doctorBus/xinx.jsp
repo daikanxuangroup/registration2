@@ -187,7 +187,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){	
-		alert("s1");		
+
 			$(form).ajaxSubmit({
 				type: 'post',
 				url: "addHi",

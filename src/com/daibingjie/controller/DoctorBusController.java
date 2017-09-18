@@ -11,13 +11,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.daibingjie.aop.AuthPassport;
 import com.daibingjie.pojo.By2State;
 import com.daibingjie.pojo.Cards;
 import com.daibingjie.pojo.Doctors;
@@ -27,13 +28,17 @@ import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Registration;
 import com.daibingjie.service.DoctorBusService;
 
-@Controller
 
+@AuthPassport
+@Controller
 @SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards"})
 public class DoctorBusController  {
 	
 	@Resource(name="doctorBusService")
 	public DoctorBusService doctorBusService;
+	
+	
+	@AuthPassport
 	@RequestMapping("index")
 	public String index(HttpServletRequest request,ModelMap modelMap,HttpSession session){
 		/**
@@ -49,8 +54,7 @@ public class DoctorBusController  {
 		return "doctorBus/index";
 		
 	}
-	
-	
+	@AuthPassport
 	@RequestMapping("past")
 	public String past(@RequestParam("cid")Integer cid,ModelMap modelMap,HttpSession session){
 		/**
@@ -66,6 +70,7 @@ public class DoctorBusController  {
 		
 	}
 	
+	@AuthPassport
 	@RequestMapping("findprid")
 	public String findprid(@RequestParam("prid")Integer prid ,ModelMap modelMap){		
 		/**
@@ -78,7 +83,7 @@ public class DoctorBusController  {
 		
 	}	
 
-	
+	@AuthPassport
 	@RequestMapping(value="stateprg",method=RequestMethod.POST)
 	@ResponseBody
 	public String staterig(@RequestParam("rid")Integer rid){
@@ -89,6 +94,8 @@ public class DoctorBusController  {
 		return String.valueOf(conun);
 		
 	}
+	
+	@AuthPassport
 	@RequestMapping("xinx")
 	public String xinx(@RequestParam("cid")Integer cid,
 			@RequestParam("rid")Integer rid,
@@ -104,6 +111,7 @@ public class DoctorBusController  {
 		
 	}
 	
+	@AuthPassport
 	@RequestMapping("drug")
 	public String drug(@RequestParam(
 			value="price1",required=false)Double price1,
@@ -122,6 +130,8 @@ public class DoctorBusController  {
 		return "doctorBus/drug";
 		
 	}
+	
+	@AuthPassport
 	@RequestMapping("drandpr")
 	@ResponseBody
 	public String drandpr(ModelMap modelMap,
@@ -175,7 +185,9 @@ public class DoctorBusController  {
 			}			
 		}
 		return mgs;		
-	}		
+	}	
+	
+	@AuthPassport
 	@RequestMapping("finddrandpr")
 	public String finddrandpr(HttpSession session,
 			ModelMap modelMap){
@@ -196,13 +208,15 @@ public class DoctorBusController  {
 		modelMap.put("sum", sum);
 		modelMap.put("map", map);
 		modelMap.put("pname", cards.getPname());
-		System.out.println("  --- "+sum);
+
 		return "doctorBus/prescription";
 		
 	}
 	
 		/*	添加病历信息*/
 	
+
+	@AuthPassport
 	@RequestMapping("addHi")
 	@ResponseBody
 	public Object addHi(
@@ -213,7 +227,7 @@ public class DoctorBusController  {
 			HttpSession session){
 		By2State bs =(By2State) session.getAttribute("bs");	
 		Doctors doctors= (Doctors) session.getAttribute("doctors");
-		System.out.println("进入");
+
 		Map<String,String> map=new HashMap<String,String>();
 			if(deal==1){		
 				//添加病历
@@ -228,7 +242,8 @@ public class DoctorBusController  {
 			}		
 			return map;			
 	}	
-		
+
+	@AuthPassport
 	@RequestMapping("removes")
 	@ResponseBody
 	public String removes(
@@ -243,18 +258,18 @@ public class DoctorBusController  {
 		return mgs;		
 	}
 	
-	
-	@RequestMapping("updahi")
+	@AuthPassport
+	@RequestMapping("qunnidaye")
 	@ResponseBody
 	public String updahi(
 			@RequestParam("drid")Integer drid,
 			@RequestParam("prid")Integer prid,
-			@RequestParam("num")Integer num){
-		System.out.println("进入修改");
+			@RequestParam("nun")Integer nun,HttpSession session){
+	
 		/*修改药方项*/
+		
 		String mgs="false";
-		if(0<doctorBusService.updatedrug(num,drid,prid)){
-			
+		if(0<doctorBusService.updatedrug(nun,drid,prid)){			
 			mgs="true";
 		}
 			

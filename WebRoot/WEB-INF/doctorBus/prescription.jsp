@@ -62,11 +62,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </td>
 				<td>
 <%-- 				<a onclick="addsum(${rows.index+1 })"><i class="Hui-iconfont Hui-iconfont-add"></i></a>&nbsp; --%>
-			<input onblur="updahi(${maps.value.drug.drid},${maps.value.drug.drprice },${maps.value.drnum },${maps.key},${bs.by2})" type="number" class="input-text" step="1" 
+			<input onblur="updahi(${maps.value.drug.drid},${maps.value.drnum },${maps.value.drug.drid },${bs.by2},${maps.value.drug.drprice })" type="number" class="input-text" step="1" 
 			 name="sun" min="1" id="${maps.value.drug.drid}" value="${maps.value.drnum }" style="width: 60px" >	
 			<%-- 	&nbsp;<a onclick="subsum(${rows.index+1 })"><i class="Hui-iconfont">&#xe6a1;</i></a> --%>	
 				</td>
-				<td><span id="xiao${rows.index+1 }"> ${maps.value.sum }</span></td>
+				<td><span id="xiao${maps.value.drug.drid}"> ${maps.value.sum }</span></td>
 				<td>
 				<a href="javascript:removes(${rows.index+1 },${maps.value.drug.drid},${bs.by2})" class="btn btn-primary radius"> 移除此药品</a>
 				</td>
@@ -80,7 +80,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </div>
 <div><p> &nbsp;</p></div>
-<div align="center"><button type="submit"  class="btn btn-primary size-L radius "> 保存</button></div>
+<div align="center">
+<button onClick="layer_close();" class="btn btn-primary size-L radius" type="button"> 确定&nbsp;</button>
+<!-- <button type="submit"  class="btn btn-primary size-L radius "> 保存</button> --></div>
 </form>	
 
 <!--_footer 作为公共模版分离出去-->
@@ -93,6 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=path %>/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('.table-sort').dataTable({
@@ -111,119 +114,52 @@ function findprid(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
 
-function updahi(xid,price,sum,drid,prid){
+function updahi(xid,sum,drid,prid,price){
 	var sums = document.getElementById(xid).value; 
  	if(sums==0){
 	layer.alert("最小值为 1");
 	}
 	if(sums!=sum){ 
-	
-		$.ajax({
+	$.ajax({
 			type:'post',
-			url:'updahi',
-			data:{"drid":drid,"prid":prid,"sun":sums},
+			url:'qunnidaye',
+			data:{"drid":drid,"prid":prid,"nun":sums},
 			success: function(data){
-			if(data=="true"){	
-					
-				layer.msg("修改成功",{icon:6,time:8000});
-				var chajia=(sums-sum)*price;	
+		
+				if(data=="true"){			
+			 	var chajia=(sums-sum)*price;
+			 
 				document.getElementById("xiao"+xid).innerHTML=(sums*price);
 				var zhongjia = document.getElementById("zongja").innerHTML;
 				var sum1= parseFloat(zhongjia)+chajia;
-				document.getElementById("zongja").innerHTML=sum1;							
+				document.getElementById("zongja").innerHTML=sum1;					
 				}
+
 			}
-		});
-	} 
+		}); 
+	}
 }
 
+
 function removes(xid,drid,prid){
-		$.ajax({
+
+	layer.confirm('确认要移除本药品吗？',function(index){
+		layer.closeAll('dialog');	
+		 $.ajax({
 			type:'post',
 			url:'removes',
 			data:{"drid":drid,"prid":prid},
 			success: function(data){
 				if(data=="true"){			
-					layer.msg("成功移除",{icon:6,time:1000,size:50});
-/* 					var  zhongjia1= document.getElementById("zongja").innerHTML;								
+					var  zhongjia1= document.getElementById("zongja").innerHTML;								
 					var zhongjia2 = document.getElementById("xiao"+xid).innerHTML;				
-					var temp=parseFloat(zhongjia1);
-					var temp2=parseFloat2(zhongjia2);
-					document.getElementById("zongja").innerHTML=temp;	 */			
+					document.getElementById("zongja").innerHTML=zhongjia1-zhongjia2;			
 					$("#tr"+xid).remove();
 				}
-
 			}
-	});
-}
-
-
-
-
-/* 
-function addsum(id){
-	alert("1")
-	var sum = document.getElementById("id").value+1;
-	 document.getElementById("id").value=sum;
-	 
-}
-function subsum(id){
-	if(id==1){	
-		layer.confirm('是否移除药品',function(index){
-			
-		});
-	}else{
-		var sum = document.getElementById("id").value-1;
-		 document.getElementById("id").value=sum;
-	}
-}
- */
-/*用户-查看*/
-function member_show(title,url,id,w,h){
-	layer_show(title,url,w,h);
-}
-/*用户-停用*/
-function member_stop(obj,id){
-	layer.confirm('确认要停用吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
-				$(obj).remove();
-				layer.msg('已停用!',{icon: 5,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
-
-/*用户-启用*/
-function member_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});
-	});
-}
-/*用户-编辑*/
-function member_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
+		}); 
+	
+	})		
 }
 
 </script>   	
