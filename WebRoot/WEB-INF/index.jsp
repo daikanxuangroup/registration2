@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
  <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs">戴氏医院后台管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs">三零一医院后台管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">v1.0</span> 
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
 			<nav class="nav navbar-nav">
@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<li class="dropDown dropDown_hover">
 					<a href="#" class="dropDown_A">${doctors.doname } ${adm.by1} <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="myselfinfo('修改密码','updapwd.jsp','400','300')">修改账号</a></li>
+						<li><a href="javascript:;" onClick="myselfinfo('修改密码','updapwd.jsp','400','300')">修改密码</a></li>
 						<li><a href="removeSesson">退出</a></li>
 				</ul>
 			</li>
@@ -106,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dd>
 				<ul>
 					<li><a data-href="index" data-title="就医诊断" href="javascript:;">就医诊断</a></li>
-					<li><a data-href="feedback-list.html" data-title="统计查询" href="javascript:void(0)">统计查询</a></li>
+					<li><a data-href="docSta" data-title="统计查询" href="javascript:void(0)">统计查询</a></li>
 			</ul>
 		</dd>
 	</dl>

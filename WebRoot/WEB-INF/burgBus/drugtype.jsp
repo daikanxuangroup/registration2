@@ -93,7 +93,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,3]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
 		]
 	});
 	
@@ -122,11 +122,10 @@ function type_add(){
 					layer.close(index);
 	  				setTimeout(function () { 
 				        location.reload();
-				    }, 1200);
+				    }, 800);
 				}
 			},
 			error:function(data) {
-				alert(data);
 				console.log(data.msg);
 			},
 		});

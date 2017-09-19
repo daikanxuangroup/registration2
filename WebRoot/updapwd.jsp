@@ -102,7 +102,10 @@ $(function(){
 					if(data=="true"){
 						layer.msg('修改成功!',{icon:1,time:1000});
 						var index = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index);
+						setTimeout(function () { 
+					        parent.layer.close(index);
+					    }, 700);
+						
 					}else{
 						layer.msg('原始密码错误',{icon:1,time:1000});
 						
