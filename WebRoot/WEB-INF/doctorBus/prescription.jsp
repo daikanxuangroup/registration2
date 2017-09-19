@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<tbody>
 		<c:forEach items="${map}" var="maps" varStatus="rows">
-			<tr class="text-c" id="tr${rows.index+1 }">
+			<tr class="text-c" id="tr${maps.value.drug.drid }">
 				<td>${rows.index+1 }</td>
 				<td> ${maps.value.drug.drname} </td>
 				<td > ${maps.value.drug.drprice }			
@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</td>
 				<td><span id="xiao${maps.value.drug.drid}"> ${maps.value.sum }</span></td>
 				<td>
-				<a href="javascript:removes(${rows.index+1 },${maps.value.drug.drid},${bs.by2})" class="btn btn-primary radius"> 移除此药品</a>
+				<a href="javascript:removes(${maps.value.drug.drid },${maps.value.drug.drid},${bs.by2})" class="btn btn-primary radius"> 移除此药品</a>
 				</td>
 			</tr>
 			</c:forEach>
@@ -120,6 +120,8 @@ function updahi(xid,sum,drid,prid,price){
 	layer.alert("最小值为 1");
 	}
 	if(sums!=sum){ 
+	
+	
 	$.ajax({
 			type:'post',
 			url:'qunnidaye',
@@ -157,8 +159,7 @@ function removes(xid,drid,prid){
 					$("#tr"+xid).remove();
 				}
 			}
-		}); 
-	
+		});	
 	})		
 }
 

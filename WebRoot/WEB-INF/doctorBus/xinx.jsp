@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="page-container">
 					<!-- 	action="addHi" -->
 	<form class="form form-horizontal" id="form-article-add" >
-
+	<input id="by2" type="hidden" value="${bs.by2 }">
 		<div id="tab-system" class="HuiTab">
 		<!-- 	<div class="tabBar cl">
 				<span>基本设置</span>
@@ -103,8 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label for="deal2">开药治疗</label>
 						</div>
 						<div class="radio-box">
-							<input name="deal" type="radio" id="deal3" value="3">
-							<label for="deal3">办理住院</label>	
+						<!-- 	<input name="deal" type="radio" id="deal3" value="3">
+							<label for="deal3">办理住院</label>	 -->
 							<input type="hidden" value="${cards.cid }" name="cid">
 							<input type="hidden" value="${rid }" name="rid">
 						</div>
@@ -187,21 +187,26 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){	
-
-			$(form).ajaxSubmit({
-				type: 'post',
-				url: "addHi",
-				dataType:"json",
-				success: function(data){
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.location.reload();
-					parent.layer.close(index);
-					layer.msg('病历添加成功!',{icon:1,time:1000});
-				},
-                error: function(XmlHttpRequest, textStatus, errorThrown){
-					layer.msg('error!',{icon:1,time:1000});
-				}
-			});
+ 		var	by2 = document.getElementById("by2").value;
+			if(by2 !=0){ 
+				$(form).ajaxSubmit({
+					type: 'post',
+					url: "addHi",
+					dataType:"json",
+					success: function(data){
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.location.reload();
+						parent.layer.close(index);
+						layer.msg('病历添加成功!',{icon:1,time:1000});
+					},
+	                error: function(XmlHttpRequest, textStatus, errorThrown){
+						layer.msg('error!',{icon:1,time:1000});
+					}
+				});
+			}else{
+				layer.msg('还没有开药方!',{icon:1,time:1000});
+			
+			} 
 		
 		}
 	});  

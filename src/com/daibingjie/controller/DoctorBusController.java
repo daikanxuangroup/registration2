@@ -31,7 +31,7 @@ import com.daibingjie.service.DoctorBusService;
 
 @AuthPassport
 @Controller
-@SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards"})
+@SessionAttributes(types=Integer.class,value={"doctors","state","bs","cards","adm"})
 public class DoctorBusController  {
 	
 	@Resource(name="doctorBusService")
