@@ -44,12 +44,11 @@ public class LogonController {
 	      if (adm != null) {
 	    	  Integer state=adm.getState();
 	    	  modelMap.put("state",state);// 用来判断用户的身份
-	    	  if(adm.getState()==2){
+	    	  if(adm.getState()==2 ||adm.getState()==0){
 	    		 session.setMaxInactiveInterval(60*60*2);
 	    		Doctors doctors=loginService.findDeid(adm.getDoid());  
 	    		modelMap.put("adm", adm);
-	    		modelMap.put("doctors", doctors);// 医生药用的
-	    		
+	    		modelMap.put("doctors", doctors);// 医生药用的    		
 	    /*		session.setAttribute("state",state );
 	    		session.setAttribute("doctors", doctors);*/
 	    		  url = "index";
@@ -82,8 +81,7 @@ public class LogonController {
 		/*	修改密码的*/
 			String mgs="false";
 			Admins adm =(Admins) session.getAttribute("adm");
-			System.out.println(loginService.updapwd(adm.getAname(), pwd,password));
-			if(0<loginService.updapwd(adm.getAname(), pwd,password)){	
+			if(0<loginService.updapwd(adm.getAname(), pwd,password)){
 				adm = loginService.find(adm.getAname(), password);		// 从放入Session
 				modelMap.put("adm", adm);
 				mgs="true";

@@ -276,4 +276,22 @@ public class DoctorBusController  {
 		return mgs;
 		
 	}
+	
+
+	@AuthPassport
+	@RequestMapping("pindstate")
+	@ResponseBody
+	public String pindstate(HttpSession session){
+		
+		By2State bs =(By2State) session.getAttribute("bs");	
+			String mgs="false";
+		if(bs.getState()>0){
+			mgs="true";
+		}		
+		return mgs;
+		
+	}
+ 	
+	
+	
 }

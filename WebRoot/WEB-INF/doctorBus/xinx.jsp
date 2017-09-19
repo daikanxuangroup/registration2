@@ -187,7 +187,38 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){	
- 		var	by2 = document.getElementById("by2").value;
+ 			$.ajax({
+ 					type: 'post',
+					url: "pindstate",
+					async: false,
+					success: function(data){
+					alert(data);
+						if(data != "true"){
+						layer.msg('还没有开药方!',{icon:1,time:1000});					
+						}else{
+					$(form).ajaxSubmit({
+						type: 'post',
+						url: "addHi",
+						dataType:"json",
+						success: function(data){
+						var index = parent.layer.getFrameIndex(window.name);
+						layer.msg('病历添加成功!',{icon:1,time:1000});
+						parent.location.reload();
+						parent.layer.close(index);
+						
+					},
+	                error: function(XmlHttpRequest, textStatus, errorThrown){
+						layer.msg('error!',{icon:1,time:1000});
+					}
+				});						
+						}
+					
+					},				
+ 			
+ 			});
+			
+/* 
+
 			if(by2 !=0){ 
 				$(form).ajaxSubmit({
 					type: 'post',
@@ -204,9 +235,9 @@ $(function(){
 					}
 				});
 			}else{
-				layer.msg('还没有开药方!',{icon:1,time:1000});
+				
 			
-			} 
+			}  */ 
 		
 		}
 	});  
