@@ -25,30 +25,29 @@ public class AuthInterceptor  extends HandlerInterceptorAdapter{
 	            	HttpServletRequest req = (HttpServletRequest) request;
 	            	HttpSession session = request.getSession();
 	            	Integer state=(Integer) session.getAttribute("state");//拿出权限
+	       
 	            // 不为空进入	
-	            if(state!=null){  
+	            if(state!=null){ 
+	           
 	            	// 如果是医生的
 	            	if(state==2){
 	            		// sission拿医生
 	            		Doctors doctors=(Doctors) session.getAttribute("doctors");
 	            
-	            		//有session 没医生信息
+	            		//有session 医生信息
 	            		if(doctors!=null && doctors.getDoid()!=null){
-	            			return true;
-	            			
+	            			return true;     			
 	            	//没有session 没医生信息
-	            		}else{
-	            			
-	            			response.sendRedirect("/registration2/login.jsp");
-	            		
+	            		}else{	            			
+	            			response.sendRedirect("/registration2/login.jsp");	            		
 	            			return false;
 	            		}
-	            		            		
-	            	//没有医生的信息	
+	                   				
+	            	
+	            	}else{
+	            		return true;
 	            	}
-	            	
-	            	return true;
-	            	
+	            	         	
 	            // 没权限跳登录
 	            }else{
 	            	

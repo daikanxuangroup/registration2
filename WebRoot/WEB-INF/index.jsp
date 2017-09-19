@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:if test="${state eq 3}">挂号收银</c:if>
 			<c:if test="${state eq 4}">发药员	</c:if>
 				<li class="dropDown dropDown_hover">
-					<a href="#" class="dropDown_A"> ${adm.by1} <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<a href="#" class="dropDown_A"> ${adm.by1 } <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" onClick="myselfinfo('修改密码','updapwd.jsp','400','300')">修改密码</a></li>
 						<li><a href="removeSesson">退出</a></li>

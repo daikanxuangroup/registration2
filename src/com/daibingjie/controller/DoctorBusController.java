@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.daibingjie.aop.AuthPassport;
+import com.daibingjie.pojo.Admins;
 import com.daibingjie.pojo.By2State;
 import com.daibingjie.pojo.Cards;
 import com.daibingjie.pojo.Doctors;
@@ -47,7 +48,8 @@ public class DoctorBusController  {
 /*		 HttpSession session = request.getSession();
 		 Integer statee =  (Integer) session.getAttribute("state");*/
 		 Doctors doctors= (Doctors) session.getAttribute("doctors");
-
+		 Admins adm =  (Admins) session.getAttribute("adm");
+		 System.out.println("BY1"+adm.getBy1());
 //		Doctors doctorss= (Doctors) modelMap.get("doctors");	
 		List<Registration> list = doctorBusService.findpat(doctors.getDoid());
 		modelMap.put("reg", list);

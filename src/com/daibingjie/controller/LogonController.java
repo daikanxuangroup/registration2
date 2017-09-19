@@ -44,14 +44,14 @@ public class LogonController {
 	      if (adm != null) {
 	    	  Integer state=adm.getState();
 	    	  modelMap.put("state",state);// 用来判断用户的身份
+	    	  modelMap.put("adm", adm);
+	    	  url = "index";
 	    	  if(adm.getState()==2 ||adm.getState()==0){
 	    		 session.setMaxInactiveInterval(60*60*2);
 	    		Doctors doctors=loginService.findDeid(adm.getDoid());  
-	    		modelMap.put("adm", adm);
+	    	
 	    		modelMap.put("doctors", doctors);// 医生药用的    		
-	    /*		session.setAttribute("state",state );
-	    		session.setAttribute("doctors", doctors);*/
-	    		  url = "index";
+	    		 
 	    	  }    	       
 	      } else {
 	        message = "?message=1";
