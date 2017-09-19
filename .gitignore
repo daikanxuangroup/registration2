@@ -24,3 +24,4 @@ hs_err_pid*
 *.properties
 *.properties
 *.properties
+WebRoot/WEB-INF/classes/com/daibingjie/dao/AuthorityMapper.xml
