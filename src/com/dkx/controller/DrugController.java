@@ -24,6 +24,7 @@ public class DrugController {
 	@Resource(name = "drugService")
 	private  DrugService service;
 	
+	//找药
 	@AuthPassport
 	@RequestMapping("findDrug")
 	public String findAll(@RequestParam(value="price1",required=false)Double price1,@RequestParam(value="price2",required=false)Double price2,
@@ -35,6 +36,7 @@ public class DrugController {
 		return "burgBus/drug-list";
 	}
 	
+	//改药品状态
 	@AuthPassport
 	@RequestMapping("drugState")
 	@ResponseBody
@@ -48,6 +50,30 @@ public class DrugController {
 		return map;
 	}
 	
+	//改类别状态
+	@AuthPassport
+	@RequestMapping("typeState")
+	@ResponseBody
+	public Object typeState(@RequestParam(value="dyid")Integer dyid,@RequestParam(value="dystate")Integer dystate){
+		int drugnum = service.useDrByTp(dyid);
+		int i = -1;
+		Map<String,String> map = new HashMap<String, String>();
+		
+		//类型中还有可用药品，无法禁用
+		if(drugnum>0&&dystate==0){
+			map.put("result", "stop");
+			return map;
+		}
+		i = service.updateTypeState(dyid, dystate);
+		
+		if(i>0){
+			map.put("result", "ok");
+		}else
+			map.put("result", "");
+		return map;
+	}
+	
+	//进入新增或修改页面
 	@AuthPassport
 	@RequestMapping("editDrug")
 	public String addOrEdit(@RequestParam(value="drid")Integer drid,ModelMap modelMap){
@@ -58,7 +84,7 @@ public class DrugController {
 		if(drid!=0&&drid!=null){
 			drug = service.findById(drid);
 		}
-		List<Drugtype> dylist = service.findAllDy();
+		List<Drugtype> dylist = service.findUsedDy();
 		List<Departs> drdelist = service.findDrDe(drid);
 		modelMap.put("delist", delist); //所有在用科室
 		modelMap.put("dr", drug); //要修改的药
@@ -68,6 +94,21 @@ public class DrugController {
 		return "burgBus/drug";
 	}
 	
+	//新增类型
+	@AuthPassport
+	@RequestMapping("typeAdd")
+	@ResponseBody
+	public Drugtype TypeAdd(@RequestParam(value="dyname") String dyname){
+		System.out.println("新增类型");
+		int dyid = service.addType(dyname);
+		
+		Drugtype dt = new Drugtype();
+		dt.setDyid(dyid);
+		dt.setDyname(dyname);
+		return dt;
+	}
+	
+	//新增or修改完毕
 	@AuthPassport
 	@RequestMapping("editOver")
 	@ResponseBody
@@ -90,5 +131,15 @@ public class DrugController {
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		return map;
+	}
+	
+	//查类别
+	@AuthPassport
+	@RequestMapping("findType")
+	public String findType(ModelMap modelMap){
+		List<Drugtype> dtlist = service.findAllDy();
+		modelMap.put("dtlist", dtlist);
+		
+		return "burgBus/drugtype";
 	}
 }
