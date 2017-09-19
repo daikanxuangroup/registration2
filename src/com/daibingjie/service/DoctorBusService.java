@@ -60,12 +60,12 @@ public class DoctorBusService {
 			brief="这个医生很懒,什么都没留下";
 		}
 		if( prid >1 ){
-			System.out.println("有药方的操作");
+			
 			
 			doctorBusMapper.allHistory(cid, doid, prid, brief, deal);
 			
 		}else{
-			System.out.println("没药的操作");
+			
 			doctorBusMapper.allHistory2(cid, doid,brief, deal);
 			
 		}

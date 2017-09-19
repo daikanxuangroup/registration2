@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>原始密码：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="pwd" name="pwd" style="width:240px;">	
+			<input type="password" class="input-text" value="" placeholder="" id="pwd" name="pwd" style="width:240px;">	
 		</div>		
 	</div>
 	
@@ -109,8 +109,7 @@ $(function(){
 					}else{
 						layer.msg('原始密码错误',{icon:1,time:1000});
 						
-					}
-					
+					}					
 					
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){

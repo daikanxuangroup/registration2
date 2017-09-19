@@ -17,20 +17,33 @@ import com.daibingjie.pojo.Druganddeparts;
 import com.daibingjie.pojo.Drugandprescripton;
 import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Registration;
+import com.daibingjie.service.AuthorityService;
 import com.daibingjie.service.DoctorBusService;
 import com.daibingjie.service.LoginService;
 
 public class DoctorBusTest {
 	private DoctorBusService doctorBusService;
 	private LoginService loginService;
+	private AuthorityService authorityService;
 	
 	@Before
 	public void init(){
 		ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
 		doctorBusService=ctx.getBean("doctorBusService",DoctorBusService.class);
 		loginService=ctx.getBean("loginService",LoginService.class);
+		authorityService=ctx.getBean("authorityService",AuthorityService.class);
 		
-	}	
+	}
+	
+	@Test
+	public void findAdmins(){
+		List<Admins> list = authorityService.liatAadmin();
+		for(Admins a:list){
+			System.out.println(a.getAname());
+		}
+	}
+	
+	
 	@Test
 	public void findpat(){
 		List<Registration> list = doctorBusService.findpat(1);

@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:if test="${state eq 3}">挂号收银</c:if>
 			<c:if test="${state eq 4}">发药员	</c:if>
 				<li class="dropDown dropDown_hover">
-					<a href="#" class="dropDown_A">${doctors.doname } ${adm.by1} <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<a href="#" class="dropDown_A"> ${adm.by1} <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" onClick="myselfinfo('修改密码','updapwd.jsp','400','300')">修改密码</a></li>
 						<li><a href="removeSesson">退出</a></li>
@@ -147,7 +147,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe63f;</i> 权限管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="article-list.html" data-title="用户列表" href="javascript:void(0)">用户列表</a></li>
+					<li><a data-href="listAdmin" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+					<li><a data-href="listSignals" data-title="发号员列表" href="javascript:void(0)">发号员列表</a></li>
 			</ul>
 		</dd>
 	</dl>
