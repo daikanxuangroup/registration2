@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dd>
 				<ul>
 					<li><a data-href="findDrug" data-title="药品列表" href="javascript:void(0)">药品列表</a></li>
-					<li><a data-href="drug-list.jsp" data-title="药品类型列表" href="javascript:void(0)">药品类型列表</a></li>
+					<li><a data-href="findType" data-title="药品类型列表" href="javascript:void(0)">药品类型列表</a></li>
 			</ul>
 		</dd>
 	</dl>

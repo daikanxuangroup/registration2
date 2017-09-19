@@ -30,12 +30,19 @@ public class DrugService {
 	}
 	
 
-	//改状态
+	//改药状态
 	@Transactional(isolation = Isolation.DEFAULT,propagation=Propagation.REQUIRED,
 			rollbackFor=Exception.class)
 	public int updateDrugState(Integer drid,Integer drstate){
 		return mapper.drugState(drid, drstate);
 	}
+	
+	//改类型状态
+	@Transactional(isolation = Isolation.DEFAULT,propagation=Propagation.REQUIRED,
+			rollbackFor=Exception.class)
+	public int updateTypeState(Integer dyid,Integer dystate){
+		return mapper.typeState(dyid, dystate);
+	}	
 	
 	//新增药品 及与科室关系
 	@Transactional(isolation = Isolation.DEFAULT,propagation=Propagation.REQUIRED,
@@ -63,8 +70,8 @@ public class DrugService {
 	}
 	
 	//可用类型
-	public List<Drugtype> findAllDy(){
-		return mapper.findAllDy();
+	public List<Drugtype> findUsedDy(){
+		return mapper.findUsedDy();
 	}
 	
 	// 全部可用科室
@@ -75,5 +82,25 @@ public class DrugService {
 	//查药和科室关系
 	public List<Departs> findDrDe(Integer drid){
 		return mapper.findDrDe(drid);
+	}
+	//查所有类型
+	public List<Drugtype> findAllDy() {
+		return mapper.findAllType();
+	}
+	
+	//类型中的可用药
+	public int useDrByTp(Integer dyid) {
+		return mapper.useDrByTp(dyid);
+	}
+	
+	@Transactional(isolation = Isolation.DEFAULT,propagation=Propagation.REQUIRED,
+			rollbackFor=Exception.class)
+	public int addType(String dyname) {
+		// TODO Auto-generated method stub
+		int count = mapper.addType(dyname);
+		if(count>0)
+			return mapper.findDyid();
+		else
+			return 0;
 	}
 }

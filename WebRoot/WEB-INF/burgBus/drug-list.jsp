@@ -120,7 +120,7 @@ function price_clear(){
 	$("#price1").val("");  
 	$("#price2").val(""); 
 }
-/*用户-添加*/
+/*药品-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
@@ -138,9 +138,9 @@ function drug_stop(obj,id){
 					$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_start(this,'+id+')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe66b;</i></a>');
 					$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
 					$(obj).remove();
-					layer.msg('已停用!',{icon: 5,time:1000});
+					layer.msg('已停用!',{icon: 4,time:1000});
 				}else{
-					layer.msg('出错了!',{icon: 4,time:1000});
+					layer.msg('出错了!',{icon: 2,time:1000});
 				}
 				
 			},

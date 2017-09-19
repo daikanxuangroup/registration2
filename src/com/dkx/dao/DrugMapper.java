@@ -29,6 +29,10 @@ public interface DrugMapper {
 	//改状态
 	@Update("update drug set drstate = #{drstate} where drid = #{drid}")
 	int drugState(@Param("drid")Integer drid,@Param("drstate")Integer drstate);
+
+	//改类别状态
+	@Update("update drugtype set dystate = #{dystate} where dyid = #{dyid}")
+	int typeState(@Param("dyid")Integer dyid,@Param("dystate")Integer dystate);
 	
 	//新增药品
 	@Insert("insert into drug(drid,dyid,drname,drsum,drprice,drstate) values (#{drid},#{dyid},#{drname},#{drsum},#{drprice},1 )")
@@ -37,7 +41,7 @@ public interface DrugMapper {
 	
 	//可用的药品类型
 	@Select("select dyid,dyname,dystate from DRUGTYPE where dystate = 1")
-	List<Drugtype> findAllDy();
+	List<Drugtype> findUsedDy();
 	
 	//查询所有可用科室
 	@Select("select * from departs where deexist=1 ")
@@ -62,4 +66,23 @@ public interface DrugMapper {
 	//修改药品
 	@Update("update drug set dyid=#{dyid},drname=#{drname},drsum=#{drsum},drprice=#{drprice},drstate=#{drstate} where drid = #{drid}" )
 	int modifyDrug(Drug drug);
+
+	//全部类型
+	@Select("select dyid,dyname,dystate from DRUGTYPE ")
+	List<Drugtype> findAllType();
+
+	//类型中可用药品
+	@Select("select count(*) from drug where dyid = #{dyid} and drstate = 1")
+	int useDrByTp(@Param("dyid")Integer dyid);
+
+	//新增类型
+	@Insert("insert into drugtype(dyid,dyname,dystate) values (#{dyid},#{dyname},1)")
+	@SelectKey(keyProperty="dyid",statement="select seq_drugtype.nextval from dual",
+	resultType=String.class,before=true)
+	int addType (@Param("dyname")String dyname);
+	
+	//类型id
+	@Select("select seq_drugtype.currval from dual")
+	int findDyid();
+
 }
