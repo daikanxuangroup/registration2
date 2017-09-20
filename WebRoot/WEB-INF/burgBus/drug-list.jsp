@@ -41,12 +41,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" onclick="member_add('添加药品','editDrug?drid=0','380','580')" class="btn btn-primary radius">
-		<i class="Hui-iconfont">&#xe600;</i> 添加药品</a></span> </div>
+		<i class="Hui-iconfont">&#xe600;</i> 添加药品</a>
+	&nbsp;
+	<a href="javascript:;" onclick="drs_start()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe676;</i> 批量启用</a>  
+ 	<a href="javascript:;" onclick="drs_stop()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量停用</a>  </span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
-				<th width="25"><input type="checkbox" name="" value=""></th>
+				<th width="30" id="allcheck">全选&nbsp;<input type="checkbox" name="" value="" ></th>
 				<th width="50">编号</th>
 				<th width="80">药品名</th>
 				<th width="70">药品类别</th>
@@ -57,12 +60,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="100">操作</th>
 			</tr>
 		</thead>
-		<tbody>
-			
+		<tbody id="tbr">
 			
 			<c:forEach items="${drlist }" var="dr">
-				<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<tr class="text-c" id="dr${dr.drid }">
+				<td><input type="checkbox" value="${dr.drid }" name="drid"></td>
 				<td>${dr.drid }</td>
 				<td>${dr.drname}</td>
 				<td>${dr.drugtype.dyname }</td>
@@ -124,7 +126,41 @@ function price_clear(){
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
-
+//批量停用
+function drs_stop(){
+	var obj = document.getElementsByName("drid");
+    var check_val = [];
+    for(k in obj){
+        if(obj[k].checked)
+            check_val.push(obj[k].value);
+    }
+    layer.confirm('确认要批量停用吗？',function(index){
+    	if(check_val.length<1){
+	    	layer.tips('  请至少选中一行进行批量操作！  ', '#allcheck', {
+			  tips: [2, '#E65']
+			});
+	    }else{	
+	    	$.each(check_val, function (index, id){
+	    		$.ajax({
+	    			type: 'POST',
+					url: 'drugState',
+					data:{drid:id,drstate:0},
+					dataType: 'json',
+					async: false, //将ajax改为同步
+					success: function(data){
+						var dy = $("#dr"+id);
+						if(data.result=="ok"){
+							$(dy).find(".td-manage").find("a:first").remove();
+							$(dy).find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_start(this,'+id+')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe66b;</i></a> ');
+							$(dy).find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+						}
+					},
+	    		});
+	    	});
+	    	layer.msg('批量停用完成!',{icon: 4,time:1200});
+	    }
+    });
+}
 /*药品-停用*/
 function drug_stop(obj,id){
 	layer.confirm('确认要停用吗？',function(index){
@@ -150,6 +186,39 @@ function drug_stop(obj,id){
 			},
 		});		
 		layer.close(index);
+	});
+}
+//批量启用
+function drs_start(){
+	var obj = document.getElementsByName("drid");
+	var check = [];
+    for(k in obj){
+        if(obj[k].checked)
+            check.push(obj[k].value);
+    }
+    layer.confirm('确认要批量启用吗？',function(index){
+		if(check.length<1){
+	    	layer.tips('  请至少选中一行进行批量操作！  ', '#allcheck', {
+			  tips: [2, '#E65']
+			});
+	    }else{
+	    	$.each(check, function (index, id){
+	    		$.ajax({
+	    			type: 'POST',
+					url: 'drugState',
+					data:{drid:id,drstate:1},
+					dataType: 'json',
+					success: function(data){
+						var dy = $("#dr"+id);
+						$(dy).find(".td-manage").find("a:first").remove();
+						$(dy).find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_stop(this,'+id+')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+						$(dy).find(".td-status").html('<span class="label label-success radius">已启用</span>');
+						
+					},
+	    		});
+	    	});
+	    	layer.msg('批量启用完成!',{icon: 6,time:1200});
+	    }
 	});
 }
 
