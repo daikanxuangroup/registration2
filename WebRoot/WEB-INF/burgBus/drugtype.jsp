@@ -225,7 +225,7 @@ function types_stop(){
         if(obj[k].checked)
             check_val.push(obj[k].value);
     }
-    layer.confirm('确认要批量启用吗？',function(index){
+    layer.confirm('确认要批量停用吗？',function(index){
     	if(check_val.length<1){
 	    	layer.tips('  请至少选中一行进行批量操作！  ', '#allcheck', {
 			  tips: [1, '#E65']
