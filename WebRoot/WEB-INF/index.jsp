@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe602;</i> 科室管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="feedback-list.html" data-title="科室列表" href="javascript:void(0)">科室列表</a></li>
+					<li><a data-href="departsController" data-title="科室列表" href="javascript:void(0)">科室列表</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 医生管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="member-list.html" data-title="医生列表" href="javascript:;">医生列表</a></li>
+					<li><a data-href="doctors-list" data-title="医生列表" href="javascript:;">医生列表</a></li>
 			</ul>
 		</dd>
 	</dl>

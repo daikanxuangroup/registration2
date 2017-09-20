@@ -9,9 +9,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,8 @@ import com.daibingjie.pojo.Drugandprescripton;
 import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Registration;
 import com.daibingjie.service.DoctorBusService;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+
 
 
 @AuthPassport
@@ -58,16 +61,28 @@ public class DoctorBusController  {
 	}
 	@AuthPassport
 	@RequestMapping("past")
-	public String past(@RequestParam("cid")Integer cid,ModelMap modelMap,HttpSession session){
+	public String past(@RequestParam("cid")Integer cid,
+			ModelMap modelMap,HttpSession session,
+			@RequestParam(value="date",required=false)String date){
+		String date1=null;
+		String date2=null;
+	
+		if(StringUtils.isNotEmpty(date)){			
+			 String[] dates=date.split(" - ");
+			 date1=dates[0];
+			 date2=dates[1];
+
+		}
+		
 		/**
 		 * 历史病例信息，从Session 中拿出部门deid  
 		 * 页面传过来诊疗卡CID
 		 */	
 		Doctors doctors= (Doctors) session.getAttribute("doctors");
-//		Doctors doctors= (Doctors) modelMap.get("doctors");
-		List<History> list= doctorBusService.findHis(cid, doctors.getDeid());
-	
+		List<History> list= doctorBusService.findHis(cid, doctors.getDeid(),date1,date2);
+		modelMap.put("cid", cid);
 		modelMap.put("hist", list);
+		modelMap.put("date", date);
 		return "doctorBus/past";
 		
 	}

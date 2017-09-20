@@ -27,12 +27,17 @@ public class Departs implements java.io.Serializable {
 	public Departs() {
 	}
 
-	/** minimal constructor */
-	public Departs(Integer deid, String dename, Integer deexist) {
+
+
+	public Departs(Integer deid, String dename, String intro, Integer deexist) {
+		super();
 		this.deid = deid;
 		this.dename = dename;
+		this.intro = intro;
 		this.deexist = deexist;
 	}
+
+
 
 	/** full constructor */
 	public Departs(Integer deid, String dename, String intro, Integer deexist, String by1, Integer by2,

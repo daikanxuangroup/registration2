@@ -57,7 +57,10 @@
        	  select h.hiid,h.brief,h.deal,c.pname,c.sex,d.doname,d.title,h.prid,h.hidate,d.doid,c.cid from history h ,
 	   doctors d ,cards c
       where h.doid= d.doid and c.cid=h.cid  and
-       c.cid =#{cid}  and d.deid=#{deid}   
+       c.cid =#{cid}  and d.deid=#{deid}  
+       
+       <if test="date1 != null"> and to_char(h.hidate,'yyyy-MM-dd') &gt;= #{date1} </if>
+        <if test="date2 !=null">  and to_char(h.hidate,'yyyy-MM-dd') &lt;= #{date2} </if>
 	</select>
 	
 	

@@ -122,8 +122,8 @@ public class DoctorBusService {
 	/**
 	 * 查看病人病例的方法 
 	 */
-	public  List<History> findHis(Integer cid ,Integer deid ){
-		List<History> list = doctorBusMapper.findHis(cid, deid);
+	public  List<History> findHis(Integer cid ,Integer deid, String date1,String date2){
+		List<History> list = doctorBusMapper.findHis(cid, deid,date1,date2);
 		
 		return list;
 	}

@@ -72,7 +72,7 @@ public class DoctorBusTest {
 		int count =doctorBusService.alldrugpres(3, 10005, 1);	
 		System.out.println("成功"+count);	
 	}
-	@Test
+	/*@Test
 	public void findHis(){
 		
 		List<History> list =doctorBusService.findHis(1, 1);
@@ -82,7 +82,7 @@ public class DoctorBusTest {
 		}
 		
 		
-	}
+	}*/
 	@Test
 	public void findDrug(){	
 		

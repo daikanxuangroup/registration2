@@ -35,20 +35,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="page-container">
 	<div class="text-c">
 	<h3 id="clock"></h3>
-	<!-- 日期范围：
-		 <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">		
-		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
-	 -->
+	 日期范围：	<input type="text" id="date" class="input-text"  style="width:240px" name="date" value="${date }">
+	
+		<a  class="btn btn-success radius" href="javascript:dates(${cid })"><i class="Hui-iconfont">&#xe665;</i> 搜索</a>
+	
 	</div>
-<!-- 	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
-<span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> 
-<a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
-</span> <span class="r">共有数据：<strong>88</strong> 条</span>
-</div> -->
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
+<span class="l">
 
+</span> <span class="r"><strong></strong> </span>
+</div> 
 	<div class="mt-20"> 
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -60,8 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="90">医生职位</th>
 				<th width="80">病历状况</th>
 				<th width="170">处理翻案</th>
-				<th width="100">就医时间</th>
-			<!-- 	<th width="">地址</th> -->			
+				<th width="100">就医时间</th>		
 				<th width="100">查看药方</th>
 			</tr>
 		</thead>
@@ -112,6 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=path %>/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="<%=path %>/laydate/laydate.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('.table-sort').dataTable({
@@ -123,84 +119,26 @@ $(function(){
 		]
 	});
 	
+	laydate.render({
+		elem:'#date',
+		range:true
+	});	
 });
 /*查看药方*/
 function findprid(title,url,id,w,h){
 
 	layer_show(title,url,w,h);
 }
+function dates(cid){
+
+	var date = $("#date").val();
+	window.location.href="past?cid="+cid+"&date="+date;
+}
 
 
 
 
-/*用户-查看*/
-function member_show(title,url,id,w,h){
-	layer_show(title,url,w,h);
-}
-/*用户-停用*/
-function member_stop(obj,id){
-	layer.confirm('确认要停用吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
-				$(obj).remove();
-				layer.msg('已停用!',{icon: 5,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
 
-/*用户-启用*/
-function member_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});
-	});
-}
-/*用户-编辑*/
-function member_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
-}
-/*密码-修改*/
-function change_password(title,url,id,w,h){
-	layer_show(title,url,w,h);	
-}
-/*用户-删除*/
-function member_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
-}
 </script>   	
   </body>
 </html>
