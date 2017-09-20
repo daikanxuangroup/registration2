@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dkx.dao.DocStatMapper;
+import com.dkx.pojo.Drug;
+import com.dkx.pojo.Drugtype;
 
 @Service("statisticsService")
 @Transactional(readOnly=true,propagation=Propagation.NOT_SUPPORTED)
@@ -58,4 +60,12 @@ public class StatisticsService {
 		return list;
 	}
 
+	public List<Drugtype> statTypes() {
+		// TODO Auto-generated method stub
+		return dsmapper.statTypes();
+	}
+
+	public List<Drug> statDrugs(Integer dyid){
+		return dsmapper.statDrugs(dyid);
+	}
 }

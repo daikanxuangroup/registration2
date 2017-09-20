@@ -11,11 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.daibingjie.aop.AuthPassport;
 import com.daibingjie.pojo.Doctors;
+import com.dkx.pojo.Drug;
+import com.dkx.pojo.Drugtype;
+import com.dkx.service.DrugService;
 import com.dkx.service.StatisticsService;
 
 import net.sf.json.JSONObject;
@@ -25,7 +30,14 @@ public class StatisticsController {
 	
 	@Resource(name = "statisticsService")
 	private StatisticsService serive;
+	@Resource(name = "drugService")
+	private  DrugService service;
 	
+	/**
+	 * 医生门诊统计数据
+	 * @param session
+	 * @param response
+	 */
 	@AuthPassport
 	@RequestMapping("dstatjson")
 	@ResponseBody
@@ -60,11 +72,95 @@ public class StatisticsController {
 		}
 	}
 	
-	
+	/**
+	 * 进入门诊统计
+	 * @return
+	 */
 	@AuthPassport
 	@RequestMapping("docSta")
 	public String patients(){
 		System.out.println("返回页面");
 		return "statisticsBus/chartsDoc";
 	}
+	/**
+	 * 进入药品统计
+	 * @return
+	 */
+	@AuthPassport
+	@RequestMapping("drugSta")
+	public String drugs(ModelMap modelMap){
+		System.out.println("jinru页面");
+		List<Drugtype> dylist = service.findUsedDy();
+		modelMap.put("dylist", dylist);
+		return "statisticsBus/chartsDrug";
+	}
+	
+	/**
+	 * 所有药品类型统计
+	 */
+	@AuthPassport
+	@RequestMapping(value = "dtStatJson",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void drugsType(HttpServletResponse response){
+		List<Drugtype> atlist= serive.statTypes();
+		Integer sum = 0;
+		StringBuffer result1 = new StringBuffer("[");
+		for (Drugtype dt : atlist) {
+			String s = "[\""+dt.getDyname()+"\","+dt.getDystate()+"],";
+			result1.append(s);
+			sum += dt.getDystate();
+		}
+		if(atlist.size()>0)
+			result1.deleteCharAt(result1.length() - 1); //去掉最后一个逗号
+		
+		result1.append("]");
+		String result = "{\"atlist\":"+result1+",\"sum\":"+sum+"}";
+//		String result = "{\"atlist\":[[\"抗生素类\",2],[\"中成药类\",2],[\"纱布\",0],[\"器具\",0],[\"注射用剂\",0],[\"麻醉剂\",0]],\"sum\":4}";
+		System.out.println(result);
+		try {
+	        PrintWriter out = response.getWriter();
+			out.println(result.toString());
+	        out.flush();
+	        out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 某类药统计
+	 * @param dyid
+	 * @param response
+	 */
+	@AuthPassport
+	@RequestMapping(value = "druStatJson",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void druStatJson(@RequestParam(value="dyid") Integer dyid,HttpServletResponse response){
+		List<Drug> atlist = serive.statDrugs(dyid);
+		Integer sum = 0;
+		StringBuffer result1 = new StringBuffer("[");
+		for (Drug dr : atlist) {
+			String s = "[\""+dr.getDrname()+"\","+dr.getDrsum()+"],";
+			result1.append(s);
+			sum += dr.getDrsum();
+		}
+		if(atlist.size()>0)
+			result1.deleteCharAt(result1.length() - 1); //去掉最后一个逗号
+		
+		result1.append("]");
+		String result = "{\"talist\":"+result1+",\"sum\":"+sum+"}";
+//		String result = "{\"atlist\":[[\"抗生素类\",2],[\"中成药类\",2],[\"纱布\",0],[\"器具\",0],[\"注射用剂\",0],[\"麻醉剂\",0]],\"sum\":4}";
+		System.out.println(result);
+		try {
+	        PrintWriter out = response.getWriter();
+			out.println(result.toString());
+	        out.flush();
+	        out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

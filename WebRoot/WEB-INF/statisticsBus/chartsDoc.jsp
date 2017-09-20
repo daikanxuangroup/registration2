@@ -70,7 +70,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: '诊疗患者统计'
+            text: '我的门诊患者统计'
         },
         subtitle: {
             text: '数据时段: 2017年'

@@ -106,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dd>
 				<ul>
 					<li><a data-href="index" data-title="就医诊断" href="javascript:;">就医诊断</a></li>
-					<li><a data-href="docSta" data-title="统计查询" href="javascript:void(0)">统计查询</a></li>
+					<li><a data-href="docSta" data-title="统计图表" href="javascript:void(0)">统计图表</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -140,6 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul>
 					<li><a data-href="findDrug" data-title="药品列表" href="javascript:void(0)">药品列表</a></li>
 					<li><a data-href="findType" data-title="药品类型列表" href="javascript:void(0)">药品类型列表</a></li>
+					<li><a data-href="drugSta" data-title="统计图表" href="javascript:void(0)">药品统计图表</a></li>
 			</ul>
 		</dd>
 	</dl>
