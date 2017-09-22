@@ -81,8 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe72b;</i> 诊疗卡业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="办卡" href="javascript:;">办卡</a></li>
-					<li><a data-href="feedback-list.html" data-title="充值" href="javascript:void(0)">充值</a></li>
+					<li><a data-href="page" data-title="办卡充值" href="javascript:;">办卡充值</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -90,8 +89,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe616;</i> 挂号业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="取预约号" href="javascript:;">取预约号</a></li>
-					<li><a data-href="feedback-list.html" data-title="现场挂号" href="javascript:void(0)">现场挂号</a></li>
+					<li><a data-href="findAll" data-title="取预约号" href="javascript:;">取预约号</a></li>
+					<li><a data-href="findMessage" data-title="现场挂号" href="javascript:void(0)">现场挂号</a></li>
 			</ul>
 		</dd>
 	</dl>

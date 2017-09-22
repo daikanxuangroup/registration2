@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.dzl.dao.CardsMapper">
+    <resultMap type="com.dzl.pojo.Cards" id="cards-result">
+	<id property="cid" column="cid"/>  
+	<result property="pwd" column="pwd"/>
+	<result property="ramaining" column="ramaining"/>
+	<result property="pname" column="pname"/>
+	<result property="sex" column="sex"/>
+	<result property="newdate" column="newdate"/>
+	<result property="phone" column="phone"/>
+	<result property="idcard" column="idcard"/>
+	<result property="doexist" column="doexist"/>
+  </resultMap>
+  
+  <sql id="whereCase">
+  		<where>
+  		1=1
+  		<if test="pname!=null and pname!=''" >
+  		and pname like concat('%',concat(#{title},'%'))
+  		</if>
+  		</where>
+  	</sql>
+  	<sql id="pagerHead">
+  		select cid,pname,phone,newdate,idcard,doexist,remaining,sex from(
+  		select row_number() over(
+  	</sql>
+  	<sql id="orderBy">
+  		order by 
+  		<choose>
+  			<when test="sort=='cid'">cid</when>
+  			<when test="sort=='pname'">pname</when>
+  			<when test="sort=='phone'">phone</when>
+  			<when test="sort=='newdate'">newdate</when>
+  			<when test="sort=='incard'">incard</when>
+  			<when test="sort=='doexist'">doexist</when>
+  			<when test="sort=='remaining'">remaining</when>
+  		</choose>
+  		<choose>
+  		<when test="order=='asc'">asc</when>
+  		<when test="order=='desc'">desc</when>
+  		</choose>
+  		
+  	</sql>
+  	<sql id="pagerPoot">
+  	)where rn between ((#{pageNo}-1)*#{pageSize}+1 ) and #{pageSize}*#{pageNo}
+  	
+  	</sql>
+  	<select id="findByPage" resultMap="cards-result">
+  		<include refid="pagerHead"></include>
+  		<include refid="orderBy"></include>
+  		) rn, c.* from cards c
+  		<include refid="whereCase"></include>
+  		<include refid="pagerPoot"></include>
+  	</select>
+  	<select id="getTotal" resultType="int">
+  		select count(cid) from cards
+  		<include refid="whereCase"></include>
+  	</select>
+  </mapper>
