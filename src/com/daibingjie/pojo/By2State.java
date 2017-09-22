@@ -7,6 +7,7 @@ public class By2State implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String by1;
 	private Integer by2;
 	private Integer state;
 	public Integer getBy2() {
@@ -21,10 +22,19 @@ public class By2State implements Serializable{
 	public void setState(Integer state) {
 		this.state = state;
 	}
-	public By2State(Integer by2, Integer state) {
+
+
+	public By2State(String by1, Integer by2, Integer state) {
 		super();
+		this.by1 = by1;
 		this.by2 = by2;
 		this.state = state;
+	}
+	public String getBy1() {
+		return by1;
+	}
+	public void setBy1(String by1) {
+		this.by1 = by1;
 	}
 	public By2State() {
 		super();

@@ -23,13 +23,10 @@ public class LoginService {
 	
 	
 	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
-	public Admins find( String aname, String pwd){
-		
+	public Admins find( String aname, String pwd){	
 		Admins admins =loginMapper.find(aname, pwd);
-		loginMapper.updatetime(aname, pwd);
-		
-		return  admins;
-		
+		loginMapper.updatetime(aname, pwd);		
+		return  admins;	
 	}
 		
 	public Doctors findDeid( Integer doid){

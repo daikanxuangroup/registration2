@@ -122,7 +122,8 @@ function give(rid){
 				
 				</td>
 				<td class="td-status">
-				<span class="label label-success radius">
+				<span ${reg.state eq 1?'class="label label-warning radius"':''}
+				${reg.state eq 2?'class="label label-success radius"':''}>
 				${reg.state eq 1?'未诊疗':''}${reg.state eq 2?'诊疗中':''}
 				
 				</span>

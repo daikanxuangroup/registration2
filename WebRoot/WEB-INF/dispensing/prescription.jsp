@@ -134,6 +134,8 @@ function charge(prid,cid,ramaining,sum){
 function charge_add(cid){
 	
 	layer.prompt({title: '卡号:'+cid},function(val, index){
+		
+	if(val>0){
 		$.ajax({
 			type: 'POST',
 			url: 'addrecharge',
@@ -157,6 +159,13 @@ function charge_add(cid){
 				console.log(data.msg);
 			},
 		});
+	
+	}else{
+	
+		layer.msg('充值失败！不能为负数...');
+		}
+	
+	
  		
 	});
 

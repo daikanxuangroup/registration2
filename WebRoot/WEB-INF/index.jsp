@@ -224,7 +224,6 @@ $(function(){
 function myselfinfo(title,url,w,h){
 	layer_show(title,url,w,h);
 }
-
 /*资讯-添加*/
 function article_add(title,url){
 	var index = layer.open({
@@ -234,12 +233,6 @@ function article_add(title,url){
 	});
 	layer.full(index);
 }
-
-
-
-
-
-
 </script> 
 </body>
 </html>

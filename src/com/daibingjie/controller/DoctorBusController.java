@@ -48,12 +48,8 @@ public class DoctorBusController  {
 		/**
 		 * 主页面  从登陆用户 中的Session中拿出来医生ID
 		 */
-/*		 HttpSession session = request.getSession();
-		 Integer statee =  (Integer) session.getAttribute("state");*/
 		 Doctors doctors= (Doctors) session.getAttribute("doctors");
 		 Admins adm =  (Admins) session.getAttribute("adm");
-		 System.out.println("BY1"+adm.getBy1());
-//		Doctors doctorss= (Doctors) modelMap.get("doctors");	
 		List<Registration> list = doctorBusService.findpat(doctors.getDoid());
 		modelMap.put("reg", list);
 		return "doctorBus/index";
@@ -161,8 +157,7 @@ public class DoctorBusController  {
 		 * 是否有没有处理完的药方单
 		 * 药品ID
 		 */
-		// 拿到诊疗by2     如果有值就是 今天的 药方ID	
-	
+		// 拿到诊疗by2     如果有值就是 今天的 药方ID		
 		By2State bs =(By2State) session.getAttribute("bs");
 		Integer by2state=bs.getBy2();
 		String mgs="false";
@@ -243,9 +238,21 @@ public class DoctorBusController  {
 		Doctors doctors= (Doctors) session.getAttribute("doctors");
 
 		Map<String,String> map=new HashMap<String,String>();
+
+		if(deal==2 || deal ==3){
+			if(bs.getBy2()<100){
+				map.put("map", "no");
+				return map;	
+			}
+		}				
+		
 			if(deal==1){		
 				//添加病历
 			/*	 cid, doid, prid,brief, deal,I rid*/
+				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),0,brief, deal,rid)){
+					map.put("map", "ok");	
+				}
+			}else if(deal==3){
 				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),0,brief, deal,rid)){
 					map.put("map", "ok");	
 				}
@@ -295,17 +302,35 @@ public class DoctorBusController  {
 	@AuthPassport
 	@RequestMapping("pindstate")
 	@ResponseBody
-	public String pindstate(HttpSession session){
-		
+	public String pindstate(HttpSession session ){
+		String mgs="false";
+	/*	if(deal==1){
+			mgs="true";
+		}*/
 		By2State bs =(By2State) session.getAttribute("bs");	
-			String mgs="false";
-		if(bs.getState()>0){
+			
+		if(bs.getBy2()>0){
 			mgs="true";
 		}		
-		return mgs;
-		
+		return mgs;		
 	}
- 	
 	
 	
+
+	@AuthPassport
+	@RequestMapping("baochun")
+	@ResponseBody
+	public String baochun(@RequestParam(value="brief" ,required=false)String  brief,
+			@RequestParam("rid")Integer rid){
+		if(brief==null){
+			brief=" ";
+		}
+		String mgs="false";
+		if(doctorBusService.baochun(rid, brief) >0){
+			
+			mgs="true";
+		}		
+		return mgs;		
+	}
+		
 }

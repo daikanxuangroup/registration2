@@ -144,11 +144,14 @@ public interface DoctorBusMapper {
 			@Param("price2")Double price2);
 	
 		/*	   今天挂号单卡号状态*/
-	@Select("select state,r.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
+	@Select("select state,r.by2 ,r.by1 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and  r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0")
 	By2State findBystate(@Param("rid") Integer rid);
 	
 	/*	  查看备用2 里是否有今天的药方*/
 	@Select(" select c.by2 from registration r , bookable b,cards c where r.bid=b.bid and c.cid=r.cid and r.rid=#{rid} and b.bdate= trunc(sysdate) and state > 0 ")
 	int findby2(@Param("rid") Integer rid);
+									
+	@Update("update registration set by1=#{brief} , state = 2 where rid=#{rid}" )
+	int baochun(@Param("rid") Integer rid,@Param("brief") String brief);	
 
 }

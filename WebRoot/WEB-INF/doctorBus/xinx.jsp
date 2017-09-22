@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>诊断结论：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<!-- <input type="text" class="input-text" value="" placeholder="" id="brief" name="brief"> -->
-						<textarea class="textarea" id="brief" name="brief" placeholder="不少于4个字符，不多于200个字符。"  style="width: 620px; height: 220px"></textarea>
+						<textarea class="textarea"  id="brief" name="brief" placeholder="不少于4个字符，不多于200个字符。"  style="width: 620px; height: 220px">${bs.by1}</textarea>
 					</div>
 				</div>
 
@@ -103,8 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label for="deal2">开药治疗</label>
 						</div>
 						<div class="radio-box">
-						<!-- 	<input name="deal" type="radio" id="deal3" value="3">
-							<label for="deal3">办理住院</label>	 -->
+							<input name="deal" type="radio" id="deal3" value="3">
+							<label for="deal3">办理住院</label>	 
 							<input type="hidden" value="${cards.cid }" name="cid">
 							<input type="hidden" value="${rid }" name="rid">
 						</div>
@@ -121,10 +121,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-		<!-- 	<button  type="submit" class="btn btn-primary radius" ><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>  -->
+		
 		<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<!-- 	<button onClick="article_save_submit();" class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button> -->
+			 	<a onclick="javascript:baochun(${rid });" class="btn btn-secondary radius" ><i class="Hui-iconfont">&#xe632;</i>保存,待观察</a> 
 				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i> 返回上页&nbsp;</button>
 			</div>
 		</div>
@@ -171,9 +171,11 @@ $(function(){
 			btn1.setAttribute("class", "btn disabled radius"); 
 			btn2.setAttribute("class", "btn disabled radius"); 
    		}  
-	});  
-  		
- 		
+	});  	
+		
+		
+		
+		
  	$("#form-article-add").validate({
 		rules:{
 		//诊断结果字符长度限制在4到100
@@ -186,59 +188,29 @@ $(function(){
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
-		submitHandler:function(form){	
- 			$.ajax({
- 					type: 'post',
-					url: "pindstate",
-					async: false,
-					success: function(data){
-					alert(data);
-						if(data != "true"){
-						layer.msg('还没有开药方!',{icon:1,time:1000});					
-						}else{
+		submitHandler:function(form){
+
 					$(form).ajaxSubmit({
 						type: 'post',
 						url: "addHi",
 						dataType:"json",
 						success: function(data){
+						if(data.map=="no"){
+						layer.msg('还没有开药方!',{icon:1,time:1000});	
+						}else{
 						var index = parent.layer.getFrameIndex(window.name);
 						layer.msg('病历添加成功!',{icon:1,time:1000});
-						parent.location.reload();
-						parent.layer.close(index);
-						
-					},
-	                error: function(XmlHttpRequest, textStatus, errorThrown){
-						layer.msg('error!',{icon:1,time:1000});
-					}
-				});						
+						 setTimeout(function () { 
+							           parent.location.reload();
+					                     parent.layer.close(index);
+					                       }, 700);				
 						}
-					
-					},				
- 			
- 			});
-			
-/* 
-
-			if(by2 !=0){ 
-				$(form).ajaxSubmit({
-					type: 'post',
-					url: "addHi",
-					dataType:"json",
-					success: function(data){
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.location.reload();
-						parent.layer.close(index);
-						layer.msg('病历添加成功!',{icon:1,time:1000});
+											
 					},
 	                error: function(XmlHttpRequest, textStatus, errorThrown){
 						layer.msg('error!',{icon:1,time:1000});
 					}
-				});
-			}else{
-				
-			
-			}  */ 
-		
+				});							
 		}
 	});  
 	
@@ -252,6 +224,30 @@ function addpres(title,url,w,h){
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
+	
+function baochun(rid){
+	var brief =document.getElementById("brief").value;	
+  		$.ajax({
+  			type: 'post',
+			   url: "baochun",
+				  data:{"rid":rid,"brief":brief},
+				       success: function(data){		
+				        	if(data=="true"){
+						      layer.msg('保存成功!',{icon:1,time:1000});
+						         var index = parent.layer.getFrameIndex(window.name);
+						            setTimeout(function () { 
+							           parent.location.reload();
+					                     parent.layer.close(index);
+					                       }, 700);
+							
+					}
+				
+				
+				}
+  			})
+ 
+  	}
+  		
 
 
 

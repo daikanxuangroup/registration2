@@ -60,8 +60,7 @@ public class DoctorBusService {
 			brief="这个医生很懒,什么都没留下";
 		}
 		if( prid >1 ){
-			
-			
+					
 			doctorBusMapper.allHistory(cid, doid, prid, brief, deal);
 			
 		}else{
@@ -215,4 +214,11 @@ public class DoctorBusService {
 		
 		return doctorBusMapper.findby2(rid);
 	}	
+	
+	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
+	public int baochun( Integer rid, String brief){
+		
+		return doctorBusMapper.baochun(rid, brief);
+			
+	}
 }
