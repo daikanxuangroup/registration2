@@ -121,7 +121,14 @@ function give(rid){
 				<fmt:formatDate value="${reg.bookable.bdate}" pattern="yyyy-MM-dd"/>
 				
 				</td>
-				<td class="td-status"><span class="label label-success radius">未诊疗</span></td>
+				<td class="td-status">
+				<span class="label label-success radius">
+				${reg.state eq 1?'未诊疗':''}${reg.state eq 2?'诊疗中':''}
+				
+				</span>
+				
+				
+				</td>
 				<td class="td-manage">
 					<!-- <a href="javascript:cha()"><i class="Hui-iconfont">&#xe665;</i>诊断</a> -->
 				<a data-href="" data-title="医疗方案" href="javascript:;" onClick ="rid_show('医疗方案','xinx?cid=${reg.cards.cid}&rid=${reg.rid}','10002')" >

@@ -35,9 +35,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	  
     <div class="cl pd-5 bg-1 bk-gray mt-20"> 
-		 <span class="l">&nbsp; &nbsp;病人姓名：<strong style="color: blue;" > ${pname } </strong></span> 
+		 <span class="l">&nbsp; &nbsp;病人姓名：<strong style="color: blue;" > ${cards.pname } </strong></span> 
+		 &nbsp;&nbsp;&nbsp;
+		 <span class="1">诊疗卡余额：<strong style="color: red;" ><span id="zongja">${cards.ramaining } </span></strong> 元</span>
  		 <span class="r">此药方合计：<strong style="color: red;" ><span id="zongja">
- 		 <fmt:formatNumber type="number"  value="${sum}" pattern="0.0" maxFractionDigits="1"/>  </span></strong> 元&nbsp; &nbsp;</span> </div>
+ 		 <fmt:formatNumber type="number"  value="${sum}" pattern="0.0" maxFractionDigits="1"/> 
+ 		 </span></strong> 元&nbsp; &nbsp;</span> </div>
 
 	<div class="mt-20"> 
 <!-- 	-->
@@ -49,32 +52,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="80">药品名字</th>							
 				<th width="100">药品价格</th>
 				<th width="90">药品数量</th>
-				<th width="100">小计价格</th>
-				<th width="80">操作</th>
-
+				<th width="100">小计价格</th>				
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${map}" var="maps" varStatus="rows">
-			<tr class="text-c" id="tr${maps.value.drug.drid }">
+			<tr class="text-c" >
 				<td>${rows.index+1 }</td>
 				<td> ${maps.value.drug.drname} </td>
-				<td > 
-				${maps.value.drug.drprice }
-				 <input name="price" type="hidden" value="<fmt:formatNumber type="number" value=" ${maps.value.drug.drprice }" maxFractionDigits="2" pattern="0.00"/> " >
-				 </td>
+				<td > ${maps.value.drug.drprice }			
+				<td>${maps.value.drnum }</td>			
 				<td>
-<%-- 				<a onclick="addsum(${rows.index+1 })"><i class="Hui-iconfont Hui-iconfont-add"></i></a>&nbsp; --%>
-			<input onblur="updahi(${maps.value.drug.drid},${maps.value.drnum },${maps.value.drug.drid },${bs.by2},${maps.value.drug.drprice })" type="number" class="input-text" step="1" 
-			 name="sun" min="1" id="${maps.value.drug.drid}" value="${maps.value.drnum }" style="width: 60px" >	
-			<%-- 	&nbsp;<a onclick="subsum(${rows.index+1 })"><i class="Hui-iconfont">&#xe6a1;</i></a> --%>	
-				</td>
-				<td><span id="xiao${maps.value.drug.drid}">
-				<fmt:formatNumber type="number"  value="${maps.value.sum }" pattern="0.0" maxFractionDigits="1"/> 
-		
-				 </span></td>
-				<td>
-				<a href="javascript:removes(${maps.value.drug.drid },${maps.value.drug.drid},${bs.by2})" class="btn btn-primary radius"> 移除此药品</a>
+ 			<fmt:formatNumber type="number"  value="${maps.value.sum }" pattern="0.0" maxFractionDigits="1"/> 				
 				</td>
 			</tr>
 			</c:forEach>
@@ -87,7 +76,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div><p> &nbsp;</p></div>
 <div align="center">
-<button onClick="layer_close();" class="btn btn-primary size-L radius" type="button"> 确定&nbsp;</button>
+<button onClick="charge_add(${cards.cid });" class="btn btn-primary size-L radius" type="button"> 诊疗卡充值&nbsp;</button>&nbsp&nbsp&nbsp&nbsp
+<button onClick="charge(${prid},${cards.cid },${cards.ramaining },${sum });" class="btn btn-primary size-L radius" type="button"> 确认收费&nbsp;</button>&nbsp&nbsp&nbsp&nbsp
+<button onClick="layer_close();" class="btn btn-warning size-L radius" type="button"> 返回</button>
 <!-- <button type="submit"  class="btn btn-primary size-L radius "> 保存</button> --></div>
 </form>	
 
@@ -114,32 +105,25 @@ $(function(){
 	});
 	
 });
-/*查看药方*/
-function findprid(title,url,id,w,h){
 
-	layer_show(title,url,w,h);
-}
-
-function updahi(xid,sum,drid,prid,price){
-	var sums = document.getElementById(xid).value; 
- 	if(sums==0){
-	layer.alert("最小值为 1");
-	}
-	if(sums!=sum){ 
+function charge(prid,cid,ramaining,sum){
 	
-	
-	$.ajax({
+ 	if(ramaining<sum){
+	layer.alert("余额不足请提醒充值");
+	}else{
+			$.ajax({
 			type:'post',
-			url:'qunnidaye',
-			data:{"drid":drid,"prid":prid,"nun":sums},
-			success: function(data){
-		
-				if(data=="true"){			
-			 	var chajia=(sums-sum)*(price*10)/10;		 
-				document.getElementById("xiao"+xid).innerHTML=(sums*(price*10)/10).toFixed(1);
-				var zhongjia = document.getElementById("zongja").innerHTML;
-				var sum1= (parseFloat(zhongjia)*10+chajia*10)/10;
-				document.getElementById("zongja").innerHTML=sum1.toFixed(1);					
+			url:'charge',
+			data:{"prid":prid,"cid":cid,"price":sum},
+			success: function(data){		
+				if(data=="true"){	
+						layer.msg('收费成功~请发药！',{icon:1,time:1500});
+			 			setTimeout(function () { 
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index); 
+				        parent.location.reload(); 
+				    
+				    }, 2000);				
 				}
 
 			}
@@ -147,26 +131,40 @@ function updahi(xid,sum,drid,prid,price){
 	}
 }
 
-
-function removes(xid,drid,prid){
-
-	layer.confirm('确认要移除本药品吗？',function(index){
-		layer.closeAll('dialog');	
-		 $.ajax({
-			type:'post',
-			url:'removes',
-			data:{"drid":drid,"prid":prid},
+function charge_add(cid){
+	
+	layer.prompt({title: '卡号:'+cid},function(val, index){
+		$.ajax({
+			type: 'POST',
+			url: 'addrecharge',
+			data:{"cid":cid,"price":val},
+		
 			success: function(data){
-				if(data=="true"){			
-					var  zhongjia1= document.getElementById("zongja").innerHTML;								
-					var zhongjia2 = document.getElementById("xiao"+xid).innerHTML;				
-					document.getElementById("zongja").innerHTML=zhongjia1-zhongjia2;			
-					$("#tr"+xid).remove();
+			/* 	console.log(data); */
+				if(data!="ok"){
+					layer.msg('充值失败！');
+	  				layer.close(index);
+				}else{
+			
+					layer.msg('充值成功');
+					layer.close(index);
+	  				setTimeout(function () { 
+				        location.reload();
+				    }, 800);
 				}
-			}
-		});	
-	})		
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});
+ 		
+	});
+
+
 }
+
+
+
 
 </script>   	
   </body>

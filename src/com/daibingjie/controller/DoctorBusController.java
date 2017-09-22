@@ -210,8 +210,7 @@ public class DoctorBusController  {
 			ModelMap modelMap){
 		/**
 		 * 查看药方项
-		 */
-		
+		 */	
 		By2State bs =(By2State) session.getAttribute("bs");
 		Cards cards=(Cards) session.getAttribute("cards");
 		Map<Integer, Drugandprescripton> map=doctorBusService.findMap(bs.getBy2());
@@ -225,9 +224,7 @@ public class DoctorBusController  {
 		modelMap.put("sum", sum);
 		modelMap.put("map", map);
 		modelMap.put("pname", cards.getPname());
-
-		return "doctorBus/prescription";
-		
+		return "doctorBus/prescription";	
 	}
 	
 		/*	添加病历信息*/
