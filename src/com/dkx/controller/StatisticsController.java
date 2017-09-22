@@ -95,7 +95,7 @@ public class StatisticsController {
 	@RequestMapping("drugSta")
 	public String drugs(ModelMap modelMap){
 		System.out.println("jinru页面");
-		List<Drugtype> dylist = service.findUsedDy();
+		List<Drugtype> dylist = service.findAllDy();
 		modelMap.put("dylist", dylist);
 		return "statisticsBus/chartsDrug";
 	}
