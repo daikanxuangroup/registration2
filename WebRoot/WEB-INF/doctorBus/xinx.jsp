@@ -125,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<!-- 	<button onClick="article_save_submit();" class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button> -->
-				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i> 取消&nbsp;</button>
+				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i> 返回上页&nbsp;</button>
 			</div>
 		</div>
 	</form>

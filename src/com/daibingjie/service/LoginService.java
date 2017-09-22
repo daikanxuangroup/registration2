@@ -21,8 +21,14 @@ public class LoginService {
 	@Resource(name="loginMapper")
 	private LoginMapper loginMapper;
 	
+	
+	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
 	public Admins find( String aname, String pwd){
-		return loginMapper.find(aname, pwd);
+		
+		Admins admins =loginMapper.find(aname, pwd);
+		loginMapper.updatetime(aname, pwd);
+		
+		return  admins;
 		
 	}
 		

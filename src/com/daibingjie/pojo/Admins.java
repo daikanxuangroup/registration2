@@ -1,5 +1,7 @@
 package com.daibingjie.pojo;
 
+import java.util.Date;
+
 /**
  * 管理员表
  */
@@ -21,6 +23,7 @@ public class Admins implements java.io.Serializable {
 	private String by1;
 	private Integer by2;
 	private Integer doid;
+	private Date times;
 	
 	// Constructors
 
@@ -29,11 +32,8 @@ public class Admins implements java.io.Serializable {
 	}
 
 	
-
-	// Property accessors
-
 	public Admins(Integer aid, Doctors doctors, String aname, String pwd, Integer state, Integer aexist, String by1,
-			Integer by2, Integer doid) {
+			Integer by2, Integer doid, Date times) {
 		super();
 		this.aid = aid;
 		this.doctors = doctors;
@@ -44,7 +44,26 @@ public class Admins implements java.io.Serializable {
 		this.by1 = by1;
 		this.by2 = by2;
 		this.doid = doid;
+		this.times = times;
 	}
+
+
+
+
+
+	public Date getTimes() {
+		return times;
+	}
+
+
+
+
+
+	public void setTimes(Date times) {
+		this.times = times;
+	}
+
+
 
 
 

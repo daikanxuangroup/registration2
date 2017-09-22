@@ -169,10 +169,7 @@ function delBK(){
 		data:{"doid":doid,"datetime":datetime},
 		success:function(data){
 			if(data.result=='before'){
-				layer.alert('已上线排班无法删除！', {
-  					skin: 'layui-layer-molv' 
-  					,closeBtn: 0
-  					,anim: 1 });
+				 
 			}else if(data.result=="after"){
 				var deid = data.deid;
 				layer.alert('删除成功！', {

@@ -119,7 +119,7 @@ public interface DoctorBusMapper {
 	/**
 	 * 查看病人病例的方法
 	 */
-	List<History> findHis(@Param("cid") Integer cid ,@Param("deid") Integer deid
+	List<History> findHis   (@Param("cid") Integer cid ,@Param("deid") Integer deid
 			,@Param("date1") String date1,@Param("date2") String date2);
 	
 	/**

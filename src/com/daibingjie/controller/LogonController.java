@@ -47,7 +47,7 @@ public class LogonController {
 	    	  modelMap.put("adm", adm);
 	    	  url = "index";
 	    	  if(adm.getState()==2 ||adm.getState()==0){
-	    		 session.setMaxInactiveInterval(60*60*2);
+	    		session.setMaxInactiveInterval(60*60*2);
 	    		Doctors doctors=loginService.findDeid(adm.getDoid());  
 	    	
 	    		modelMap.put("doctors", doctors);// 医生药用的    		

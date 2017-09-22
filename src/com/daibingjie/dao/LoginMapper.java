@@ -21,4 +21,7 @@ public interface LoginMapper {
 	
 	@Update("update admins set pwd=#{pwd2} where pwd=#{pwd} and aname=#{aname}")
 	int updapwd(@Param("aname") String aname,@Param("pwd") String pwd,@Param("pwd2") String pwd2);
+	
+	@Update("update admins set times=sysdate where pwd=#{pwd} and aname=#{aname}")
+	int updatetime(@Param("aname") String aname,@Param("pwd") String pwd);
 }
