@@ -5,12 +5,12 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML >
+<!DOCTYPE HTML>
 <html>
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'chartsDrug.jsp' starting page</title>
+    <title>My JSP 'chartsDrSal.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -23,12 +23,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
 	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
 
-
   </head>
   
   <body>
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 统计管理 <span class="c-gray en">&gt;</span> 饼状图 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-    
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 药品管理 <span class="c-gray en">&gt;</span> 销售统计 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 	<div class="page-container">
 		<div class="text-c"> 
 		<form action="">
@@ -60,9 +58,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
 	<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
 	<script type="text/javascript">
- 	$(function () {
-		alltypes();
-	}); 
+	$(function () {
+		   alltypes()
+	});
 	
 	function statTypes(){
 		var dyid = document.getElementById("dyid").value;
@@ -72,118 +70,103 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			onetypes(dyid);
 		}
 	}
-	
 	function alltypes(){
-		/* $.ajaxSetup({  
-		    async : false  
-		});  */
 		$('#container').empty();
 		$.ajax({
-			url:'dtStatJson',
+			url:'tsalStatJson',
 			dataType: 'json',
 			success: function(data){
 				console.log(data);
-				var at = data.atlist
-				var sum = data.sum;
-				console.log(at);
-				console.log(sum);
+				var mo = data.month
+				var dt = data.dt;
+				console.log(mo);
+				console.log(dt);
 				//画图!!!!!
-			  	$('#container').highcharts({
-			        chart: {
-			            plotBackgroundColor: null,
-			            plotBorderWidth: null,
-			            plotShadow: false
-			        },
+			  	Highcharts.chart('container', {
 			        title: {
-			            text: '各类型药品占药品总数的比例统计'
+			            text: '各类型药品销售量统计',
+			            x: -20 //center
 			        },
 			        subtitle: {
-			            text: '药品总数:'+sum
+			            text: '数据时段: 半年内',
+			            x: -20
+			        },
+			        xAxis: {
+			            categories: mo
+			        },
+			        yAxis: {
+			            title: {
+			                text:'销售量 (/份)'
+			            },
+			            plotLines: [{
+			                value: 0,
+			                width: 1,
+			                color: '#808080'
+			            }]
 			        },
 			        tooltip: {
-			    	    formatter: function() {
-					      return '<b>'+ this.point.name +'</b> 数量： '+ Highcharts.numberFormat(this.y, 0, ',') ;
-					     }
+			            valueSuffix: '份'
 			        },
-			        plotOptions: {
-			            pie: {
-			                allowPointSelect: true,
-			                cursor: 'pointer',
-			                dataLabels: {
-			                    enabled: true,
-			                    color: '#000000',
-			                    connectorColor: '#000000',
-			                    formatter: function() {
-						         return '<b>'+ this.point.name +'</b>: ' + Highcharts.numberFormat(this.percentage, 1) +'% ';
-						        }
-			                }
-			            }
+			        legend: {
+			            layout: 'vertical',
+			            align: 'right',
+			            verticalAlign: 'middle',
+			            borderWidth: 0
 			        },
-			        series: [{
-			            type: 'pie',
-			            name: 'Browser share',
-			            data: at
-			           /*  [
-			                ['注射用剂',   25],
-			                ['抗生素类',  37],
-			                ['中成药',  21],
-			                ['医疗器具',   12],
-			                ['其他',   7]
-			            ] */
-			        }]
+			        series: dt
 			    });
 			}
 		});
-
 	}
 	
 	function onetypes(dyid){
-		$.get( 'druStatJson' ,{"dyid":dyid}, function(data){
-			console.log(data);
-			var ta = data.talist
-			var sum = data.sum;
-			console.log(ta+"  "+sum);
-			$('#container').empty();
-			
-			$('#container').highcharts({
-	        chart: {
-	            plotBackgroundColor: null,
-	            plotBorderWidth: null,
-	            plotShadow: false
-	        },
-	        title: {
-	            text: '该类型下各药品占比统计'
-	        },
-	        subtitle: {
-	            text: '药品总数:'+sum
-	        },
-	        tooltip: {
-	    	    formatter: function() {
-			      return '<b>'+ this.point.name +'</b> 数量： '+ Highcharts.numberFormat(this.y, 0, ',') ;
-			     }
-	        },
-	        plotOptions: {
-	            pie: {
-	                allowPointSelect: true,
-	                cursor: 'pointer',
-	                dataLabels: {
-	                    enabled: true,
-	                    color: '#000000',
-	                    connectorColor: '#000000',
-	                    formatter: function() {
-				         return '<b>'+ this.point.name +'</b>: ' + Highcharts.numberFormat(this.percentage, 1) +'% ';
-				        }
-	                }
-	            }
-	        },
-	        series: [{
-	            type: 'pie',
-	            name: 'Browser share',
-	            data: ta
-	        }]
-	    });
-		},"json");	
-		
+		$.ajax({
+			url:'dsalStatJson',
+			dataType: 'json',
+			data:{"dyid":dyid},
+			success: function(data){
+				console.log(data);
+				var mo = data.month
+				var dt = data.dt;
+				console.log(mo);
+				console.log(dt);
+				$('#container').empty();
+				//画图!!!!!
+			  	Highcharts.chart('container', {
+			        title: {
+			            text: '该类型下各药品销售统计',
+			            x: -20 //center
+			        },
+			        subtitle: {
+			            text: '数据时段: 半年内',
+			            x: -20
+			        },
+			        xAxis: {
+			            categories: mo
+			        },
+			        yAxis: {
+			            title: {
+			                text:'销售量 (/份)'
+			            },
+			            plotLines: [{
+			                value: 0,
+			                width: 1,
+			                color: '#808080'
+			            }]
+			        },
+			        tooltip: {
+			            valueSuffix: '份'
+			        },
+			        legend: {
+			            layout: 'vertical',
+			            align: 'right',
+			            verticalAlign: 'middle',
+			            borderWidth: 0
+			        },
+			        series: dt
+			    });
+			}
+		});
 	}
 	</script>
   </body>

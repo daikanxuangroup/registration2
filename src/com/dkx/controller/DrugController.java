@@ -41,8 +41,14 @@ public class DrugController {
 	@RequestMapping("drugState")
 	@ResponseBody
 	public Object drayState(@RequestParam(value="drid")Integer drid,@RequestParam(value="drstate")Integer drstate){
-		int i = service.updateDrugState(drid, drstate);
 		Map<String,String> map = new HashMap<String, String>();
+		int dystate = service.ckDyState(drid);
+		if(dystate==0&&drstate==1){
+			map.put("result", "stop");
+			return map;
+		}
+		int i = service.updateDrugState(drid, drstate);
+		
 		if(i>0){
 			map.put("result", "ok");
 		}else

@@ -2,6 +2,11 @@ package com.dkx.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,9 +95,21 @@ public class StatisticsController {
 	@RequestMapping("drugSta")
 	public String drugs(ModelMap modelMap){
 		System.out.println("jinru页面");
-		List<Drugtype> dylist = service.findUsedDy();
+		List<Drugtype> dylist = service.findAllDy();
 		modelMap.put("dylist", dylist);
 		return "statisticsBus/chartsDrug";
+	}
+	/**
+	 * 进入药品销量统计
+	 * @return
+	 */
+	@AuthPassport
+	@RequestMapping("drXsSta")
+	public String drXsSta(ModelMap modelMap){
+		System.out.println("进入页面");
+		List<Drugtype> dylist = service.findAllDy();
+		modelMap.put("dylist", dylist);
+		return "statisticsBus/chartsDrSal";
 	}
 	
 	/**
@@ -127,7 +144,62 @@ public class StatisticsController {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * 所有药品类型销量统计
+	 */
+	@AuthPassport
+	@RequestMapping(value = "tsalStatJson",produces = "application/json; charset=utf-8")
+	@ResponseBody	
+	public Object tsalStatJson(){
+		List<String> mons = getMons();//半年时间
+		Collections.reverse(mons);
+		List<Drugtype> dts = service.findAllDy();
+		List<Map<String, Object>> dt =new ArrayList<Map<String, Object>>();
+		for (Drugtype d : dts) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Integer> sum = new ArrayList<Integer>();
+			for (String mon : mons) {
+				Drugtype dy = serive.statSalDt(d.getDyid(),mon);
+				map.put("name", dy.getDyname());
+				sum.add(dy.getBy2());//用by2装销量
+			}
+			map.put("data", sum);
+			dt.add(map);
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("month", mons);
+		result.put("dt", dt);
+		return result;
+	}
+	/**
+	 * 某类药销售量统计
+	 * @param dyid
+	 * @param response
+	 */
+	@AuthPassport
+	@RequestMapping(value = "dsalStatJson",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public Object dsalStatJson(@RequestParam(value="dyid") Integer dyid){
+		List<String> mons = getMons();//半年时间
+		Collections.reverse(mons);
+		List<Drug> atlist = serive.statDrugs(dyid);
+		List<Map<String, Object>> dt =new ArrayList<Map<String, Object>>();
+		for (Drug d:atlist) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Integer> sum = new ArrayList<Integer>();
+			for (String mon : mons){
+				Drug dr = serive.statSalDr(d.getDrid(),mon);
+				map.put("name", dr.getDrname());
+				sum.add(dr.getBy2());//用by2装销量
+			}
+			map.put("data", sum);
+			dt.add(map);
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("month", mons);
+		result.put("dt", dt);
+		return result;
+	}
 	/**
 	 * 某类药统计
 	 * @param dyid
@@ -161,6 +233,22 @@ public class StatisticsController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private List<String> getMons(){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // 设置为当前时间
+        List<String> mons = new ArrayList<String>();
+        for(int i = 0;i<6;i++){
+        	calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - i); 
+            date = calendar.getTime();
+            String mon =  dateFormat.format(date);
+            System.out.println(mon	);
+            mons.add(mon);
+        }
+        return mons;
 	}
 	
 }

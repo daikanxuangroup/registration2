@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'drug-list.jsp' starting page</title>
+    <title>药品列表</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -44,7 +44,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<i class="Hui-iconfont">&#xe600;</i> 添加药品</a>
 	&nbsp;
 	<a href="javascript:;" onclick="drs_start()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe676;</i> 批量启用</a>  
- 	<a href="javascript:;" onclick="drs_stop()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量停用</a>  </span> </div>
+ 	<a href="javascript:;" onclick="drs_stop()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量停用</a>  </span>
+ 	<c:set var="num" value="0"></c:set>
+ 	<c:forEach items="${drlist }" var="dr">
+ 		<c:if test="${dr.drsum lt 100 }"><c:set var="num" value="${num+1 }"/></c:if>
+ 	</c:forEach>
+ 	<c:if test="${num gt 0}"><span class="r" style="color:red;font-size:16px">共有<strong>${num}</strong>种药品库存不足100！</span></c:if>
+ 	 </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -55,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="70">药品类别</th>
 				<th width="80">价格</th>
 				<th width="">可用科室</th>
-				<th width="80">库存数</th>
+				<th width="100">库存数</th>
 				<th width="70">状态</th>
 				<th width="100">操作</th>
 			</tr>
@@ -70,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td>${dr.drugtype.dyname }</td>
 				<td>${dr.drprice}</td>
 				<td class="text-l">${dr.dename }</td>
-				<td>${dr.drsum }</td>
+				<td ${dr.drsum lt 100?'style="color:red;font-weight:bold;"':''}>${dr.drsum}<%-- ${dr.drsum lt 100?'(库存不足100)':''} --%></td>
 				<td class="td-status">
 				<c:choose>
 					<c:when test="${dr.drstate eq 1}"><span class="label label-success radius">已启用</span></c:when>
@@ -106,9 +112,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=path %>/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="<%=path %>/lib/datatables/1.10.15/js/jquery.dataTables.min.js"></script>  
+<script type="text/javascript" src="<%=path %>/lib/datatables/1.10.15/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="<%=path %>/lib/datatables/1.10.15/js/jszip.min.js"></script>   
+<script type="text/javascript" src="<%=path %>/lib/datatables/1.10.15/js/buttons.html5.min.js "></script> 
 <script type="text/javascript">
 $(function(){
 	$('.table-sort').dataTable({
+		dom: 'lfrtBip',
+         "buttons": [  
+                      {  
+                        'extend': 'excelHtml5',  
+                        'className': 'btn btn-secondary radius', //按钮的class样式
+                        'text': '<i class="Hui-iconfont">&#xe640;</i>导出到excel',//定义导出excel按钮的文字  
+                        'exportOptions':{ //从DataTable中选择要收集的数据。这包括列、行、排序和搜索的选项。请参阅button.exportdata()方法以获得完整的详细信息——该参数所提供的对象将直接传递到该操作中，以收集所需的数据，更多options选项参见：https://datatables.net/reference/api/buttons.exportData()
+				           	'columns': [1,2,3,4,5,6,7]  
+				         }
+	                   }  
+	               ],      
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
@@ -202,22 +223,30 @@ function drs_start(){
 			  tips: [2, '#E65']
 			});
 	    }else{
+	    	var i = 0;	
 	    	$.each(check, function (index, id){
 	    		$.ajax({
 	    			type: 'POST',
 					url: 'drugState',
 					data:{drid:id,drstate:1},
 					dataType: 'json',
+					async: false, //将ajax改为同步
 					success: function(data){
 						var dy = $("#dr"+id);
-						$(dy).find(".td-manage").find("a:first").remove();
-						$(dy).find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_stop(this,'+id+')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-						$(dy).find(".td-status").html('<span class="label label-success radius">已启用</span>');
-						
+						if(data.result=="ok"){
+							$(dy).find(".td-manage").find("a:first").remove();
+							$(dy).find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_stop(this,'+id+')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+							$(dy).find(".td-status").html('<span class="label label-success radius">已启用</span>');
+						}else if(data.result=="stop"){
+							i++;
+						}
 					},
 	    		});
 	    	});
-	    	layer.msg('批量启用完成!',{icon: 6,time:1200});
+	    	if(i==0)
+	    		layer.msg('批量启用完成!',{icon: 6,time:1200});
+	    	else
+	    		layer.msg('类型被停用的药品暂未启用！',{icon: 7,time:1700});
 	    }
 	});
 }
@@ -231,10 +260,15 @@ function drug_start(obj,id){
 			data:{drid:id,drstate:1},
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_stop(this,'+id+')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
+				if(data.result=="ok"){
+					$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="drug_stop(this,'+id+')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+					$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+					$(obj).remove();
+					layer.msg('已启用!',{icon: 6,time:1000});
+				}else if(data.result=="stop"){
+					layer.msg('该药品类型处于停用状态，无法启用!',{icon: 2,time:1500});
+				}
+				
 			},
 			error:function(data) {
 				console.log(data.msg);
