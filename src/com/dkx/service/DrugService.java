@@ -103,4 +103,9 @@ public class DrugService {
 		else
 			return 0;
 	}
+	
+	public int ckDyState(Integer drid) {
+		// TODO Auto-generated method stub
+		return mapper.ckDyState(drid);
+	}
 }

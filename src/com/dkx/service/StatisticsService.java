@@ -68,4 +68,14 @@ public class StatisticsService {
 	public List<Drug> statDrugs(Integer dyid){
 		return dsmapper.statDrugs(dyid);
 	}
+
+	public Drugtype statSalDt(Integer dyid, String mon) {
+		// TODO Auto-generated method stub
+		return dsmapper.statSalDt(dyid,mon);
+	}
+
+	public Drug statSalDr(Integer drid, String mon) {
+		// TODO Auto-generated method stub
+		return dsmapper.statSalDr(drid,mon);
+	}
 }

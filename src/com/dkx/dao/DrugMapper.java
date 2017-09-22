@@ -75,6 +75,7 @@ public interface DrugMapper {
 	@Select("select count(*) from drug where dyid = #{dyid} and drstate = 1")
 	int useDrByTp(@Param("dyid")Integer dyid);
 
+		
 	//新增类型
 	@Insert("insert into drugtype(dyid,dyname,dystate) values (#{dyid},#{dyname},1)")
 	@SelectKey(keyProperty="dyid",statement="select seq_drugtype.nextval from dual",
@@ -84,5 +85,9 @@ public interface DrugMapper {
 	//类型id
 	@Select("select seq_drugtype.currval from dual")
 	int findDyid();
+
+	//检查类型状态
+	@Select("select dystate from drug d,drugtype t where d.dyid = t.dyid and drid = #{drid} ")
+	int ckDyState(Integer drid);
 
 }

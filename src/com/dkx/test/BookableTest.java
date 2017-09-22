@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,18 +21,33 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.daibingjie.pojo.Bookable;
 import com.daibingjie.pojo.Doctors;
+import com.dkx.pojo.Drugtype;
 import com.dkx.pojo.WeekBean;
 import com.dkx.service.BookableService;
+import com.dkx.service.DrugService;
+import com.dkx.service.StatisticsService;
+
+import net.sf.json.JSONObject;
 
 
 public class BookableTest {
 
 	private BookableService service;
+/*	private  DrugService service2;
+	private StatisticsService serive;*/
+	
 	@Before
 	public void init(){
 		ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
 		service=ctx.getBean("bookableService",BookableService.class);	
+/*		serive = ctx.getBean("statisticsService",StatisticsService.class);
+		service2 = ctx.getBean("drugService",DrugService.class);	*/
 	}	
+	
+	@Test
+	public void test(){
+		System.out.println("ssssssssssssddd");
+	}
 	
 	//设置一周第一天为星期天
 	private static final int FIRST_DAY = Calendar.SUNDAY;
@@ -61,6 +79,29 @@ public class BookableTest {
         }
         return list;
     }
+    
+    @Test
+    public void tsalStatJson(){
+		List<String> mons = getMons();//半年时间
+		Collections.reverse(mons);
+		/*List<Drugtype> dts = service2.findAllDy();
+		List<Map<String, Object>> dt =new ArrayList<Map<String, Object>>();
+		for (Drugtype d : dts) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Integer> sum = new ArrayList<Integer>();
+			for (String mon : mons) {
+				Drugtype dy = serive.statSalDt(d.getDyid(),mon);
+				map.put("name", dy.getDyname());
+				sum.add(dy.getBy2());//用by2装销量
+			}
+			map.put("data", sum);
+			dt.add(map);
+		}
+		JSONObject jst = JSONObject.fromObject(dt);
+		System.out.println(jst);*/
+//		return dt;
+	}
+    
 	/*
 	 * 查询科室所有医生的周排班情况
 	 */
@@ -126,6 +167,22 @@ public class BookableTest {
     			insertBK(dl, sdf, bklist);
     }
     
+    @Test
+	public List<String> getMons(){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // 设置为当前时间
+        List<String> mons = new ArrayList<String>();
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1); 
+        for(int i = 0;i<6;i++){
+        	calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1); 
+            date = calendar.getTime();
+            String mon =  dateFormat.format(date);
+            mons.add(mon);
+        }
+        return mons;
+	}
     
 	//依次插入星期X排班情况
 	private void insertBK(List<Doctors> dolist,SimpleDateFormat sdf,List<String> bklist){

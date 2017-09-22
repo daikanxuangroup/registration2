@@ -33,26 +33,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>科室名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="hidden"  name="deid" value="${departs.deid }">
-				<input type="text" class="input-text" value="${departs.dename}" id="dename" name="dename" ${departs.dename!=null?'readonly':''} style="width: 225px;">
+				<input type="text" class="input-text" value="${departs.dename}" id="dename" name="dename" ${departs.dename!=null?'readonly style="border-style:none"':''} style="width: 225px;">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>简介：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				
-				<input type="text"  class="input-text" value="${departs.intro }" id="intro" name="intro" style="width: 225px;height: 100px">
+				<textarea  class="input-text"  id="intro" name="intro" style="width: 225px;height: 150px">${departs.intro }</textarea>
 				<!-- <textarea cols="30" rows="3" name="myself" ></textarea>  -->
 			</div>
 		</div>
 		<div class="row cl">
-			<c:if test="${empty departs }">
+		 	<c:if test="${empty departs }"> 
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>可用：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<%-- <input type="text" min="0" step="1" class="input-text" value="${dr.drsum}" placeholder="" id="deexist" name="deprtts.deexist" style="width: 225px;"> --%>
 				<input type="radio" id="deexist" name="deexist" value="1" ${departs.deexist } checked="checked"  >是
       			<input type="radio" id="deexist" name="deexist" value="0" ${departs.deexist }>否
 			</div>
-			</c:if>
+		 	</c:if> 
 			<c:if test="${!empty departs }">
 			<div class="formControls col-xs-8 col-sm-9">
 				<%-- <input type="text" min="0" step="1" class="input-text" value="${dr.drsum}" placeholder="" id="deexist" name="deprtts.deexist" style="width: 225px;"> --%>
@@ -102,6 +102,7 @@ $(function(){
 			},
 			intro:{
 				required:true,
+				maxlength:50
 			},
 			deexist:{
 				required:true,
