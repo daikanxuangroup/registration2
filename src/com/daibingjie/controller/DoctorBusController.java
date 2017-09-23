@@ -129,7 +129,7 @@ public class DoctorBusController  {
 	public String drug(@RequestParam(
 			value="price1",required=false)Double price1,
 			@RequestParam(value="price2",required=false)Double price2,
-			@RequestParam("cid")Integer cid,@RequestParam("rid")Integer rid,
+			@RequestParam(value="cid",required=false)Integer cid,@RequestParam(value="rid",required=false)Integer rid,
 			ModelMap modelMap,HttpSession session){
 		/**
 		 * 转药品页面

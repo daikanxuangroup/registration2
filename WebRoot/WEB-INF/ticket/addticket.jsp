@@ -152,7 +152,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-		alert("xingxi");
+		
 		$(form).ajaxSubmit({
 					url:"getticket",
                     type: "post",

@@ -25,3 +25,8 @@ hs_err_pid*
 *.properties
 *.properties
 WebRoot/WEB-INF/classes/com/daibingjie/dao/AuthorityMapper.xml
+WebRoot/WEB-INF/classes/com/liujiang/dao/DepartsMapper.xml
+WebRoot/WEB-INF/classes/com/liujiang/dao/DedoMapper.xml
+WebRoot/WEB-INF/classes/com/dzl/dao/BooksMapper.xml
+WebRoot/WEB-INF/classes/com/dzl/dao/CardsMapper.xml
+WebRoot/WEB-INF/classes/com/daibingjie/dao/DispensingMapper.xml
