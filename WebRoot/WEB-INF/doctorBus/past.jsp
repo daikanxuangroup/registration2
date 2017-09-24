@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="40">病人性别</th>
 				<th width="90">医生职位</th>
 				<th width="80">病历状况</th>
-				<th width="170">处理翻案</th>
+				<th width="170">处理方案</th>
 				<th width="100">就医时间</th>		
 				<th width="100">查看药方</th>
 			</tr>

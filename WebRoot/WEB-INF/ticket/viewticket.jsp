@@ -55,7 +55,7 @@
 				</tr>
 				<tr class="text-c">
 					<th width="80">票号</th>
-					<th width="80">用户名</th>
+					<th width="80">就诊人</th>
 					<th width="90">医生</th>
 					<th width="80">科室</th>
 					<th width="80">挂号费</th>
@@ -79,29 +79,30 @@
 
 		
 		
-		<form class="form form-horizontal" id="form-ticket-add" method="post" action="getticket2">
+		<form class="form form-horizontal" id="form-ticket-add" method="post" action="">
 	<div class="row cl">
 		<div class="formControls col-xs-8 col-sm-9">
 			<input type="hidden" class="input-text"  placeholder="" id="bid" name="bid" value="${books.bid }">
+			<input type="hidden" class="input-text"  placeholder="" id="medcard" name="medcard" value="${books.medcard }">
 		</div>
 	</div>
 	<div class="row cl">
-	<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>应付金额：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="${books.bcost }" placeholder="" id="bcost" name="bcost">
-		</div>
+	<label class="form-label col-xs-4 col-sm-3" style="padding-left:84px;">应付金额：</label>
+		
+		<input type="text"  value="${books.bcost }" readonly size="4" style="border-style:none;color:blue;font-weight:bold" id="bcost" name="bcost">
+		<input type="text"  value="元" readonly size="4" style="border-style:none" >
 	</div>
 	
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>付费方式：</label>
-		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-			<div class="radio-box">
-				<input name="medcard" type="radio" id="sex-1" checked  value="${books.medcard }">
-				<label for="sex-1">诊疗卡</label>
+		<label class="form-label col-xs-4 col-sm-3" style="padding-left:78px;"><span class="c-red">*</span>付费方式：</label>
+		<div class="formControls col-xs-8 col-sm-9 skin-minimal" style="padding-left:0px;">
+			<div class="radio-box" style="padding-left:0px;" >
+				<input name="red" type="radio" id="sex-1" checked  value="1">
+				<label for="sex-1" style="padding-left: 21px;" >诊疗卡</label>
 			</div>
-			<div class="radio-box">
-				<input type="radio" id="sex-2" name="medcard" value="${books.medcard }">
-				<label for="sex-2">现金</label>
+			<div class="radio-box" style="padding-left:0px;">
+				<input type="radio" id="sex-2" name="red" value="0">
+				<label for="sex-2" style="padding-left: 21px;">现金</label>
 			</div>
 		</div>
 	</div>
@@ -110,9 +111,6 @@
 			<input type="hidden" class="input-text" value="${books.snum }" placeholder="" id="snum" name="snum">
 		</div>
 	</div>
-	
-	
-	
 	
 	
 	<div class="row cl">
@@ -138,32 +136,59 @@
 		src="<%=path %>/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 	<script type="text/javascript"
 		src="<%=path %>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+	<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+	<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
 	<script type="text/javascript"
 		src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
 	<script type="text/javascript">
 
 $(function(){
+
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
 	$("#form-ticket-add").validate({
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-		alert("xingxi");
-		$(form).ajaxSubmit({
+			var choice =  $("input[name='red']:checked").val();
+			var cost = $("#bcost").val();
+			if(choice==1){
+				var str = "是否确认扣取诊疗卡余额"
+			}else{
+				var str = '请确认收取现金'+cost+'元';
+			}
+			layer.confirm(str,function(){
+				$(form).ajaxSubmit({
 					url:"getticket2",
                     type: "post",
                     dataType: "json",
                     success: function (data) {
                         if (data.result == 'success'){
+                        	layer.msg('挂号成功！',{icon:1,time:1000});
                         	var index = parent.layer.getFrameIndex(window.name);
-							window.parent.location.reload();
-							parent.layer.close(index);
+                        	 setTimeout(function () {
+                        	 	window.parent.location.reload();
+								parent.layer.close(index);
+                        	 }, 700);
+							
+                        }else if(data.result == 'little'){
+                        	layer.alert("余额不足请提醒充值！", {
+		  					closeBtn: 0
+		  					,anim: 3 });
                         }
                     },
                     error: function () {
                         alert("系统出现错误，请联系管理员");
                     }
                 });
+			});
+		
 			
 		}
 	});

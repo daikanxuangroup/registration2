@@ -66,7 +66,7 @@ public class BooksServiceTest {
 		System.out.println(date2);
 	}
 
-	@Test
+/*	@Test
 	public void testMessage(){
 		HashMap<String , List<String>> map=service.findMessage();
 
@@ -80,13 +80,13 @@ public class BooksServiceTest {
 				System.out.println(string);
 			}
 		}
-	}
+	}*/
 	
-	@Test
+/*	@Test
 	public void testdoname() throws ParseException{
 		Bookable bookable=service.findBookable("张一");
 		System.out.println(bookable.getXcum()+"  "+bookable.getXcyum()+"  "+bookable.getDename()+"  "+bookable.getDoname());
-	}
+	}*/
 	
 	@Test
 	public void testMedcard(){

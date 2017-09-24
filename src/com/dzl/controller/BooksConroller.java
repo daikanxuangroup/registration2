@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.MvcNamespaceHandler;
 
+import com.daibingjie.pojo.Doctors;
+import com.dkx.pojo.Departs;
 import com.dzl.pojo.Bookable;
 import com.dzl.pojo.Books;
+import com.dzl.pojo.Cards;
 import com.dzl.service.BooksService;
 import com.dzl.service.CardsService;
 
@@ -53,7 +56,7 @@ public class BooksConroller {
 	
 	@RequestMapping("findMessage")
 	public ModelAndView findMessage(){
-		HashMap<String, List<String>> map=booksService.findMessage();
+		HashMap<Departs, List<Doctors>> map=booksService.findMessage();
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("map",map);
 		mv.setViewName("ticket/message");
@@ -63,8 +66,8 @@ public class BooksConroller {
 	
 	
 	@RequestMapping("findByDoname")
-	public ModelAndView findByDoname(@RequestParam(value="doname") String doname) throws ParseException{
-		Bookable bookable=booksService.findBookable(doname);
+	public ModelAndView findByDoname(@RequestParam(value="doid") Integer doid) throws ParseException{
+		Bookable bookable=booksService.findBookable(doid);
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("bookable",bookable);
 		mv.setViewName("ticket/bookablemessage");
@@ -72,7 +75,8 @@ public class BooksConroller {
 	}
 	
 	@RequestMapping("addticket")
-	public ModelAndView addticket(@RequestParam(value="medcard") Integer medcard,
+	@ResponseBody
+	public Object addticket(@RequestParam(value="medcard") Integer medcard,
 			@RequestParam(value="bid") Integer bid,
 			@RequestParam(value="doname") String  doname,
 			@RequestParam(value="dename") String  dename,
@@ -80,11 +84,41 @@ public class BooksConroller {
 			) throws ParseException{
 		
 		String pname=booksService.findPname(medcard);
+		Map<String,Object> map = new HashMap<String, Object>();
+		Bookable bookable=new Bookable();
+		if(StringUtils.isEmpty(pname)){
+//			bookable.setPname("该用户不存在");
+			map.put("result", "nocard");
+			return map;
+		}
+//		int snum=booksService.getSnum();
+		bookable.setBid(bid);
+		bookable.setDename(dename);
+		bookable.setDoname(doname);
+		bookable.setPname(pname);
+		bookable.setMedcard(medcard);
+//		bookable.setSnum(snum+1);
+		bookable.setBcost(bcost);
+		System.out.println(bookable.toString());
+		map.put("books",bookable );
+//		ModelAndView mv=new ModelAndView();
+//		mv.addObject("books",bookable);
+//		mv.setViewName("ticket/viewticket");
+		map.put("result", "ok");
+		return map;	
+	}
+	
+	@RequestMapping("addticket2")
+	public ModelAndView addticket2(@RequestParam(value="medcard") Integer medcard,
+			@RequestParam(value="bid") Integer bid,
+			@RequestParam(value="doname") String  doname,
+			@RequestParam(value="dename") String  dename,
+			@RequestParam(value="bcost") Double bcost,
+			@RequestParam(value="pname") String  pname
+			) throws ParseException{
+		
 		Bookable bookable=new Bookable();
 		//获得票号
-		if(pname==null){
-			bookable.setPname("该用户不存在");
-		}
 		int snum=booksService.getSnum();
 		bookable.setBid(bid);
 		bookable.setDename(dename);
@@ -97,9 +131,7 @@ public class BooksConroller {
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("books",bookable);
 		mv.setViewName("ticket/viewticket");
-		return mv;
-		
-		
+		return mv;	
 	}
 	
 		@RequestMapping("viewticket")
@@ -123,7 +155,7 @@ public class BooksConroller {
 		public Map<String,String> getTicket(Books books){
 			if(books.getMedcard()!=null){
 			//诊疗卡扣费
-			cardsService.updateRemaining2(books.getBcost(), books.getMedcard());
+			cardsService.updateRamaining2(books.getBcost(), books.getMedcard());
 			}
 			//取票，修改状态，取票后该记录不再显示
 			booksService.addticket(books.getMedcard(), books.getBid(), books.getSnum());
@@ -136,13 +168,21 @@ public class BooksConroller {
 		@RequestMapping("getticket2")
 		@ResponseBody
 		public Map<String,String> getTicket2(Books books){
-			if(books.getMedcard()!=null){
-			//诊疗卡扣费
-			cardsService.updateRemaining2(books.getBcost(), books.getMedcard());
+			System.out.println(books);
+			Map<String,String> map = new HashMap<String, String>();
+			//是否诊疗卡付款
+			if(books.getRed()!=0){
+				//诊疗卡扣费
+				Cards cd = cardsService.findByIdcard(books.getMedcard());
+				if(cd.getRamaining()<books.getBcost()){
+					map.put("result", "little");
+					return map;
+				}	
+				cardsService.updateRamaining2(books.getBcost(), books.getMedcard());
 			}
 			//取票，修改状态，取票后该记录不再显示
 			booksService.addticket(books.getMedcard(), books.getBid(), books.getSnum());
-			Map<String,String> map = new HashMap<String, String>();
+				
 			map.put("result", "success");
 			return map;
 		}

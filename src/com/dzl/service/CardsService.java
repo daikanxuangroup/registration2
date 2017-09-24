@@ -32,10 +32,10 @@ public class CardsService {
 	  * 充值
 	  */
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	 public int updateRemaining(Double money,Integer cid) {
+	 public int updateRamaining(Double money,Integer cid) {
 		Cards cards=cardsMapper.findByIdcard(cid);
-		cards.setRemaining(cards.getRemaining()+money);
-		int rows=cardsMapper.updateRamaining(cards.getRemaining(), cid);
+		cards.setRamaining(cards.getRamaining()+money);
+		int rows=cardsMapper.updateRamaining(cards.getRamaining(), cid);
 		return rows;
 	}
 	
@@ -43,10 +43,10 @@ public class CardsService {
 	  * 收费
 	  */
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-	 public int updateRemaining2(Double bcost,Integer cid) {
+	 public int updateRamaining2(Double bcost,Integer cid) {
 		Cards cards=cardsMapper.findByIdcard(cid);
-		cards.setRemaining(cards.getRemaining()-bcost);
-		int rows=cardsMapper.updateRamaining(cards.getRemaining(), cid);
+		cards.setRamaining(cards.getRamaining()-bcost);
+		int rows=cardsMapper.updateRamaining(cards.getRamaining(), cid);
 		return rows;
 	}
 	 

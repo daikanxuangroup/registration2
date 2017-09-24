@@ -13,14 +13,14 @@ import com.dzl.pojo.Cards;
 @Repository("cardsMapper")
 public interface CardsMapper {
 	
-	@Insert("insert into cards(cid,pname,sex,phone,idcard,pwd,newdate,remaining,doexist)"
-			+ "values(#{cid},#{pname},#{sex},#{phone},#{idcard},#{pwd},default,#{remaining},#{doexist})")
+	@Insert("insert into cards(cid,pname,sex,phone,idcard,pwd,newdate,ramaining,doexist)"
+			+ "values(#{cid},#{pname},#{sex},#{phone},#{idcard},#{pwd},default,#{ramaining},#{doexist})")
 	@SelectKey(keyProperty = "cid", statement = "select seq_cards.nextval from dual",
     resultType = int.class, before = true)
 	int addCards(Cards cards);
 	
-	@Update("update cards set remaining=#{remaining} where cid=#{cid}")
-	int updateRamaining(@Param("remaining") Double remaining,@Param("cid") Integer cid);
+	@Update("update cards set ramaining=#{ramaining} where cid=#{cid}")
+	int updateRamaining(@Param("ramaining") Double ramaining,@Param("cid") Integer cid);
 	
 	@Update("update cards set doexist=0 where idcard=#{idcard}")
 	int stop(@Param("idcard") String idcard);
@@ -28,10 +28,10 @@ public interface CardsMapper {
 	@Update("update cards set doexist=1 where idcard=#{idcard}")
 	int begin(@Param("idcard") String idcard);
 	
-	@Select("select cid,pname,sex,phone,idcard,pwd,newdate,remaining,doexist from cards where cid=#{cid} ")
+	@Select("select cid,pname,sex,phone,idcard,pwd,newdate,ramaining,doexist from cards where cid=#{cid} ")
 	Cards findByIdcard(@Param("cid") Integer cid);
 	
-	@Select("select cid,pname,sex,phone,idcard,pwd,newdate,remaining,doexist from cards")
+	@Select("select cid,pname,sex,phone,idcard,pwd,newdate,ramaining,doexist from cards")
 	List<Cards> findAll();
 	
 	List<Cards> findByPage(@Param("pageNo") Integer pageNo,@Param("pageSize") Integer pageSize,

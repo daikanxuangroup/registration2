@@ -29,13 +29,13 @@ public class CardsTest {
 		cards.setPhone("18153312454");
 		cards.setPname("小家家");
 		cards.setPwd("123456");
-		cards.setRemaining(500.00);
+		cards.setRamaining(500.00);
 		service.addCards(cards);
 	}
 	
 	@Test
 	public void testupdate(){
-		int rows=service.updateRemaining(400.00, 1);
+		int rows=service.updateRamaining(400.00, 1);
 		System.out.println(rows);
 	}
 	

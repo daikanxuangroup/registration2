@@ -2,9 +2,11 @@ package com.dzl.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.daibingjie.pojo.Doctors;
+import com.dkx.pojo.Departs;
 import com.dzl.dao.BooksMapper;
 import com.dzl.pojo.Bookable;
 import com.dzl.pojo.Books;
@@ -56,36 +60,37 @@ public class BooksService {
 		return snum;
 	}
 	
-	public HashMap<String , List<String >> findMessage(){
-		HashMap<String , List<String >> map=new HashMap<String, List<String>>();
-		List<String > listdename=booksMapper.findAllDename();
-		for (String dename : listdename) {
-			int deid=booksMapper.findDeid(dename);
-			List<String> listdoname=booksMapper.findAllDoname(deid);
-			map.put(dename, listdoname);
+	public HashMap<Departs , List<Doctors >> findMessage(){
+		HashMap<Departs , List<Doctors >> map=new HashMap<Departs, List<Doctors>>();
+		List<Departs> deidlist = booksMapper.findUseDe();  //
+//		List<String > listdename=booksMapper.findAllDename(); 
+		for (Departs de : deidlist) { 
+//			int deid=booksMapper.findDeid(dename); //有问题 如果科室重名会有bug
+			List<Doctors> listdoname=booksMapper.findAllDoname(de.getDeid());
+			map.put(de, listdoname);
 		}
 		return map;
 	}
 	
-	public Bookable findBookable(String doname) throws ParseException{
-		int doid=booksMapper.findDoid(doname);
+	public Bookable findBookable(Integer doid) throws ParseException{
+//		int doid=booksMapper.findDoid(doname);
 		Date date=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd ");
 		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy/MM/dd mm:HH:ss");
 		String a= sdf.format(date);
-		String c=a+" 00:12:00";
+		String c=a+" 00:13:00";
 		Date date2=sdf1.parse(c);
 		int starttime=-1;
 		if((int)date.getTime()>=(int)date2.getTime()){
 			starttime=1;
 		}
 		Bookable bookable=booksMapper.findNyDoid(doid, starttime);
-		double bcost=booksMapper.findBcost(doname);
-		String dename=booksMapper.findDename(doname);
+		double bcost=booksMapper.findBcost(doid);
+		String dename=booksMapper.findDename(doid);
 		bookable.setDename(dename);
 		System.out.println(dename);
 		bookable.setBcost(bcost);
-		bookable.setDoname(doname);
+		bookable.setDoname(booksMapper.findDoname(doid));
 		return bookable;
 	}
 	

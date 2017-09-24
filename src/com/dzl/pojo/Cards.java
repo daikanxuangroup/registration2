@@ -13,7 +13,7 @@ public class Cards implements Serializable{
 	private String idcard;
 	private String pwd;
 	private Date newdate;
-	private Double remaining;
+	private Double ramaining;
 	private Integer doexist;
 	private String password2;
 	
@@ -76,17 +76,17 @@ public class Cards implements Serializable{
 	public void setNewdate(Date newdate) {
 		this.newdate = newdate;
 	}
-	public Double getRemaining() {
-		return remaining;
+	public Double getRamaining() {
+		return ramaining;
 	}
-	public void setRemaining(Double remaining) {
-		this.remaining = remaining;
+	public void setRamaining(Double ramaining) {
+		this.ramaining = ramaining;
 	}
 	public Cards() {
 		super();
 	}
 	public Cards(Integer cid, String pname, String sex, String phone, String idcard, String pwd, Date newdate,
-			Double remaining, Integer doexist) {
+			Double ramaining, Integer doexist) {
 		super();
 		this.cid = cid;
 		this.pname = pname;
@@ -95,13 +95,13 @@ public class Cards implements Serializable{
 		this.idcard = idcard;
 		this.pwd = pwd;
 		this.newdate = newdate;
-		this.remaining = remaining;
+		this.ramaining = ramaining;
 		this.doexist = doexist;
 	}
 	@Override
 	public String toString() {
 		return "Cards [cid=" + cid + ", pname=" + pname + ", sex=" + sex + ", phone=" + phone + ", idcard=" + idcard
-				+ ", pwd=" + pwd + ", newdate=" + newdate + ", remaining=" + remaining + ", doexist=" + doexist + "]";
+				+ ", pwd=" + pwd + ", newdate=" + newdate + ", ramaining=" + ramaining + ", doexist=" + doexist + "]";
 	}
 	
 	

@@ -74,34 +74,38 @@
 			</tbody>
 		</table>
 	<div class="page-container">
-		<form class="form form-horizontal" id="form-ticket-add" method="post" action="addticket">
+		<form method="post" class="form form-horizontal" id="form-member-add" action=""> <!-- addticket -->
+<!-- 	<div class="row cl">
+		<div class="formControls col-xs-8 col-sm-9">
+			
+		</div>
+	</div> -->
 	<div class="row cl">
 		<div class="formControls col-xs-8 col-sm-9">
 			<input type="hidden" class="input-text"  placeholder="" id="bid" name="bid" value="${bookable.bid }">
-		</div>
-	</div>
-	<div class="row cl">
-		<div class="formControls col-xs-8 col-sm-9">
 			<input type="hidden" class="input-text"  placeholder="" id="doname" name="doname" value="${bookable.doname }">
+			<input type="hidden" class="input-text" value="${bookable.bcost }" placeholder="" id="bcost" name="bcost">
+			<input type="hidden" class="input-text"  placeholder="" id="dename" name="dename" value="${bookable.dename }">
 		</div>
 	</div>
-	<div class="row cl">
+<%-- 	<div class="row cl">
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="hidden" class="input-text"  placeholder="" id="dename" name="dename" value="${bookable.dename }">
+			
 		</div>
 	</div>
 	<div class="row cl">
 		<div class="formControls col-xs-8 col-sm-9">
 			<input type="hidden" class="input-text" value="${bookable.bcost }" placeholder="" id="bcost" name="bcost">
 		</div>
-	</div>
-	
+	</div> --%>
 	
 	<div class="row cl">
-	<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>诊疗卡号：</label>
-		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="medcard" name="medcard">
+	<!-- "form-label col-xs-4 col-sm-5" -->
+	<label class="form-label col-xs-4 col-sm-5" style="padding-left:84px;"><span class="c-red">*</span>诊疗卡号：</label>
+	<div class="formControls col-xs-6 col-sm-9"  style="float:left">
+			<input type="text" class="input-text" value="" placeholder="填写诊疗卡号" id="medcard" name="medcard">
 		</div>
+	
 	</div>
 	
 	<div class="row cl">
@@ -129,12 +133,56 @@
 		src="<%=path %>/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 	<script type="text/javascript"
 		src="<%=path %>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+	<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+	<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
 	<script type="text/javascript"
 		src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
 	<script type="text/javascript">
+$(function(){
 
-
-
+  $("#form-member-add").validate({
+		rules:{
+			
+			medcard:{
+				required:true,
+				digits:true
+			},
+			
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit({
+					url:"addticket",
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.result == 'ok'){
+                        	/* var index = parent.layer.getFrameIndex(window.name);
+							window.parent.location.reload();
+							parent.layer.close(index); */
+							console.log(data.books);
+							var medcard = data.books.medcard;
+							var bid = data.books.bid;
+							var doname = data.books.doname;
+							var dename = data.books.dename;
+							var pname = data.books.pname;
+							var bcost = data.books.bcost;
+							window.location="addticket2?medcard="+medcard+"&bid="+bid+"&doname="+doname+
+							"&dename="+dename+"&bcost="+bcost+"&pname="+pname;
+                        }else{
+                        	layer.msg("卡号错误",{icon:2,time:1000});
+                        }
+                    },
+                    error: function () {
+                        alert("系统出现错误，请联系管理员");
+                    }
+                });
+		}
+	});
+});
 
 </script>
 </body>

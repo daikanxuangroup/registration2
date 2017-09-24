@@ -70,7 +70,7 @@ public class CardsController {
 			map.put("result", 0);
 			return map;
 		}
-		int rows=cardsService.updateRemaining(money, cid);
+		int rows=cardsService.updateRamaining(money, cid);
 		map.put("result", rows);
 		return map;
 	}

@@ -50,31 +50,25 @@
 	</nav>
 	<div class="page-container">
 
-		<table class="table table-border table-bordered table-bg table-hover">
+		<table class="table table-border table-bordered table-bg">
 			<thead>
 				<tr>
-					<th scope="col" colspan="4">所有科室及其医生</th>
+					<th scope="col" colspan="9">所有科室及其医生</th>
 				</tr>
 				<tr class="text-c">
-					<th width="10">科室编号</th>
-					<th width="30">科室名称</th>
-					<th width="50" >科室介绍</th>
-					<th width="400" >可挂号医生</th>
+					<th width="100">科室名称</th>
+					<th width="400" colspan="3">包含医生姓名：</th>
 				</tr>
 			</thead>
 			<tbody> 
 			<c:forEach items="${map}" var="maps">
 				<tr class="text-c">
-					<td>${maps.key.deid}</td>
-					<td>${maps.key.dename}</td>
-					<td>${maps.key.intro}</td>
-			<td class="text-l">
-			<c:forEach items="${maps.value }" var="doc">
-			&nbsp;<span ${doc.pcreg>doc.xcreg?'class="label label-success radius"':'class="label label-danger radius"' } >
-			<a title="挂号(${doc.xcreg }/${doc.pcreg })" href="javascript:;" onclick="regDoc(this,${doc.doid},${doc.xcreg },${doc.pcreg })"
-			 class="ml-5" style="text-decoration:none;color:white;">
-			 <i class="Hui-iconfont">&#xe62c;</i>&nbsp;${doc.doname }</a>
-			</span>&nbsp;
+					<td>${maps.key}</td>
+			<td><c:forEach items="${maps.value }" var="doname">
+			<a title="挂号" href="javascript:;"
+								onclick="window.location.href='findByDoname?doname=${doname }'"
+								class="ml-5" style="text-decoration:none"><i
+							class="Hui-iconfont">${doname }</i></a>
 			</c:forEach></td>
 				</tr> 
 				</c:forEach>
@@ -101,31 +95,7 @@
 	<script type="text/javascript"
 		src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
 	<script type="text/javascript">
-$(function(){
-	
-	$('.table-bg').dataTable({
-		"aaSorting": [[ 4, "desc" ]],//默认第几个排序
-		"bStateSave": true,//状态保存
-		"pading":false,
-		"aoColumnDefs": [
-		  {"orderable":false,"aTargets":[1,2]}// 不参与排序的列
-		]
-	});
-	
-});
 
-function regDoc(obj,id,rnum,rsum){
-	if(rnum<rsum){
-		/* alert(id+"医生"+rnum+"/"+rsum); */
-		layer_show('门诊挂号','findByDoname?doid='+id,'580','400');
-	}else{
-		//人满了
-		layer.tips('这个医生预约人数满了！', obj, {
-		  tips: [1, '#D52B2B'],
-		  time: 4000
-		});
-	}
-}
 
 </script>
 </body>
