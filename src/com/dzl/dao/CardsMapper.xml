@@ -23,7 +23,7 @@
   		</where>
   	</sql>
   	<sql id="pagerHead">
-  		select cid,pname,phone,newdate,idcard,doexist,remaining,sex from(
+  		select cid,pname,phone,newdate,idcard,doexist,ramaining,sex from(
   		select row_number() over(
   	</sql>
   	<sql id="orderBy">
@@ -35,7 +35,7 @@
   			<when test="sort=='newdate'">newdate</when>
   			<when test="sort=='incard'">incard</when>
   			<when test="sort=='doexist'">doexist</when>
-  			<when test="sort=='remaining'">remaining</when>
+  			<when test="sort=='ramaining'">ramaining</when>
   		</choose>
   		<choose>
   		<when test="order=='asc'">asc</when>

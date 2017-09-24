@@ -53,8 +53,8 @@
 			<span class="l"> <a href="javascript:;"
 				onclick="member_add('添加用户','cards','','510')"
 				class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>
-					添加用户</a></span> <span class="r">共有数据：<strong>${requestScope.rows}</strong>
-				条
+					办卡业务</a></span> <span class="r">共有诊疗卡：<strong>${requestScope.rows}</strong>
+				张
 			</span>
 		</div>
 		<div class="mt-20">
@@ -81,7 +81,7 @@
 							<td>${cd.sex}</td>
 							<td>${cd.phone }</td>
 							<td>${cd.idcard }</td>
-							<td>${cd.remaining }</td>
+							<td>${cd.ramaining }</td>
 							<td><fmt:formatDate value="${cd.newdate }"
 									pattern="yyyy-MM-dd" /></td>
 							<%-- <c:if test="${0 eq cd.doexist }">
@@ -97,7 +97,7 @@
 								title="充值" href="javascript:;"
 								onclick="member_edit(${cd.cid})"
 								class="ml-5" style="text-decoration:none"><i
-									class="Hui-iconfont">&#xe6df;充值</i></a> 
+									class="Hui-iconfont">&#xe6b7;充值</i></a> 
 								</td>
 						</tr>
 					</c:forEach>

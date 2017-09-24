@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div class="row cl">
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="hidden" class="input-text" value="100.00" placeholder="" id="remaining" name="remaining">
+			<input type="hidden" class="input-text" value="100.00" placeholder="" id="ramaining" name="ramaining">
 		</div>
 	</div>
 	<div class="row cl">
