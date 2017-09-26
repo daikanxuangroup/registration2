@@ -105,12 +105,11 @@ public class DoctorBusTest {
 		System.out.println(lt.next().getDrug().getDrname());
 		System.out.println(lt.next().getDrug().getDrprice());
 		System.out.println(lt.next().getDrnum());
-	System.out.println(lt.next().getSum());
+		System.out.println(lt.next().getSum());
 			
 		}
 		
-	}
-	
+	}	
 	
 	@Test
 	public void login (){
@@ -126,6 +125,18 @@ public class DoctorBusTest {
 			System.out.println(d.getDrug().getDrugtype().getDyname());
 		}
 	}
+	
+	@Test
+	public  void xx(){
+		String  a ="123213213";
+		StringBuffer sb=new StringBuffer(a);
+		System.out.println(sb.reverse());
+		
+	}
+
+	
+	
+	
 	
 	
 	

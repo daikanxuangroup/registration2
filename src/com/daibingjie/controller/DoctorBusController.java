@@ -103,7 +103,7 @@ public class DoctorBusController  {
 		/**
 		 * 未来取号，修改订单状态的
 		 */
-		int conun =doctorBusService.updarig(rid, 2);
+		int conun =doctorBusService.updarig(rid, 0);
 		return String.valueOf(conun);
 		
 	}

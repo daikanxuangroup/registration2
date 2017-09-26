@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
 				<li>
-			<c:if test="${state eq 0}">超级管理员	</c:if>
+			<c:if test="${state eq 0}">超级管理员</c:if>
 			<c:if test="${state eq 1}">普通管理员</c:if>
 			<c:if test="${state eq 2}">
 				 ${doctors.title }		
@@ -77,6 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </header>
 <aside class="Hui-aside">
 	<div class="menu_dropdown bk_2">
+	<c:if test="${state eq 3 || state eq 0}">
 		<dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe72b;</i> 诊疗卡业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -94,6 +95,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</dd>
 	</dl>
+	</c:if>
+		<c:if test="${state eq 2 || state eq 0}">
 		<dl id="menu-comments"  >
 			<dt><i class="Hui-iconfont">&#xe61f;</i> 门诊业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -103,6 +106,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</dd>
 	</dl>
+	</c:if>
+		<c:if test="${state eq 4 || state eq 0}">
 		<dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe727;</i> 药房业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -111,6 +116,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</dd>
 	</dl>
+	</c:if>
+		<c:if test="${state eq 1 || state eq 0}">
 		<dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe602;</i> 科室管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -127,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</dd>
 	</dl>
-		
+	
 		<dl id="menu-admin">
 			<dt><i class="Hui-iconfont">&#xe616;</i> 排班管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -151,12 +158,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe63f;</i> 账号管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
+					<c:if test="${state eq 0}">
 					<li><a data-href="listAdmin" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+					</c:if>
 					<li><a data-href="listSignals" data-title="发号员列表" href="javascript:void(0)">发号员列表</a></li>
+					
+					<li><a data-href="dispensing" data-title="发号员列表" href="javascript:void(0)">发药员列表</a></li>
 			</ul>
 		</dd>
 	</dl>
-		<dl id="menu-system">
+	</c:if>
+	<!-- 	<dl id="menu-system">
 			<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
@@ -167,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li><a data-href="system-log.html" data-title="系统日志" href="javascript:void(0)">系统日志</a></li>
 			</ul>
 		</dd>
-	</dl>
+	</dl> -->
 		
 </div>
 </aside>

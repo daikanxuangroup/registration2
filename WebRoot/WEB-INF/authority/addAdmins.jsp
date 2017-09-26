@@ -70,10 +70,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				type: 'post',
 				url: "addAdmins" ,
 				success: function(data){
-					if(data=="true"){
-					
-						layer.msg('添加成功!  默认密码   111111 ',{icon:1,time:1000});
-						
+					if(data=="true"){					
+						layer.msg('添加成功!  默认密码   111111 ',{icon:1,time:1000});					
 						setTimeout(function () { 
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index); 
@@ -82,13 +80,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    }, 800);
 						
 					}else{
-						layer.msg('错误',{icon:1,time:1000});
+						layer.msg('账号名已存在',{icon:2,time:1000});
 						
 					}					
 					
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
-					layer.msg('错误',{icon:1,time:1000});
+					layer.msg('错误',{icon:2,time:1000});
 				}
 			});
 

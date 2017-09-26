@@ -21,6 +21,9 @@ public interface AuthorityMapper {
 	@Select("select * from admins where state = 3")
 	List<Admins> liatSignals(); 
 	
+	@Select("select * from admins where state = 4")
+	List<Admins> dispensing(); 
+	
 	@Insert("insert into admins(aid,aname,pwd,state,by1) values(#{aid},#{aname},'111111',#{state },#{by1})")
 	@SelectKey(keyProperty="aid",statement="select seq_admins.nextval from dual",
 	resultType=int.class,before=true)
@@ -29,5 +32,7 @@ public interface AuthorityMapper {
 	@Update("update admins set aexist=#{aexist} where aid = #{aid}")
 	int updateAdmins(@Param("aexist") Integer aexist , @Param("aid") Integer aid);
 	
+	@Select(" select count(*) from admins where aname=#{aname}")
+	int findname(@Param("aname") String aname);
 	
 }
