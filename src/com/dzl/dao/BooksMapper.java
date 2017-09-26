@@ -55,7 +55,7 @@ public interface BooksMapper {
 			@Param("starttime") Integer starttime);
 	
 	//挂完号状态应该为1 ：未看
-	@Insert("insert into registration(rid,cid,bid,snum,state) values(#{rid},#{medcard,jdbcType=INTEGER},#{bid},#{snum},1)")
+	@Insert("insert into registration(rid,cid,bid,snum,state,by2) values(#{rid},#{medcard,jdbcType=INTEGER},#{bid},#{snum},1,0)")
 	@SelectKey(keyProperty = "rid", statement = "select seq_registration.nextval from dual", resultType = int.class, before = true)
 	int addticket(@Param("medcard") Integer medcard,@Param("bid") Integer bid,@Param("snum") Integer snum);
 
