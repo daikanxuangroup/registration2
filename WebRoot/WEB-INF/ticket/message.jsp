@@ -62,7 +62,7 @@
 					<th width="400" >可挂号医生</th>
 				</tr>
 			</thead>
-			<tbody> 
+			<tbody>
 			<c:forEach items="${map}" var="maps">
 				<tr class="text-c">
 					<td>${maps.key.deid}</td>
@@ -103,8 +103,8 @@
 	<script type="text/javascript">
 $(function(){
 	
-	$('.table-bg').dataTable({
-		"aaSorting": [[ 4, "desc" ]],//默认第几个排序
+	$('.table-hover').dataTable({
+		"aaSorting": [[ 0, "asc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"pading":false,
 		"aoColumnDefs": [
