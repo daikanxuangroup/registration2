@@ -37,7 +37,7 @@ public class DepartsController {
 		Departs departs = departsService.findById(deid);
 		
 		ModelAndView mv = new ModelAndView();
-	
+		System.out.println(deid+"*************");
 		mv.setViewName("liujiang/editdeparts");
 		mv.addObject("departs",departs);
 		return mv;
@@ -61,14 +61,16 @@ public class DepartsController {
 					   @RequestParam(value="intro") String intro,
 					   @RequestParam(value="deexist") Integer deexist
 					   ){
+		Map<String,String> map = new HashMap<String, String>();
 		Departs departs = new Departs(deid, dename, intro, deexist);
 		if(departs.getDeid()==null){
 			departsService.add(departs);
+			map.put("add", "add");
 		}else{
 			departsService.modifyAll(departs);
+			map.put("modify", "modify");
 		}
-		Map<String,String> map = new HashMap<String, String>();
-		map.put("result", "success");
+		
 		return map;
 	}
 	

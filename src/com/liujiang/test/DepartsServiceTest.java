@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.daibingjie.pojo.Departs;
-import com.daibingjie.pojo.Doctors;
 import com.liujiang.service.DepartsService;
 
 public class DepartsServiceTest {

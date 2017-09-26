@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.daibingjie.pojo.Admins;
 import com.daibingjie.pojo.Departs;
 import com.daibingjie.pojo.Doctors;
 import com.liujiang.dao.DepartsMapper;
@@ -33,6 +34,7 @@ public class DepartsService {
 	public Departs findById(Integer deid){
 		return departsMapper.findById(deid);
 	}
+	
 	
 	public List<Departs> findAll(){
 		return departsMapper.findAll();

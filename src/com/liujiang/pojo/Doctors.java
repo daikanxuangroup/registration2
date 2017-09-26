@@ -2,13 +2,12 @@ package com.liujiang.pojo;
 
 import java.io.Serializable;
 
-public class DepartsDoctors implements Serializable{
+
+public class Doctors implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
 	private Integer doid;
-	private Integer deid;
-	private String dename;
+	
 	private String doname;
 	private String title;
 	private String photo;
@@ -32,24 +31,14 @@ public class DepartsDoctors implements Serializable{
 	private Integer doexist;
 	private Double bcost;
 	
-	public DepartsDoctors() {
-		
-	}
-
-	public DepartsDoctors(Integer doid, String dename, String doname, String title, String info, Integer doexist,
-			Double bcost,Integer monam) {
-		super();
-		this.doid = doid;
-		this.dename = dename;
-		this.doname = doname;
-		this.title = title;
-		this.info = info;
-		this.doexist = doexist;
-		this.bcost = bcost;
-		this.monam = monam;
-	}
+	private Integer deid;
+	
+	private Departs departs;
 
 	
+	public Doctors() {
+		
+	}
 
 	public Integer getDeid() {
 		return deid;
@@ -65,14 +54,6 @@ public class DepartsDoctors implements Serializable{
 
 	public void setDoid(Integer doid) {
 		this.doid = doid;
-	}
-
-	public String getDename() {
-		return dename;
-	}
-
-	public void setDename(String dename) {
-		this.dename = dename;
 	}
 
 	public String getDoname() {
@@ -250,6 +231,15 @@ public class DepartsDoctors implements Serializable{
 	public void setBcost(Double bcost) {
 		this.bcost = bcost;
 	}
-	
 
+	public Departs getDeparts() {
+		return departs;
+	}
+
+	public void setDeparts(Departs departs) {
+		this.departs = departs;
+	}
+	
+	
+	
 }
