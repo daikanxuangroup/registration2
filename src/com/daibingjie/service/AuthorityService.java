@@ -40,7 +40,13 @@ public class AuthorityService {
 	   List<Admins> list=authorityMapper.liatSignals();
 	return list;
 		
-	} 
+	}
+   
+   public List<Admins>  dispensing(){
+		   List<Admins> list=authorityMapper.dispensing();
+		return list;
+	}
+      
 // 添加
 	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
    public int addAdmins(String aname, Integer state,String by1){
@@ -52,5 +58,7 @@ public class AuthorityService {
 	return authorityMapper.updateAdmins(aexist, aid);
 		
 	}
-
+	public int findname( String aname){
+		return authorityMapper.findname(aname);		
+	}
 }

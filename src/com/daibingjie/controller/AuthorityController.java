@@ -42,6 +42,23 @@ public class AuthorityController {
 		
 	}
 	@AuthPassport
+	@RequestMapping("dispensing")
+	public String dispensing(ModelMap modelMap){
+		
+		List<Admins> list =authorityService.dispensing();	
+		modelMap.put("list", list);
+		return "authority/dispensing";
+	
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	@AuthPassport
 	@RequestMapping("updateAdmins")
 	@ResponseBody
 	public String updateAdmins(@RequestParam("aid")Integer aid,@RequestParam("aexist") Integer aexist){
@@ -55,13 +72,16 @@ public class AuthorityController {
 	@RequestMapping("addAdmins")
 	@ResponseBody
 	public String addAdmins(@RequestParam("state")Integer state,
-		@RequestParam("aname") String aname,@RequestParam("by1")String by1){
+		@RequestParam("aname") String aname,@RequestParam("by1")String by1){	
 		String mgs="false";
-		if(0<authorityService.addAdmins(aname, state, by1)){
-			mgs="true";
+		if(0==authorityService.findname(aname)){
+			if(0<authorityService.addAdmins(aname, state, by1)){
+				mgs="true";
+			}				
 		}	
 		return mgs;	
 	}
+	
 	@AuthPassport
 	@RequestMapping("tempAll")
 	public String tempAll(ModelMap modelMap,@RequestParam("state")Integer state){
