@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.daibingjie.aop.AuthPassport;
 import com.liujiang.pojo.Departs;
 import com.liujiang.pojo.Doctors;
 import com.liujiang.service.DoctorsService;
@@ -23,6 +24,7 @@ public class DoctorsController {
 	private DoctorsService doctorsService;
 	
 	// 查询所有医生信息
+	@AuthPassport
 	@RequestMapping("doctors-list")
 	public String findAll(ModelMap modelMap){
 		
@@ -33,6 +35,7 @@ public class DoctorsController {
 	}
 
 	// 根据id查询医生信息
+	@AuthPassport
 	@RequestMapping("doctors-edit")
 	public String findById(@RequestParam(value="doid")Integer doid,ModelMap modelMap){
 		Doctors doctors = new Doctors();
@@ -48,6 +51,7 @@ public class DoctorsController {
 		
 		return "doctors/doctors-edit";
 	}
+	@AuthPassport
 	@RequestMapping("doctorsState")
 	@ResponseBody
 	public Object updateState(@RequestParam(value="doid") Integer doid,@RequestParam(value="doexist") Integer doexist){
@@ -69,6 +73,11 @@ public class DoctorsController {
 				map.put("result", "no");
 			}
 		}else{
+			int destate = doctorsService.ckDestate(doid);
+			if(destate==0){
+				map.put("result", "stop");
+				return map;
+			}
 			int count3 = doctorsService.updateState(doid, doexist);
 			if(count3 > 0){
 				map.put("result", "ok");
@@ -81,6 +90,7 @@ public class DoctorsController {
 	}
 	
 	// 添加或修改医生信息
+	@AuthPassport
 	@RequestMapping("doctors-modifyAndadd")
 	@ResponseBody
 	public Object modifyAndadd(Doctors doctors,@RequestParam(value="aname",required=false)String aname){
@@ -130,6 +140,11 @@ public class DoctorsController {
 		}
 		Map<String,String> map = new HashMap<String, String>();
 		if(doctors.getDoid()==null ){
+			int num = doctorsService.findUsername(aname);//要检查是否用户名已存在
+			if(num > 0 ){
+				map.put("add", "had");
+				return map;
+			}
 			doctorsService.add(doctors,aname);
 			map.put("add", "add");
 		}else{
