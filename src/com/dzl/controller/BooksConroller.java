@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.daibingjie.aop.AuthPassport;
 import com.daibingjie.pojo.Doctors;
 import com.dkx.pojo.Departs;
 import com.dzl.pojo.Bookable;
@@ -34,7 +35,8 @@ public class BooksConroller {
 	private CardsService cardsService;
 	
 	@RequestMapping("findAll")
-	public ModelAndView findAll() throws ParseException{
+	@AuthPassport
+	public ModelAndView findAll(@RequestParam(value="idcard",required=false)String idcard) throws ParseException{
 		Date date=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd ");
 		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy/MM/dd mm:HH:ss");
@@ -42,19 +44,23 @@ public class BooksConroller {
 		String c=a+" 00:12:00";
 		Date date2=sdf1.parse(c);
 		List<Books> list=null;
+		if(StringUtils.isEmpty(idcard))
+			idcard = null;
 		if((int)date.getTime()<=(int)date2.getTime()){
-			list=booksService.findAll(-1);
+			list=booksService.findAll(-1,idcard);
 		}else {
-			list=booksService.findAll(1);
+			list=booksService.findAll(1,idcard);
 		}
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("list",list);
+		mv.addObject("idcard",idcard);
 		mv.setViewName("ticket/bookslist");
 		return mv;
 	}
 	
 	
 	@RequestMapping("findMessage")
+	@AuthPassport
 	public ModelAndView findMessage(){
 		HashMap<Departs, List<Doctors>> map=booksService.findMessage();
 		ModelAndView mv=new ModelAndView();
@@ -64,7 +70,7 @@ public class BooksConroller {
 	}
 	
 	
-	
+	@AuthPassport
 	@RequestMapping("findByDoname")
 	public ModelAndView findByDoname(@RequestParam(value="doid") Integer doid) throws ParseException{
 		Bookable bookable=booksService.findBookable(doid);
@@ -74,6 +80,7 @@ public class BooksConroller {
 		return mv;
 	}
 	
+	@AuthPassport
 	@RequestMapping("addticket")
 	@ResponseBody
 	public Object addticket(@RequestParam(value="medcard") Integer medcard,
@@ -108,6 +115,7 @@ public class BooksConroller {
 		return map;	
 	}
 	
+	@AuthPassport
 	@RequestMapping("addticket2")
 	public ModelAndView addticket2(@RequestParam(value="medcard") Integer medcard,
 			@RequestParam(value="bid") Integer bid,
@@ -119,7 +127,7 @@ public class BooksConroller {
 		
 		Bookable bookable=new Bookable();
 		//获得票号
-		int snum=booksService.getSnum();
+		int snum=booksService.getSnum(bid);
 		bookable.setBid(bid);
 		bookable.setDename(dename);
 		bookable.setDoname(doname);
@@ -134,37 +142,76 @@ public class BooksConroller {
 		return mv;	
 	}
 	
+		@AuthPassport
 		@RequestMapping("viewticket")
-		public String  viewticket(@RequestParam(value="red") Integer red,ModelMap modelMap) throws ParseException{
+		@ResponseBody
+		public Object  viewticket(@RequestParam(value="red") Integer red,
+				@RequestParam(value="card") Integer card,
+				ModelMap modelMap) throws ParseException{
+			System.out.println("------------------------------------");
+			Map<String, Object> map = new HashMap<String, Object>();
+			if(booksService.bdCard(red,card)>0){
+				map.put("result", "okcard");
+				return map;
+			}else{
+				map.put("result", "nocard");
+				return map;
+			}
+		}
+		
+		@AuthPassport
+		@RequestMapping("viewticket2")
+		public Object  viewticket2(@RequestParam(value="red") Integer red,
+				@RequestParam(value="card") Integer card,
+				ModelMap modelMap) throws ParseException{
+			System.out.println("--------2---------2------------2-------");
 			Books books=booksService.findById(red);
+			Integer bid = booksService.findbid(red);//找排班表
 			//获得票号
-			int snum=booksService.getSnum();
+			int snum=booksService.getSnum(bid);
 			books.setSnum(snum+1);
 			//绑定诊疗卡号
-			String idcard=books.getIdcard();
-			int medcard=booksService.findMedcard(idcard);
-			if(medcard!=0){
-				books.setMedcard(medcard);
-			}
+			books.setMedcard(card);
 			modelMap.put("books",books);
 			return "ticket/addticket";
 		}
 		
+		@AuthPassport
 		@RequestMapping("getticket")
 		@ResponseBody
 		public Map<String,String> getTicket(Books books){
-			if(books.getMedcard()!=null){
-			//诊疗卡扣费
-			cardsService.updateRamaining2(books.getBcost(), books.getMedcard());
-			}
-			//取票，修改状态，取票后该记录不再显示
-			booksService.addticket(books.getMedcard(), books.getBid(), books.getSnum());
-			booksService.updateReg(books.getRed());
+//			if(books.getMedcard()!=null){
+//			//诊疗卡扣费
+//			cardsService.updateRamaining2(books.getBcost(), books.getMedcard());
+//			}
+//			//取票，修改状态，取票后该记录不再显示
+//			booksService.addticket(books.getMedcard(), books.getBid(), books.getSnum());
+//			booksService.updateReg(books.getRed());
+//			Map<String,String> map = new HashMap<String, String>();
+//			map.put("result", "success");
+//			return map;
+			
 			Map<String,String> map = new HashMap<String, String>();
+			//是否诊疗卡付款
+			//用starttime装付款方式
+			if(books.getStarttime()!=0){
+				//诊疗卡扣费
+				Cards cd = cardsService.findByIdcard(books.getMedcard());
+				if(cd.getRamaining()<books.getBcost()){
+					map.put("result", "little");
+					return map;
+				}	
+				//扣费取号其实应该写在一个事务里，遵循事务的原子性
+				cardsService.updateRamaining2(books.getBcost(), books.getMedcard());
+			}
+			//取票，修改状态，取票后该记录不再显示 
+			booksService.addticket2(books.getMedcard(), books.getBid(), books.getSnum(),books.getRed());
+				
 			map.put("result", "success");
 			return map;
 		}
 		
+		@AuthPassport
 		@RequestMapping("getticket2")
 		@ResponseBody
 		public Map<String,String> getTicket2(Books books){
@@ -180,7 +227,7 @@ public class BooksConroller {
 				}	
 				cardsService.updateRamaining2(books.getBcost(), books.getMedcard());
 			}
-			//取票，修改状态，取票后该记录不再显示
+			//取票，修改状态
 			booksService.addticket(books.getMedcard(), books.getBid(), books.getSnum());
 				
 			map.put("result", "success");

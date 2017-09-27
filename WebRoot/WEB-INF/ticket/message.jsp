@@ -73,7 +73,7 @@
 			&nbsp;<span ${doc.pcreg>doc.xcreg?'class="label label-success radius"':'class="label label-danger radius"' } >
 			<a title="挂号(${doc.xcreg }/${doc.pcreg })" href="javascript:;" onclick="regDoc(this,${doc.doid},${doc.xcreg },${doc.pcreg })"
 			 class="ml-5" style="text-decoration:none;color:white;">
-			 <i class="Hui-iconfont">&#xe62c;</i>&nbsp;${doc.doname }</a>
+			 <i class="Hui-iconfont">&#xe62c;</i>${doc.title}：${doc.doname } </a>
 			</span>&nbsp;
 			</c:forEach></td>
 				</tr> 

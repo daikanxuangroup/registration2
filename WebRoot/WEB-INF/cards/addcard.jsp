@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <article class="page-container">
 	<form class="form form-horizontal" id="form-admin-add" method="post" action="">
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
+		<label class="form-label col-xs-4 col-sm-3" style="padding-left:84px;"><span class="c-red">*</span>姓名：</label>
 		<div class="formControls col-xs-8 col-sm-9">
 			<input type="text" class="input-text"  placeholder="" id="pname" name="pname">
 		</div>
@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+		<label class="form-label col-xs-4 col-sm-3" style="padding-left:84px;"><span class="c-red">*</span>性别：</label>
 		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 			<div class="radio-box">
 				<input name="sex" type="radio" id="sex-1" checked  value="男">
@@ -54,14 +54,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+		<label class="form-label col-xs-4 col-sm-3" style="padding-left:84px;"><span class="c-red">*</span>手机：</label>
 		<div class="formControls col-xs-8 col-sm-9">
 			<input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">
 		</div>
 	</div>
 	
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>身份证：</label>
+		<label class="form-label col-xs-4 col-sm-3" style="padding-left:70px;"><span class="c-red">*</span>身份证：</label>
 		<div class="formControls col-xs-8 col-sm-9">
 			<input type="text" class="input-text" placeholder="" name="idcard" id="idcard">
 		</div>
@@ -125,6 +125,7 @@ $(function(){
 				isPhone:true,
 			},
 			idcard:{
+				rangelength:[18,18],
 				required:true,
 			},
 		},
@@ -132,22 +133,27 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-		alert("xingxi");
-		$(form).ajaxSubmit({
+		layer.confirm('确认收取105元作为办卡及首充费用', function(){
+			$(form).ajaxSubmit({
 					url:"addcard",
                     type: "post",
                     dataType: "json",
                     success: function (data) {
                         if (data.result == 'success'){
                         	var index = parent.layer.getFrameIndex(window.name);
-							window.parent.location.reload();
-							parent.layer.close(index);
+                        	layer.msg('办卡成功！余额100元！',{icon:1,time:1000});
+                        	setTimeout(function () {
+                        	 	window.parent.location.reload();
+								parent.layer.close(index);
+                        	 }, 800);
                         }
                     },
                     error: function () {
                         alert("系统出现错误，请联系管理员");
                     }
-                });
+             });
+		});
+		
 			/* var index = parent.layer.getFrameIndex(window.name);
 			window.parent.location.reload();
 			parent.layer.close(index); */

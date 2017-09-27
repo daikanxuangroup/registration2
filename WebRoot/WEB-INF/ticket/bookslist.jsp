@@ -39,14 +39,23 @@
 </head>
 <body>
 	<nav class="breadcrumb">
-		<i class="Hui-iconfont">&#xe67f;</i><span class="c-gray en">&gt;</span>
-		挂号管理中心 <span class="c-gray en">&gt;</span> 订单管理 <a
+		<i class="Hui-iconfont">&#xe67f;</i>首页<span class="c-gray en">&gt;</span>
+		挂号业务 <span class="c-gray en">&gt;</span>取预约号 <a
 			class="btn btn-success radius r"
 			style="line-height:1.6em;margin-top:3px"
 			href="javascript:location.replace(location.href);" title="刷新"><i
 			class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="page-container">
+		<div class="text-c"> 
+		<form action="findAll">
+			<label>根据身份证查询：</label>
+				<input type="text" class="input-text" style="width:230px" placeholder="身份证号" id="idcard" value="${idcard }" name="idcard">
+				<button type="submit" class="btn btn-success radius" onclick="this.form.submit()"><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+				<a href="javascript:;" onclick="c_clear()" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe68f;</i> 重置</a>
+		</form>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> &nbsp;</span> </div>
 		
 		<div class="mt-20">
 			<table
@@ -69,15 +78,15 @@
 						<tr class="text-c">
 							<td>${bk.red }</td>
 							<td>${bk.pname }</td>
-							<td>${bk.medcard}</td>
+							<td>${bk.medcard==null?'未绑定':bk.medcard}</td>
 							<td>${bk.phone }</td>
 							<td>${bk.dename }</td>
 							<td>${bk.doname }</td>
-								<td><fmt:formatDate value="${bk.bdate }" pattern="yyyy-MM-dd"/></td>
+							<td><fmt:formatDate value="${bk.bdate }" pattern="yyyy-MM-dd"/></td>
 							<td>${bk.bcost }</td>
-
+<!-- member_edit('票号单','viewticket?red=${bk.red}','','510') -->
 							<td><a title="获取票号" href="javascript:;"
-								onclick="member_edit('票号单','viewticket?red=${bk.red}','','510')"
+								onclick="addticket(${bk.red},'${bk.medcard}')"
 								class="ml-5" style="text-decoration:none"><i
 								class="Hui-iconfont">扣费取票</i></a> </td>
 								
@@ -106,6 +115,7 @@
 	<script type="text/javascript"
 		src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
 	<script type="text/javascript">
+	
 		$(function() {
 			$('.table-sort').dataTable({
 				"aaSorting" : [ [ 1, "desc" ] ], //默认第几个排序
@@ -121,9 +131,48 @@
 	
 		});
 		
+		function c_clear(){
+			$("#idcard").val("");
+		}
+		
 		/*用户-票号*/
 		function member_edit(title, url, w, h) {
 			layer_show(title, url, w, h);
+		}
+		
+		function addticket(red,card){
+			if(card.length==0 ){
+				//没卡
+				layer.prompt({title: '输入您的诊疗卡号'},function(val, index){
+					bcard(red,val);
+				});
+			}else{
+				//有卡
+				member_edit('票号单','viewticket2?red='+red+'&card='+card,'580','450');
+			}
+		}
+		//绑定卡
+		function bcard(red,card){
+			$.ajax({
+				type: 'POST',
+				url: 'viewticket',
+				data:{red:red,card:card},
+				dataType: 'json',
+				success: function(data){
+					if(data.result=='nocard'){
+						layer.alert('卡号错误，无法绑定！', {
+		   				 skin: 'layui-layer-lan'
+		   				 ,closeBtn: 0
+		 	   			,anim: 4 //动画类型
+		 				 });
+					}else{
+						member_edit('票号单','viewticket2?red='+red+'&card='+card,'580','450');
+					}
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
 		}
 		
 		

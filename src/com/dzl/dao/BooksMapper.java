@@ -16,11 +16,11 @@ import com.dzl.pojo.Books;
 @Repository("booksMapper")
 public interface BooksMapper {
 	List<Books> findAll(@Param("starttime") Integer starttime,
-			@Param("state") Integer state);
+			@Param("state") Integer state,@Param("idcard") String idcard);
 	
 	Books findById(@Param("red") Integer red);
 	
-	int getSnum(@Param("starttime") Integer starttime);
+	int getSnum(@Param("starttime") Integer starttime,@Param("bid") Integer bid);
 	
 	@Select("select dename from departs where deexist = 1")
 	List<String> findAllDename();
@@ -30,7 +30,7 @@ public interface BooksMapper {
 	
 //	@Select("select doname from doctors where deid=#{deid}") //改成查值班医生 by dkx  2017-9-24 11:01:20
 	//用pcreg装现场可预约, xcreg现场已预约
-	@Select("select d.doid,d.doname,b.xcum pcreg,b.xcyum xcreg from bookable b,doctors d where b.doid = d.doid and "
+	@Select("select d.doid,d.doname,d.title,b.xcum pcreg,b.xcyum xcreg from bookable b,doctors d where b.doid = d.doid and "
 			+ "b.bdate = trunc(sysdate) and b.starttime = (select case when to_char(sysdate,'hh24')>13 "
 			+ "then 1 else -1 end from dual) and d.deid = #{deid}") 
 	List<Doctors> findAllDoname(@Param("deid") Integer deid);
@@ -70,6 +70,17 @@ public interface BooksMapper {
 	
 	@Update("update reservation set state=-1 where red=#{red}")
 	int updateReg(@Param("red") Integer red);
+
+	@Select(" select bid from   reservation where red = #{red} ")
+	Integer findbid(@Param("red") Integer red);
+
+	@Select("select count(*) from  reservation r,patients p,cards c where r.pid = p.pid and "
+			+ "c.idcard = p.idcard and r.red = #{red} and c.cid = #{card}")
+	Integer bdCard(@Param("red")Integer red, @Param("card")Integer card);
+
+	//state改为0表示网约已取号
+	@Update("update reservation set state = 0 where red = #{red}")
+	Integer updateRestate(@Param("red")Integer red);
 
 	
 }

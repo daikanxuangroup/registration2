@@ -28,7 +28,7 @@ public class BooksServiceTest {
 		service=ctx.getBean("booksService",BooksService.class);
 	}
 
-	@Test
+/*	@Test
 	public void testAll() throws ParseException{
 		Date date=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd ");
@@ -46,7 +46,7 @@ public class BooksServiceTest {
 		for (Books books : list) {
 			System.out.println(books.toString());
 		}
-	}
+	}*/
 
 	@Test
 	public void testId(){

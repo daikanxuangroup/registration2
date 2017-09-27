@@ -27,6 +27,7 @@
 	where r.pid=p.pid and b.doid=do.doid and do.deid=de.deid and
 	b.bid=r.bid and bdate=trunc(sysdate) and starttime=#{starttime}
 	and r.state=#{state}
+	<if test="idcard != null">and idcard = #{idcard}</if>
     </select>
     
     <select id="findById" parameterType="int" resultMap="books-result">
@@ -39,6 +40,6 @@
     <select id="getSnum"  resultType="int">
     select count(snum) from registration r,bookable b
     where b.bdate=trunc(sysdate) and starttime=#{starttime}
-  	 and r.bid=b.bid
+  	 and r.bid=b.bid and b.bid = #{bid}
     </select>
     </mapper>

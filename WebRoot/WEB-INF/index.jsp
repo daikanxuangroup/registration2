@@ -103,6 +103,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</dd>
 	</dl>
+		<dl id="menu-member">
+			<dt><i class="Hui-iconfont">&#xe727;</i> 药房业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="listPres" data-title="发药操作" href="javascript:;">发药操作</a></li>
+			</ul>
+		</dd>
+	</dl>
 		<dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe602;</i> 科室管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -119,14 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 		</dd>
 	</dl>
-		<dl id="menu-member">
-			<dt><i class="Hui-iconfont">&#xe60d;</i> 发药员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="listPres" data-title="发药操作" href="javascript:;">发药操作</a></li>
-			</ul>
-		</dd>
-	</dl>
+		
 		<dl id="menu-admin">
 			<dt><i class="Hui-iconfont">&#xe616;</i> 排班管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -147,7 +148,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</dd>
 	</dl>
 		<dl id="menu-article">
-			<dt><i class="Hui-iconfont">&#xe63f;</i> 权限管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe63f;</i> 账号管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="listAdmin" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>

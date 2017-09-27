@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.daibingjie.aop.AuthPassport;
 import com.dzl.pojo.Cards;
 import com.dzl.service.CardsService;
 
@@ -23,6 +24,7 @@ public class CardsController {
 	
 	@RequestMapping("addcard")
 	@ResponseBody
+	@AuthPassport
 	public Map<String,String> addcards(Cards cards){
 		cardsService.addCards(cards); 
 		Map<String,String> map = new HashMap<String, String>();
@@ -31,12 +33,14 @@ public class CardsController {
 	}
 	
 	@RequestMapping("cards")
+	@AuthPassport
 	public String ccards(){
 		return "cards/addcard";
 	}
 	
 	
 	@RequestMapping("page")
+	@AuthPassport
 	public ModelAndView findByPage(@RequestParam(value="page",defaultValue="1") Integer pageNo,
 			@RequestParam(value="rows",defaultValue="100") Integer pageSize,
 			@RequestParam(value="sort",defaultValue="cid") String  sort,
@@ -53,6 +57,7 @@ public class CardsController {
 	}
 	
 	@RequestMapping("findbyid2222222222")
+	@AuthPassport
 	public ModelAndView findById(@RequestParam(value="idcard") Integer cid) {
 		Cards cards=cardsService.findByIdcard(cid);
 		ModelAndView mv=new ModelAndView();
@@ -63,6 +68,7 @@ public class CardsController {
 	
 	@RequestMapping("updatecard")
 	@ResponseBody
+	@AuthPassport
 	public Map<String,Integer> updateCard(@RequestParam(value="money") Double money,
 		@RequestParam(value="cid") Integer cid) {
 		Map<String,Integer> map = new HashMap<String, Integer>();

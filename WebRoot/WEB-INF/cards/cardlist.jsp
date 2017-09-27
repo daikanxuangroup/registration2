@@ -51,7 +51,7 @@
 
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<span class="l"> <a href="javascript:;"
-				onclick="member_add('添加用户','cards','','510')"
+				onclick="member_add('添加诊疗卡','cards','450','405')"
 				class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>
 					办卡业务</a></span> <span class="r">共有诊疗卡：<strong>${requestScope.rows}</strong>
 				张

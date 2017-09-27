@@ -30,8 +30,8 @@ public class BooksService {
 	
 	
 	
-	public List<Books> findAll(Integer starttime) {
-		List<Books> list=booksMapper.findAll(starttime,0);
+	public List<Books> findAll(Integer starttime,String idcard) {
+		List<Books> list=booksMapper.findAll(starttime,1,idcard); //已挂号状态为1
 		return list;
 	}
 	
@@ -45,7 +45,7 @@ public class BooksService {
 		return books;
 	}
 	
-	public int getSnum() throws ParseException{
+	public int getSnum(Integer bid) throws ParseException{
 		Date date=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd ");
 		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy/MM/dd mm:HH:ss");
@@ -56,7 +56,7 @@ public class BooksService {
 		if((int)date.getTime()>=(int)date2.getTime()){
 			starttime=1;
 		}
-		int snum=booksMapper.getSnum( starttime);
+		int snum=booksMapper.getSnum( starttime,bid);
 		return snum;
 	}
 	
@@ -113,5 +113,23 @@ public class BooksService {
 	public String  findPname(Integer medcard){
 		String pname=booksMapper.findPname(medcard);
 		return pname;
+	}
+
+	public Integer findbid(Integer red) {
+		// TODO Auto-generated method stub
+		return booksMapper.findbid(red);
+	}
+
+	public Integer bdCard(Integer red,Integer card) {
+		// TODO Auto-generated method stub
+		return booksMapper.bdCard(red,card);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Integer addticket2(Integer medcard, Integer bid, Integer snum, Integer red) {
+		// TODO Auto-generated method stub
+		booksMapper.addticket(medcard, bid, snum);
+		booksMapper.updatebookable(bid);
+		return booksMapper.updateRestate(red);
 	}
 }
