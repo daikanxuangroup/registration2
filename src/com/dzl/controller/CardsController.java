@@ -3,6 +3,7 @@ package com.dzl.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.annotation.Resource;
 
@@ -38,17 +39,28 @@ public class CardsController {
 		return "cards/addcard";
 	}
 	
+	//String的替换，以达到保密效果
+	private static String replaceAction(String str, String regular) {
+        return str.replaceAll(regular, "*");
+    }
 	
 	@RequestMapping("page")
 	@AuthPassport
 	public ModelAndView findByPage(@RequestParam(value="page",defaultValue="1") Integer pageNo,
-			@RequestParam(value="rows",defaultValue="100") Integer pageSize,
+			@RequestParam(value="rows",defaultValue="9999") Integer pageSize,
 			@RequestParam(value="sort",defaultValue="cid") String  sort,
 			@RequestParam(value="order",defaultValue="asc") String order,
 			@RequestParam(value="pname",required=false) String pname
 			) {
 		List<Cards> list=cardsService.findByPage(pageNo, pageSize, sort, order, pname);
 		int rows=cardsService.getTotal(pname);
+		//过滤用户手机号及身份证
+		Consumer<Cards> privacy = c -> {
+			c.setPhone(replaceAction(c.getPhone(),"(?<=\\d{3})\\d(?=\\d{4})" ));
+			c.setIdcard(replaceAction(c.getIdcard(), "(?<=\\d{4})\\d(?=\\d{3})" ));
+		};
+		list.forEach(privacy);
+		
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("list",list);
 		mv.addObject("rows",rows);
