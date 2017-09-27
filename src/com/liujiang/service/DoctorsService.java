@@ -43,6 +43,9 @@ public class DoctorsService {
 	}
 	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
 	public int updateState(Integer doid,Integer doexist){
+		Integer aid = doctorsMapper.findDocAid(doid);
+		if(aid!=null)
+			doctorsMapper.updateAdState(aid,doexist);
 		return doctorsMapper.updateState(doid, doexist);
 	}
 	
@@ -68,5 +71,15 @@ public class DoctorsService {
 	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,rollbackFor=Exception.class)
 	public int modifyState(Integer doid,Integer doexist){
 		return doctorsMapper.modifyState(doid, doexist);
+	}
+
+	public int findUsername(String aname) {
+		// TODO Auto-generated method stub
+		return doctorsMapper.findUsername(aname);
+	}
+
+	public int ckDestate(Integer doid) {
+		// TODO Auto-generated method stub
+		return doctorsMapper.ckDeState(doid);
 	}
 }

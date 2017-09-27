@@ -1,6 +1,5 @@
 package com.liujiang.dao;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import java.util.List;
 
@@ -72,14 +71,26 @@ public interface DoctorsMapper {
 	int addAdmins(@Param("doid")int doid,@Param("aname")String aname);
 	
 	@Select("select count(red) from reservation r left join bookable  b on r.bid=b.bid "
-			+ "where bdate >  trunc(sysdate) and b.doid=#{doid}")
+			+ "where bdate >  trunc(sysdate) and b.doid=#{doid} and state <> 0 ")
 	int select1(Integer doid);
 	
 	@Select("select count(rid) from registration r left join bookable  b on r.bid=b.bid "
-			+ "where bdate >=  trunc(sysdate) and b.doid=#{doid}")
+			+ "where bdate >=  trunc(sysdate) and b.doid=#{doid} and state <>0 " )
 	int select2(Integer doid);
 	
 	@Update("update doctors set doexist=#{doexist} where doid=#{doid}")
 	int updateState(@Param("doid")Integer doid,@Param("doexist") Integer doexist);
+
+	@Select("select aid from admins where doid = #{doid}")
+	Integer findDocAid(@Param("doid")Integer doid);
+
+	@Update("update admins set aexist=#{doexist} where aid =#{aid}")
+	int updateAdState(@Param("aid")Integer aid, @Param("doexist") Integer doexist);
+
+	@Select("select count(*) from admins where aname = #{aname} ")
+	int findUsername(@Param("aname")String aname);
+
+	@Select("select deexist from departs e,doctors o where e.deid= o.deid and doid=#{doid}")
+	int ckDeState(@Param("doid")Integer doid);
 	
 }

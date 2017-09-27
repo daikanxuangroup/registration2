@@ -266,7 +266,7 @@ function drug_start(obj,id){
 					$(obj).remove();
 					layer.msg('已启用!',{icon: 6,time:1000});
 				}else if(data.result=="stop"){
-					layer.msg('该药品类型处于停用状态，无法启用!',{icon: 2,time:1500});
+					layer.msg('该药品类的型处于停用状态，无法启用!',{icon: 2,time:1500});
 				}
 				
 			},

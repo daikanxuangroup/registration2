@@ -33,9 +33,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>医生名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${dr.doname}" id="doname" name="doname" ${dr.doname!=null?'readonly':''} style="width: 225px;">
+				<input type="text" class="input-text" value="${dr.doname}" id="doname" name="doname" ${dr.doname!=null?'readonly style="border-style:none"':''} style="width: 225px;">
 			</div>
 		</div>
+		<c:if test="${dr.doid eq null }">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>登录用户名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" id="aname" name="aname" style="width: 225px;">
+			</div>
+		</div>
+		</c:if>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>挂号费：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -43,13 +51,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>网上可预约人数：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>每小时可挂号人数（网上）：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="number" min="0" step="1" class="input-text" value="${dr.pcreg}" placeholder="" id="pcreg" name="pcreg" style="width: 225px;">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>现场可预约人数：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>每小时可挂号人数（现场）：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="number" min="0" step="1" class="input-text" value="${dr.xcreg}" placeholder="" id="xcreg" name="xcreg" style="width: 225px;">
 			</div>
@@ -73,17 +81,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</select>
 				</span> </div>
 		</div>
-		<c:if test="${dr.doid eq null }">
+		
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>医生用户名：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" id="aname" name="aname" style="width: 225px;">
-			</div>
-		</div>
-		</c:if>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">值班信息：  ↓<br> &nbsp;</label>
-			<div class="formControls col-xs-8 col-sm-9" style="width: 400px;text-align: center;">
+			<label class="form-label col-xs-4 col-sm-3">值班信息：<br> &nbsp;</label>
+			<div class="formControls col-xs-8 col-sm-9" style="width:260px;text-align: center;">
 				<dl class="permission-list">
 					<dt>
 			 		<label>	全选:&nbsp;
@@ -98,66 +99,69 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</dt>
 					<dd>
 						<dl class="cl permission-list2" >
-							<label >
+						<dt>
 							
 							  周一:
 								&nbsp;
 								&nbsp;
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.monam eq 1? 'checked':''} id="monam" name="monam" >
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.monam eq 1? 'checked':''} id="monam" name="monam" ></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.monpm eq 1? 'checked':''} id="monpm" name="monpm">
-							    <br>
+							    <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.monpm eq 1? 'checked':''} id="monpm" name="monpm"></label>
+							<br>
+							   
+							   
 							   周二:
 								&nbsp;
 								&nbsp; 
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.tueam eq 1? 'checked':''} name="tueam" id="tueam">
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.tueam eq 1? 'checked':''} name="tueam" id="tueam"></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.tuepm eq 1? 'checked':''} name="tuepm" id="tuepm"> 
-							    <br>
+							    <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.tuepm eq 1? 'checked':''} name="tuepm" id="tuepm"></label> 
+							   <br>
+							  
 							    周三:
 								&nbsp;
 								&nbsp;
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.wedam eq 1? 'checked':''} name="wedam" id="wedam">
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.wedam eq 1? 'checked':''} name="wedam" id="wedam"></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.wedpm eq 1? 'checked':''} name="wedpm" id="wedpm">
+							    <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.wedpm eq 1? 'checked':''} name="wedpm" id="wedpm"></label>
 							    <br>
 							    周四:
 								&nbsp;
 								&nbsp;
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.thuam eq 1? 'checked':''} name="thuam" id="thuam">
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.thuam eq 1? 'checked':''} name="thuam" id="thuam"></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.thupm eq 1? 'checked':''} name="thupm" id="thupm">
+							    <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.thupm eq 1? 'checked':''} name="thupm" id="thupm"></label>
 							    <br>
 							    周五:
 								&nbsp;
 								&nbsp;
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.friam eq 1? 'checked':''} name="friam" id="friam">
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.friam eq 1? 'checked':''} name="friam" id="friam"></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.fripm eq 1? 'checked':''} name="fripm" id="fripm">
+							        <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.fripm eq 1? 'checked':''} name="fripm" id="fripm"></label>
 							    <br>	
 							    周六:
 								&nbsp;
 								&nbsp;
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.satam eq 1? 'checked':''} name="satam" id="satam">
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.satam eq 1? 'checked':''} name="satam" id="satam"></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.satpm eq 1? 'checked':''} name="satpm" id="satpm">
+							        <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.satpm eq 1? 'checked':''} name="satpm" id="satpm"></label>
 							    <br>
 							    周日:
 								&nbsp;
 								&nbsp;
-								上午:&nbsp;<input type="checkbox" value="1" ${dr.sunap eq 1? 'checked':''} name="sunap" id="sunap">
+								<label>上午:&nbsp;<input type="checkbox" value="1" ${dr.sunap eq 1? 'checked':''} name="sunap" id="sunap"></label>
 								&nbsp;
 								&nbsp;
-							        下午:&nbsp;<input type="checkbox" value="1" ${dr.sumpm eq 1? 'checked':''} name="sumpm" id="sumpm">
+							        <label>下午:&nbsp;<input type="checkbox" value="1" ${dr.sumpm eq 1? 'checked':''} name="sumpm" id="sumpm"></label>
 							    <br>
 										 
-							</label>
+							</dt>
 						</dl> 
 					</dd>
 				</dl>
@@ -206,7 +210,12 @@ $(function(){
 			aname:{
 				required:true,
 			},
-			
+			xcreg:{
+				required:true,
+			},
+			pcreg:{
+				required:true,
+			},
 		},
 		onkeyup:false,
 		focusCleanup:true,
@@ -218,7 +227,7 @@ $(function(){
                     success: function (data) {
                     		//alert(data)
                         if (data.modify == 'modify'){
-                       		layer.msg('修改成功!',{icon: 4,time:3000});
+                       		layer.msg('修改成功!',{icon: 6,time:3000});
                        		setTimeout(function() {
 	                       		var index = parent.layer.getFrameIndex(window.name);
 	                        	window.parent.location.reload();
@@ -229,16 +238,18 @@ $(function(){
                         	
 						
                         }if (data.add == 'add'){
-                       		layer.msg('添加成功!同时为医生创建了一个账户',{icon: 4,time:3000});
+                       		layer.msg('添加成功!同时为医生创建了一个账户。<br>    初始密码为111111！',{icon: 6,time:3000});
                        		setTimeout(function() {
 	                       		var index = parent.layer.getFrameIndex(window.name);
 	                        	window.parent.location.reload();
 	                        	parent.layer.close(index);
 								
 								/* parent.layer.close(index); */
-                       		}, 1000)
+                       		}, 2500)
                         	
 						
+                        }if(data.add == 'had'){
+                        	layer.msg('登录名已存在，无法添加！',{icon: 2,time:1000});
                         }
                     },
                     error: function () {
