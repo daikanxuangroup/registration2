@@ -33,7 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="page-container">
 	<div class="text-c"> 
 
-		<h2 style="color: blue; ">超级员管理操作</h2>
+		<!-- <h2 style="color: blue; ">超级员管理操作</h2> -->
+		<img src="<%=path %>/image/hosip.jpg" style="width:100%; height:180px">
 		
 	
 	</div>

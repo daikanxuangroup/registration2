@@ -22,7 +22,7 @@ public interface DoctorsMapper {
 	@Select("select * from doctors where doid=#{doid}")
 	Doctors findById(Integer doid);
 	
-	@Update("update doctors set deid=#{deid,jdbcType=INTEGER},title=#{title},doname=#{doname},bcost=#{bcost},doexist=#{doexist},pcreg=#{pcreg,jdbcType=INTEGER},xcreg=#{xcreg,jdbcType=INTEGER},"
+	@Update("update doctors set deid=#{deid,jdbcType=INTEGER},title=#{title},doname=#{doname},info=#{info,jdbcType=VARCHAR},bcost=#{bcost},doexist=#{doexist},pcreg=#{pcreg,jdbcType=INTEGER},xcreg=#{xcreg,jdbcType=INTEGER},"
 			+ "monam=#{monam,jdbcType=INTEGER},monpm=#{monpm,jdbcType=INTEGER},tueam=#{tueam,jdbcType=INTEGER},tuepm=#{tuepm,jdbcType=INTEGER},wedam=#{wedam,jdbcType=INTEGER},wedpm=#{wedpm,jdbcType=INTEGER},thuam=#{thuam,jdbcType=INTEGER},thupm=#{thupm,jdbcType=INTEGER},"
 			+ "friam=#{friam,jdbcType=INTEGER},fripm=#{fripm,jdbcType=INTEGER},satam=#{satam,jdbcType=INTEGER},satpm=#{satpm,jdbcType=INTEGER},sunap=#{sunap,jdbcType=INTEGER},sumpm=#{sumpm,jdbcType=INTEGER}  where doid=#{doid}")
 	int modify(Doctors doctors);
@@ -31,9 +31,9 @@ public interface DoctorsMapper {
 	@Update("update doctors set doexist=#{doexist} where doid=#{doid}")
 	int modifyState(@Param("doid")Integer doid,@Param("doexist")Integer doexist);
 	
-	@Insert("insert into doctors(doid,deid,title,doname,bcost,doexist,pcreg,"
+	@Insert("insert into doctors(doid,deid,title,doname,info,bcost,doexist,pcreg,"
 			+ "xcreg,monam,monpm,tueam,tuepm,wedam,wedpm,thuam,thupm,friam,fripm,satam,satpm,sunap,sumpm) "
-			+ "values(#{doid},#{deid},#{title},#{doname},#{bcost},1,"
+			+ "values(#{doid},#{deid},#{title},#{doname},#{info,jdbcType=VARCHAR},#{bcost},1,"
 			+ "#{pcreg,jdbcType=INTEGER},"
 			+ "#{xcreg,jdbcType=INTEGER},"
 			+ "#{monam,jdbcType=INTEGER},"
@@ -92,5 +92,8 @@ public interface DoctorsMapper {
 
 	@Select("select deexist from departs e,doctors o where e.deid= o.deid and doid=#{doid}")
 	int ckDeState(@Param("doid")Integer doid);
+
+	@Select("select state from admins where doid = #{doid}")
+	Integer ckState(Integer doid);
 	
 }

@@ -32,8 +32,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="page-container">
 	<div class="text-c"> 
 
-		<h2 style="color: blue; ">发药员管理操作</h2>
-		
+		<!-- <h2 style="color: blue; ">发药员管理操作</h2> -->
+		<img src="<%=path %>/image/hosip.jpg" style="width:100%; height:180px">
 	
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" 

@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<c:forEach items="${drlist }" var="dr">
  		<c:if test="${dr.drsum lt 100 }"><c:set var="num" value="${num+1 }"/></c:if>
  	</c:forEach>
- 	<c:if test="${num gt 0}"><span class="r" style="color:red;font-size:16px">共有<strong>${num}</strong>种药品库存不足100！</span></c:if>
+ 	<c:if test="${num gt 0}"><span class="r" style="color:red;font-size:16px">共有<strong>${num}</strong>种药品库存数不足100！</span></c:if>
  	 </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -59,11 +59,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="50">编号</th>
 				<th width="80">药品名</th>
 				<th width="70">药品类别</th>
-				<th width="80">价格</th>
-				<th width="">可用科室</th>
-				<th width="100">库存数</th>
+				<th width="60">价格</th>
+				<th width="200">可用科室</th>
+				<th width="80">库存数</th>
 				<th width="70">状态</th>
-				<th width="100">操作</th>
+				<th width="80">操作</th>
 			</tr>
 		</thead>
 		<tbody id="tbr">

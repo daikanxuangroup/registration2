@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -59,11 +60,13 @@ clock.innerHTML=time; //显示系统时间
   <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 门诊业务 <span class="c-gray en">&gt;</span> 就医诊断 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
-	<h3 id="clock"></h3>
+<!-- 	<h3 id="clock"></h3> -->
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" 
 	onclick="member_add('诊疗卡充值','recharge','400','300')" class="btn btn-primary radius">
-		<i class="Hui-iconfont">&#xe600;</i>诊疗卡充值</a></span> </div>
+		<i class="Hui-iconfont">&#xe600;</i>诊疗卡充值</a></span> 
+		<span class="r" >提示：<span style="color:blue;font-size:17px">共有&nbsp;<strong>${fn:length(list)}</strong>&nbsp;位患者等候取药划价</span></span>
+	</div>
 	<div class="mt-20"> 
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -74,7 +77,7 @@ clock.innerHTML=time; //显示系统时间
 				<th width="70">诊疗卡号</th>
 				<th width="100">病人姓名</th>
 				<th width="40">性别</th>
-				<th width="130">病人联系电话</th>				
+				<th width="130">联系电话</th>				
 				<th width="90">开药医生</th>								
 				<th width="100">操作</th>
 			</tr>

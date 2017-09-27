@@ -40,8 +40,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>简介：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				
-				<input type="text"  class="input-text" value="${departs.intro }" id="intro" name="intro" style="width: 225px;height: 100px">
-				<!-- <textarea cols="30" rows="3" name="myself" ></textarea>  -->
+				<%-- <input type="text"  class="input-text" value="${departs.intro }" id="intro" name="intro" style="width: 225px;height: 100px"> --%>
+				<textarea cols="30" rows="5" id="intro" name="intro" >${departs.intro }</textarea> 
 			</div>
 		</div>
 		<div class="row cl">
@@ -117,7 +117,7 @@ $(function(){
                     type: "post",
                     success: function (data) {
                     	 if (data.modify == 'modify'){
-                       		layer.msg('修改成功!',{icon: 4,time:3000});
+                       		layer.msg('修改成功!',{icon: 6,time:3000});
                        		setTimeout(function() {
 	                       		var index = parent.layer.getFrameIndex(window.name);
 	                        	window.parent.location.reload();
@@ -128,7 +128,7 @@ $(function(){
                         	
 						
                         }if (data.add == 'add'){
-                       		layer.msg('添加成功!',{icon: 4,time:3000});
+                       		layer.msg('添加成功!',{icon: 6,time:3000});
                        		setTimeout(function() {
 	                       		var index = parent.layer.getFrameIndex(window.name);
 	                        	window.parent.location.reload();

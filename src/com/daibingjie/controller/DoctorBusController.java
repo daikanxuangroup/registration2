@@ -239,7 +239,7 @@ public class DoctorBusController  {
 
 		Map<String,String> map=new HashMap<String,String>();
 
-		if(deal==2 || deal ==3){
+		if(deal==2 ){//住院的时候可以不开药
 			if(bs.getBy2()<100){
 				map.put("map", "no");
 				return map;	
@@ -254,7 +254,7 @@ public class DoctorBusController  {
 				}
 			}else if(deal==3){
 				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),0,brief, deal,rid)){
-					map.put("map", "ok");	
+					map.put("map", "hos");	
 				}
 			}else{
 				if(0<doctorBusService.allHistory(cid, doctors.getDoid(),bs.getBy2(),brief, deal,rid)){

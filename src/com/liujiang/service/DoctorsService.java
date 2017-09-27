@@ -82,4 +82,9 @@ public class DoctorsService {
 		// TODO Auto-generated method stub
 		return doctorsMapper.ckDeState(doid);
 	}
+
+	public Integer ckState(Integer doid) {
+		// TODO Auto-generated method stub
+		return doctorsMapper.ckState(doid);
+	}
 }

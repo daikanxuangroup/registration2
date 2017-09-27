@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>诊断结论：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<!-- <input type="text" class="input-text" value="" placeholder="" id="brief" name="brief"> -->
-						<textarea class="textarea"  id="brief" name="brief" placeholder="不少于4个字符，不多于200个字符。"  style="width: 620px; height: 220px">${bs.by1}</textarea>
+						<textarea class="textarea"  id="brief" name="brief" placeholder="不少于4个字符，不多于400个字符。"  style="width: 620px; height: 220px">${bs.by1}</textarea>
 					</div>
 				</div>
 
@@ -109,9 +109,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" value="${rid }" name="rid">
 						</div>
 						<span >
-						<a id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','800','800')" ><i class="Hui-iconfont">&#xe647;</i> 开药</a> &nbsp;
+						<a id="btn1" onClick="javascript:addpres('药信息','drug?cid=${cards.cid }&rid=${rid }','800','500')" ><i class="Hui-iconfont">&#xe647;</i> 开药</a> &nbsp;
 				<%-- 		<c:if test="${by2 > 100}"> --%>
-						<a id="btn2" onClick="javascript:member_add('药方信息','finddrandpr','800','500')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</a>
+						<a id="btn2" onClick="javascript:member_add('药方信息','finddrandpr','800','525')" ><i class="Hui-iconfont">&#xe695;</i> 查看药方</a>
 			
 						</span>
 					</div>
@@ -189,28 +189,40 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-
-					$(form).ajaxSubmit({
-						type: 'post',
-						url: "addHi",
-						dataType:"json",
-						success: function(data){
-						if(data.map=="no"){
-						layer.msg('还没有开药方!',{icon:1,time:1000});	
-						}else{
-						var index = parent.layer.getFrameIndex(window.name);
-						layer.msg('病历添加成功!',{icon:1,time:1000});
-						 setTimeout(function () { 
-							           parent.location.reload();
-					                     parent.layer.close(index);
-					                       }, 700);				
+				layer.confirm('是否确定提交？', function(){
+						$(form).ajaxSubmit({
+							type: 'post',
+							url: "addHi",
+							dataType:"json",
+							success: function(data){
+							if(data.map=="no"){
+							layer.msg('还没有开药方!',{icon:2,time:1000});	
+							}else if(data.map=='hos'){
+								var index = parent.layer.getFrameIndex(window.name);
+								layer.alert('病历已提交至住院部，请病人办理住院手续！', {
+				    				skin: 'layui-layer-lan'
+				    				,closeBtn: 0
+				    				,anim: 4 //动画类型
+				  				},function(){
+				  					parent.location.reload();
+				                    parent.layer.close(index);
+				  				});
+							}else{
+								var index = parent.layer.getFrameIndex(window.name);
+								layer.msg('病历添加成功!',{icon:1,time:1000});
+								 setTimeout(function () { 
+						           parent.location.reload();
+				                     parent.layer.close(index);
+		                       	}, 1000);				
+							}
+												
+						},
+		                error: function(XmlHttpRequest, textStatus, errorThrown){
+							layer.msg('error!',{icon:1,time:1000});
 						}
+					});	
+				})
 											
-					},
-	                error: function(XmlHttpRequest, textStatus, errorThrown){
-						layer.msg('error!',{icon:1,time:1000});
-					}
-				});							
 		}
 	});  
 	

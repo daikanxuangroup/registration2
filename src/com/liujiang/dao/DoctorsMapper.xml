@@ -16,7 +16,8 @@
 		<result property="title" column="title"/>
 		<result property="doexist" column="doexist"/>
 		<result property="bcost" column="bcost"/>
-		
+		<result property="info" column="info"/>
+		<result property="aname" column="aname"/>
 		<result property="pcreg" column="pcreg"/>
 		<result property="xcreg" column="xcreg"/>
 		<result property="monam" column="monam"/>
@@ -39,7 +40,7 @@
 	</resultMap>
 	
 	<select id="findAll" resultMap="doctors-result">
-		select do.doid,do.doname,do.title,do.doexist,bcost,pcreg,xcreg,de.dename from  
-    	   doctors do left outer join departs de on do.deid=de.deid
+		select do.doid,do.doname,do.info,a.aname,do.title,do.doexist,bcost,pcreg,xcreg,de.dename from  
+    	   doctors do left outer join departs de on do.deid=de.deid left join admins a on a.doid = do.doid
 	</select>
 </mapper>

@@ -34,10 +34,18 @@ public class Doctors implements Serializable{
 	private Integer deid;
 	
 	private Departs departs;
-
+	private String aname;
 	
 	public Doctors() {
 		
+	}
+
+	public String getAname() {
+		return aname;
+	}
+
+	public void setAname(String aname) {
+		this.aname = aname;
 	}
 
 	public Integer getDeid() {

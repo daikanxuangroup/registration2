@@ -65,7 +65,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>医生职位：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${dr.title}" id="title" name="title" style="width: 225px;">
+				<%-- <input type="text" class="input-text" value="${dr.title}" id="title" name="title" style="width: 225px;"> --%>
+				<select class="select" size="1" name="title" style="width: 215px;">
+					<option value="1" ${dr.title==1?'selected':""}>住院医师</option>
+					<option value="2" ${dr.title==2?'selected':""}>主治医师</option>
+					<option value="3" ${dr.title==3?'selected':""}>副主任医师</option>
+					<option value="4" ${dr.title==4?'selected':""}>主任医师</option>
+				</select>
 			</div>
 		</div>
 		
@@ -80,6 +86,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    	</c:forEach>
 				</select>
 				</span> </div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>医生简介：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<%-- <input type="text" class="input-text" value="${dr.title}" id="info" name="info" style="width: 225px;"> --%>
+				<textarea cols="30" rows="2" id="info" name="info" >${dr.info}</textarea> 
+			</div>
 		</div>
 		
 		<div class="row cl">
@@ -227,7 +241,7 @@ $(function(){
                     success: function (data) {
                     		//alert(data)
                         if (data.modify == 'modify'){
-                       		layer.msg('修改成功!',{icon: 6,time:3000});
+                       		layer.msg('修改成功!',{icon:6,time:3000});
                        		setTimeout(function() {
 	                       		var index = parent.layer.getFrameIndex(window.name);
 	                        	window.parent.location.reload();

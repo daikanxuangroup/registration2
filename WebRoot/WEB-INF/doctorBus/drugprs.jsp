@@ -60,11 +60,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td>${dplist.drug.drname}</td>
 				<td>${dplist.drug.drprice}</td> 
 				<td>${dplist.drnum}</td>
-				</c:forEach>
 			</tr>
+		</c:forEach>
 			
 		</tbody>
 	</table>
+
+<div align="center">
+<button onClick="layer_close();" class="btn btn-primary size-L radius" type="button"> 确定&nbsp;</button>
+</div>
   	
     <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="<%=path %>/lib/jquery/1.9.1/jquery.min.js"></script> 

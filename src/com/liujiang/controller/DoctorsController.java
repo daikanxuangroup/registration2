@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.daibingjie.aop.AuthPassport;
+import com.dkx.util.PTitle;
 import com.liujiang.pojo.Departs;
 import com.liujiang.pojo.Doctors;
 import com.liujiang.service.DoctorsService;
@@ -46,6 +47,8 @@ public class DoctorsController {
 		if(doid !=0 && doid !=null){
 			doctors = doctorsService.findById(doid);
 		}
+		PTitle pt = PTitle.getCode(doctors.getTitle());
+		doctors.setTitle(pt.code.toString());
 		modelMap.put("dylist", dylist);
 		modelMap.put("dr", doctors);
 		
@@ -62,6 +65,11 @@ public class DoctorsController {
 		
 		Map<String,String> map = new HashMap<String, String>();
 		if(doexist !=1){
+			Integer state = doctorsService.ckState(doid);
+			if(state==0){
+				map.put("result", "admin");
+				return map;
+			}
 			if(count1 == 0 && count2 == 0){
 				int count3 = doctorsService.updateState(doid, doexist);
 				if(count3 > 0){
@@ -102,6 +110,9 @@ public class DoctorsController {
 		System.out.println(doctors.getMonpm()+"周一下午");
 		System.out.println(doctors.getTueam()+"周二上午");
 		System.out.println(doctors.getTuepm()+"周二下午");
+		
+		PTitle pt = PTitle.getTitle(Integer.valueOf(doctors.getTitle()));
+		doctors.setTitle(pt.title);
 		if(doctors.getMonam()==null){
 			doctors.setMonam(0);
 		}if(doctors.getMonpm()==null){

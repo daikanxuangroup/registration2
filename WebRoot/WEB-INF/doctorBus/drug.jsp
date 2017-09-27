@@ -85,6 +85,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</table>
 	</div>
 </div>
+
+	<div align="center">
+	<button onClick="layer_close();" class="btn btn-primary size-L radius" type="button"> 确定&nbsp;</button>
+	</div>
+	<br>
+	<br>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="<%=path %>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/lib/layer/2.4/layer.js"></script>

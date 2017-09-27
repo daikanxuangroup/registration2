@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" 
-		onclick="member_add('添加医生','doctors-edit?doid=0','525','735')" class="btn btn-primary radius">
+		onclick="member_add('添加医生','doctors-edit?doid=0','525','540')" class="btn btn-primary radius">
 		<i class="Hui-iconfont">&#xe600;</i> 添加医生</a>
 		&nbsp;
 	<a href="javascript:;" onclick="dos_start()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe676;</i> 批量启用</a>  
@@ -45,13 +45,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="25" id="allcheck">全选&nbsp;<input type="checkbox" name="" value=""></th>
 				<th width="50">编号</th>
 				<th width="70">医生名</th>
+				<th width="70">登录账号</th>
 				<th width="70">科室</th>
-				<th width="80">职位</th>
+				<th width="70">职称</th>
 				<th width="50">挂号费</th>
-				<th width="80">每小时可挂号人数（网上）</th>
-				<th width="80">每小时可挂号人数（现场）</th>
+				<th width="60">每小时可挂号人数（网上）</th>
+				<th width="60">每小时可挂号人数（现场）</th>
+				<th width="80">简介</th>
 				<th width="70">状态</th>
-				<th width="100">操作</th>
+				<th width="80">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,11 +64,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td><input type="checkbox" value="${dr.doid }" name="doid"></td>
 				<td>${dr.doid }</td>
 				<td>${dr.doname}</td>
+				<td>${dr.aname}</td>
 				<td>${dr.departs.dename }</td>
 				<td>${dr.title }</td>
 				<td>${dr.bcost}</td>
 				<td>${dr.pcreg}</td>
 				<td>${dr.xcreg}</td>
+				<td>${dr.info}</td>
 				<td class="td-status">
 				<c:choose>
 					<c:when test="${dr.doexist eq 1}"><span class="label label-success radius">已启用</span></c:when>
@@ -83,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<a style="text-decoration:none" onClick="doctors_start(this,${dr.doid })" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe66b;</i></a>
 						</c:otherwise>
 					</c:choose>
-					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','doctors-edit?doid='+${dr.doid },'525','680')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  
+					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','doctors-edit?doid='+${dr.doid },'525','540')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>  
 				</td>
 			</tr>
 			</c:forEach>
@@ -116,7 +120,7 @@ $(function(){
                         'className': 'btn btn-secondary radius', //按钮的class样式
                         'text': '<i class="Hui-iconfont">&#xe640;</i>导出到excel',//定义导出excel按钮的文字  
                         'exportOptions':{ //从DataTable中选择要收集的数据。这包括列、行、排序和搜索的选项。请参阅button.exportdata()方法以获得完整的详细信息——该参数所提供的对象将直接传递到该操作中，以收集所需的数据，更多options选项参见：https://datatables.net/reference/api/buttons.exportData()
-				           	'columns': [1,2,3,4,5,6,7,8]  
+				           	'columns': [1,2,3,4,5,6,7,8,9,10]  
 				         }
 	                   }  
 	               ], 
@@ -124,7 +128,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,3]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,11]}// 制定列不参与排序
 		]
 	});
 	
@@ -150,6 +154,7 @@ function dos_stop(){
 			});
 	    }else{
 	    	var i = 0;	
+	    	var j = 0;
 	    	$.each(check, function (index, id){
 	    		$.ajax({
 	    			type: 'POST',
@@ -165,14 +170,18 @@ function dos_stop(){
 							$(dy).find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
 						}else if(data.result=="no"){
 							i++;
+						}else if(data.result=="admin"){
+							j=1;
 						}
 					},
 	    		});
 	    	});
-	    	if(i==0)
+	    	if(i==0&&j==0)
 	    		layer.msg('批量启用完成!',{icon: 4,time:1200});
-	    	else
+	    	else if(i!=0)
 	    		layer.msg('存在预约或挂号单的医生暂未停用！',{icon: 7,time:1700});
+	    	else 
+	    		layer.msg('存在超级管理员无法停用！',{icon: 7,time:1700});
 	    }
 	});    
 }
@@ -191,6 +200,8 @@ function doctors_stop(obj,id){
 					$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
 					$(obj).remove();
 					layer.msg('已停用!',{icon: 5,time:1000});
+				}else if(data.result=="admin"){
+					layer.msg('超级管理员账号无法停用！',{icon: 2,time:1000});
 				}else{
 					layer.msg('该医生已接受病人就诊，无法停用！',{icon: 4,time:1000});
 				}
