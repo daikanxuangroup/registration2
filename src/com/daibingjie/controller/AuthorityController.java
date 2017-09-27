@@ -81,7 +81,7 @@ public class AuthorityController {
 		}	
 		return mgs;	
 	}
-	
+	                                                                                                                                                                                                                                                                                                                                                              
 	@AuthPassport
 	@RequestMapping("tempAll")
 	public String tempAll(ModelMap modelMap,@RequestParam("state")Integer state){
