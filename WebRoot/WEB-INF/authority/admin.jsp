@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-     超级员管理操作 <span class="c-gray en">&gt;</span> <a id="refresh" class="btn btn-success radius r" 
+     账号管理 <span class="c-gray en">&gt;</span>普通管理员列表 <a id="refresh" class="btn btn-success radius r" 
      style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
      <i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">

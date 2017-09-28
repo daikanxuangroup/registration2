@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </form>
   </div>
 </div>
-<div class="footer">NEWER医院后台管理系统</div>
+<div class="footer">三零一医院后台管理系统</div>
 <script type="text/javascript" src="<%=path %>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript">

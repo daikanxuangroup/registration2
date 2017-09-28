@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,6 @@ import com.daibingjie.pojo.Drugandprescripton;
 import com.daibingjie.pojo.History;
 import com.daibingjie.pojo.Registration;
 import com.daibingjie.service.DoctorBusService;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 
 
@@ -41,6 +41,7 @@ public class DoctorBusController  {
 	@Resource(name="doctorBusService")
 	public DoctorBusService doctorBusService;
 	
+	private final static int threshold = 20; //医生开具处方的药品库存阈值
 	
 	@AuthPassport
 	@RequestMapping("index")
@@ -136,6 +137,11 @@ public class DoctorBusController  {
 		 */
 		Doctors doctors= (Doctors) session.getAttribute("doctors");
 		List<Druganddeparts> drlist= doctorBusService.finddru(doctors.getDeid(),price1,price2);
+		//阈值过滤，库存少于阈值的不予显示
+		drlist = drlist.stream().filter(dr->dr.getDrug().getDrsum()>threshold).collect(Collectors.toList());
+		
+		drlist.forEach(dr->System.out.println(dr.getDrug().getDrname()+"    "+dr.getDrug().getDrsum()));
+		
 		modelMap.put("price1", price1);
 		modelMap.put("price2", price2);
 		modelMap.put("drlist", drlist);

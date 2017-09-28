@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-  发号员管理 <span class="c-gray en">&gt;</span> <a id="refresh" class="btn btn-success radius r" 
+  账号管理 <span class="c-gray en">&gt;</span>挂号收银员列表 <a id="refresh" class="btn btn-success radius r" 
      style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
      <i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" 
-	onclick="member_add('添加发号员','tempAll?state=3','400','300')" class="btn btn-primary radius">
+	onclick="member_add('添加挂号收银员','tempAll?state=3','400','300')" class="btn btn-primary radius">
 		<i class="Hui-iconfont">&#xe600;</i>添加挂号收银员</a></span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
