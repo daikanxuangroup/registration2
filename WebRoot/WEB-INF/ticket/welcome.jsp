@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -29,26 +30,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <div class="page-container">
-	<p class="f-20 text-success">欢迎来到医院管理系统 <span class="f-14"></span></p>
-	<p>上次登录IP：222.35.131.79.1  上次登录时间：2014-6-14 11:19:55</p>
-	<table class="table table-border table-bordered table-bg">
+	<p class="f-20 text-success">欢迎来到301医院门诊部后台管理系统 <span class="f-14"></span></p>
+	<p>上次登录时间：<fmt:formatDate value="${adm.times }" type="both"/></p>
+	<table class="table table-border table-bordered table-bg table-hover ">
 		<thead>
 			<tr>
 				<th colspan="7" scope="col">信息统计</th>
 			</tr>
 			<tr class="text-c">
-				<th>挂号统计</th>
-			<c:forEach items="${list}" var="dename">
-				<th>${dename}</th>
+				<th>门诊挂号人数统计</th>
+			<c:forEach items="${times}" var="time">
+				<th>${time}</th>
 			</c:forEach>	
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${map}" var="maps">
 				<tr class="text-c">
-					<td>${maps.key}</td>
+					<td width="50px">${maps.key}</td>
 			<c:forEach items="${maps.value }" var="count">
-			<td>${count }</td>
+			<td width="30px">${count }</td>
 			</c:forEach>
 				</tr> 
 				</c:forEach>
@@ -64,9 +65,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </footer>
 <script type="text/javascript" src="<%=path %>/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=path %>/static/h-ui/js/H-ui.min.js"></script> 
-<!--此乃百度统计代码，请自行删除-->
+<script type="text/javascript" src="<%=path %>/static/h-ui.admin/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="<%=path %>/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="<%=path %>/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="<%=path %>/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script> 
+<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script> 
+<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/drilldown.js"></script> 
+<script type="text/javascript" src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script> 
+
 <script type="text/javascript">
+
+
 $(function () {
+	
+	
+	
     // Create the chart
     Highcharts.chart('container', {
         chart: {
@@ -94,13 +108,13 @@ $(function () {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '{point.y:.1f}%'
+                    format: '{point.y:.f}人'
                 }
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.f}人</b> of total<br/>'
         },
         series: [{
             name: '科室名称',
@@ -109,125 +123,85 @@ $(function () {
             
             {
             
-                name: 'Microsoft Internet Explorer',
-                y: 56.33,
-                drilldown: 'Microsoft Internet Explorer'
+                name: '外科',
+                y: 56,
+                drilldown: '外科'
             }, {
-                name: 'Chrome',
-                y: 24.03,
-                drilldown: 'Chrome'
+                name: '内科',
+                y: 24,
+                drilldown: '内科'
             }, {
-                name: 'Firefox',
-                y: 10.38,
-                drilldown: 'Firefox'
+                name: '骨科',
+                y: 10,
+                drilldown: '骨科'
             }, {
-                name: 'Safari',
-                y: 4.77,
-                drilldown: 'Safari'
+                name: '妇科',
+                y: 47,
+                drilldown: '妇科'
             }, {
-                name: 'Opera',
-                y: 0.91,
-                drilldown: 'Opera'
+                name: '脑科',
+                y: 91,
+                drilldown: '脑科'
             }, {
-                name: 'Proprietary or Undetectable',
-                y: 0.2,
-                drilldown: null
+                name: '口腔科',
+                y: 7,
+                drilldown: '口腔科'
             }]
         }],
         drilldown: {
             series: [{
-                name: 'Microsoft Internet Explorer',
-                id: 'Microsoft Internet Explorer',
+                name: '外科',
+                id: '外科',
                 data: [
                     [
-                        'v11.0',
-                        24.13
+                        '本季度',
+                        56
                     ],
                     [
-                        'v8.0',
-                        17.2
+                        '本月',
+                        20
                     ],
                     [
-                        'v9.0',
-                        8.11
+                        '本周',
+                        10
                     ],
                     [
-                        'v10.0',
-                        5.33
-                    ],
-                    [
-                        'v6.0',
-                        1.06
-                    ],
-                    [
-                        'v7.0',
-                        0.5
-                    ]
-                ]
-            }, {
-                name: 'Chrome',
-                id: 'Chrome',
-                data: [
-                    [
-                        'v40.0',
+                        '昨天',
                         5
                     ],
                     [
-                        'v41.0',
-                        4.32
-                    ],
-                    [
-                        'v42.0',
-                        3.68
-                    ],
-                    [
-                        'v39.0',
-                        2.96
-                    ],
-                    [
-                        'v36.0',
-                        2.53
-                    ],
-                    [
-                        'v43.0',
-                        1.45
-                    ],
-                    [
-                        'v31.0',
-                        1.24
-                    ],
-                    [
-                        'v35.0',
-                        0.85
-                    ],
-                    [
-                        'v38.0',
-                        0.6
-                    ],
-                    [
-                        'v32.0',
-                        0.55
-                    ],
-                    [
-                        'v37.0',
-                        0.38
-                    ],
-                    [
-                        'v33.0',
-                        0.19
-                    ],
-                    [
-                        'v34.0',
-                        0.14
-                    ],
-                    [
-                        'v30.0',
-                        0.14
+                        '今天',
+                        1
                     ]
                 ]
             }, {
-                name: 'Firefox',
-                id: 'Firefox',
+                name: '内科',
+                id: '内科',
+                data: [
+                    [
+                        '本季度',
+                        56
+                    ],
+                    [
+                        '本月',
+                        20
+                    ],
+                    [
+                        '本周',
+                        10
+                    ],
+                    [
+                        '昨天',
+                        5
+                    ],
+                    [
+                        '今天',
+                        1
+                    ]
+                ]
+            }, {
+                name: '骨科',
+                id: '骨科',
                 data: [
                     [
                         'v35',
@@ -319,6 +293,17 @@ $(function () {
             }]
         }
     });
+    
+    $('.table-hover').dataTable({
+		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"pading":false,
+		"bLengthChange": false,//是否显示每页大小的下拉框
+		"aLengthMenu": [[5], [5]],
+		"aoColumnDefs": [
+		  {"orderable":false,"aTargets":[0]}// 不参与排序的列
+		]
+	});
 });
 </script>
 

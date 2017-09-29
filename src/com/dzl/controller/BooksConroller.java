@@ -7,8 +7,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -238,49 +241,37 @@ public class BooksConroller {
 		
 		//获得所有部门及部门所有挂号人数信息
 		@RequestMapping("getall")
-		public ModelAndView getall(){
+		public ModelAndView getall( ){
 			Map<String,List<Integer>> map = new HashMap<String, List<Integer>>();
 			List<String > list=booksService.getDename();
-			List<Integer> list1=new ArrayList<Integer>();
-			List<Integer> list2=new ArrayList<Integer>();
-			List<Integer> list3=new ArrayList<Integer>();
-			List<Integer> list4=new ArrayList<Integer>();
-			List<Integer> list5=new ArrayList<Integer>();
+			
+			
 					for (String dename : list) {
+						int count5=booksService.getCount5(dename);
+						int count4=booksService.getCount4(dename);
+						int count3=booksService.getCount3(dename);
+						int count2=booksService.getCount2(dename);
 						int count1=booksService.getCount1(dename);
-						System.out.println(count1);
-						list1.add(count1);
+						ArrayList<Integer> alist = new ArrayList<Integer>();
+						alist.add(count1);
+						alist.add(count2);
+						alist.add(count3);
+						alist.add(count4);
+						alist.add(count5);
+						map.put(dename, alist);
 					}
-					for (String dename : list) {
-						int count1=booksService.getCount2(dename);
-						System.out.println(count1);
-						list2.add(count1);
-					}
-					for (String dename : list) {
-						int count1=booksService.getCount3(dename);
-						System.out.println(count1);
-						list3.add(count1);
-					}
-					for (String dename : list) {
-						int count1=booksService.getCount4(dename);
-						System.out.println(count1);
-						list4.add(count1);
-					}
-					for (String dename : list) {
-						int count1=booksService.getCount5(dename);
-						System.out.println(count1);
-						list5.add(count1);
-					}
-					int allno=booksService.getAllno();
-					map.put("今天", list1);
-					map.put("昨天", list2);
-					map.put("本周", list3);
-					map.put("本月", list4);
-					map.put("本季度", list5);
+			
+					List<String> times = new ArrayList<String>();
+					times.add("今天");
+					times.add("昨天");
+					times.add("本周");
+					times.add("本月");
+					times.add("本季度");
+					int allno=booksService.getAllno(); //总数
 					System.out.println(map.toString());
 					ModelAndView mv=new ModelAndView();
 					mv.addObject("allno",allno);
-					mv.addObject("list",list);
+					mv.addObject("times",times);
 					mv.addObject("map",map);
 					mv.setViewName("ticket/welcome");
 					return mv;
