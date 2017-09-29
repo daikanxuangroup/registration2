@@ -132,4 +132,40 @@ public class BooksService {
 		booksMapper.updatebookable(bid);
 		return booksMapper.updateRestate(red);
 	}
+	
+	//所有部门名称
+	public List<String> getDename() {
+		List<String> list=booksMapper.getDename();
+		return list;
+	}
+	//某部门的今天挂号人数
+	public int getCount1(String dename) {
+		int count=booksMapper.getCount1(dename);
+		return count;
+	}
+	//昨天
+	public int getCount2(String dename) {
+		int count=booksMapper.getCount2(dename);
+		return count;
+	}
+	//本周
+	public int getCount3(String dename) {
+		int count=booksMapper.getCount3(dename);
+		return count;
+	}
+	//本月
+	public int getCount4(String dename) {
+		int count=booksMapper.getCount4(dename);
+		return count;
+	}
+	//本季度
+	public int getCount5(String dename) {
+		int count=booksMapper.getCount5(dename);
+		return count;
+	}
+	//本季度所有部门总的挂号人数
+	public int getAllno() {
+		int count=booksMapper.getAllno();
+		return count;
+	}
 }

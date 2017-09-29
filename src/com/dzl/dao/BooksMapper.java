@@ -81,6 +81,38 @@ public interface BooksMapper {
 	//state改为0表示网约已取号
 	@Update("update reservation set state = 0 where red = #{red}")
 	Integer updateRestate(@Param("red")Integer red);
-
+	//查询所有部门
+	@Select("select dename from departs")
+	List<String> getDename();
 	
+	//某部门当天的挂号人数
+	@Select("select count(snum) from registration r,bookable b,doctors do,"
+			+ " departs de where r.bid=b.bid and do.doid=b.doid"
+			+ " and de.deid=do.deid and dename=#{dename} and bdate between trunc(sysdate) and trunc(sysdate+1)")
+			int getCount1(@Param("dename") String dename);
+	//某部门昨天的挂号人数
+	@Select("select count(snum) from registration r,bookable b,doctors do,"
+			+ " departs de where r.bid=b.bid and do.doid=b.doid"
+			+ " and de.deid=do.deid and dename=#{dename} and bdate between trunc(sysdate-1) and trunc(sysdate)")
+			int getCount2(@Param("dename") String dename);
+	//某部门本周的挂号人数
+	@Select("select count(snum) from registration r,bookable b,doctors do,"
+			+ " departs de where r.bid=b.bid and do.doid=b.doid"
+			+ " and de.deid=do.deid and dename=#{dename} and bdate between trunc(sysdate,'d')+1 and trunc(sysdate+1)")
+			int getCount3(@Param("dename") String dename);
+	//某部门本月挂号人数
+	@Select("select count(snum) from registration r,bookable b,doctors do,"
+			+ " departs de where r.bid=b.bid and do.doid=b.doid"
+			+ " and de.deid=do.deid and dename=#{dename} and bdate between trunc(sysdate,'mm') and trunc(sysdate+1)")
+			int getCount4(@Param("dename") String dename);
+	//某部门本季度挂号人数
+	@Select("select count(snum) from registration r,bookable b,doctors do,"
+			+ " departs de where r.bid=b.bid and do.doid=b.doid"
+			+ " and de.deid=do.deid and dename=#{dename} and bdate between trunc(sysdate,'Q') and trunc(sysdate+1)")
+			int getCount5(@Param("dename") String dename);
+	//所有部门本季度的总挂号人数
+	@Select("select count(snum) from registration r,bookable b,doctors do,"
+			+ " departs de where r.bid=b.bid and do.doid=b.doid"
+			+ " and de.deid=do.deid  and bdate between trunc(sysdate,'Q') and trunc(sysdate+1)")
+			int getAllno();
 }
