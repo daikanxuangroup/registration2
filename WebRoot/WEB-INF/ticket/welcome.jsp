@@ -78,221 +78,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 $(function () {
-	
-	
-	
     // Create the chart
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '本季度各科室病人挂号比例'
-        },
-        subtitle: {
-            text: '详细信息'
-        },
-        xAxis: {
-            type: 'category'
-        },
-        yAxis: {
-            title: {
-                text: '总挂号人数'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.f}人'
-                }
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.f}人</b> of total<br/>'
-        },
-        series: [{
-            name: '科室名称',
-            colorByPoint: true,
-            data: [
-            
-            {
-            
-                name: '外科',
-                y: 56,
-                drilldown: '外科'
-            }, {
-                name: '内科',
-                y: 24,
-                drilldown: '内科'
-            }, {
-                name: '骨科',
-                y: 10,
-                drilldown: '骨科'
-            }, {
-                name: '妇科',
-                y: 47,
-                drilldown: '妇科'
-            }, {
-                name: '脑科',
-                y: 91,
-                drilldown: '脑科'
-            }, {
-                name: '口腔科',
-                y: 7,
-                drilldown: '口腔科'
-            }]
-        }],
-        drilldown: {
-            series: [{
-                name: '外科',
-                id: '外科',
-                data: [
-                    [
-                        '本季度',
-                        56
-                    ],
-                    [
-                        '本月',
-                        20
-                    ],
-                    [
-                        '本周',
-                        10
-                    ],
-                    [
-                        '昨天',
-                        5
-                    ],
-                    [
-                        '今天',
-                        1
-                    ]
-                ]
-            }, {
-                name: '内科',
-                id: '内科',
-                data: [
-                    [
-                        '本季度',
-                        56
-                    ],
-                    [
-                        '本月',
-                        20
-                    ],
-                    [
-                        '本周',
-                        10
-                    ],
-                    [
-                        '昨天',
-                        5
-                    ],
-                    [
-                        '今天',
-                        1
-                    ]
-                ]
-            }, {
-                name: '骨科',
-                id: '骨科',
-                data: [
-                    [
-                        'v35',
-                        2.76
-                    ],
-                    [
-                        'v36',
-                        2.32
-                    ],
-                    [
-                        'v37',
-                        2.31
-                    ],
-                    [
-                        'v34',
-                        1.27
-                    ],
-                    [
-                        'v38',
-                        1.02
-                    ],
-                    [
-                        'v31',
-                        0.33
-                    ],
-                    [
-                        'v33',
-                        0.22
-                    ],
-                    [
-                        'v32',
-                        0.15
-                    ]
-                ]
-            }, {
-                name: 'Safari',
-                id: 'Safari',
-                data: [
-                    [
-                        'v8.0',
-                        2.56
-                    ],
-                    [
-                        'v7.1',
-                        0.77
-                    ],
-                    [
-                        'v5.1',
-                        0.42
-                    ],
-                    [
-                        'v5.0',
-                        0.3
-                    ],
-                    [
-                        'v6.1',
-                        0.29
-                    ],
-                    [
-                        'v7.0',
-                        0.26
-                    ],
-                    [
-                        'v6.2',
-                        0.17
-                    ]
-                ]
-            }, {
-                name: 'Opera',
-                id: 'Opera',
-                data: [
-                    [
-                        'v12.x',
-                        0.34
-                    ],
-                    [
-                        'v28',
-                        0.24
-                    ],
-                    [
-                        'v27',
-                        0.17
-                    ],
-                    [
-                        'v29',
-                        0.16
-                    ]
-                ]
-            }]
-        }
-    });
+    picDept();
     
     $('.table-hover').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
@@ -305,6 +92,64 @@ $(function () {
 		]
 	});
 });
+
+function picDept(){
+
+	$.ajax({
+		url:'picDept',
+		dataType: 'json',
+		success: function(data){
+			console.log(data.seriesList);
+			console.log(data.dataList);
+			var dataList = data.dataList;
+			var seriesList = data.seriesList;
+			Highcharts.chart('container', {
+		        chart: {
+		            type: 'column'
+		        },
+		        title: {
+		            text: '本季度各科室病人挂号比例'
+		        },
+		        subtitle: {
+		            text: '详细信息'
+		        },
+		        xAxis: {
+		            type: 'category'
+		        },
+		        yAxis: {
+		            title: {
+		                text: '总挂号人数'
+		            }
+		        },
+		        legend: {
+		            enabled: false
+		        },
+		        plotOptions: {
+		            series: {
+		                borderWidth: 0,
+		                dataLabels: {
+		                    enabled: true,
+		                    format: '{point.y:.f}人'
+		                }
+		            }
+		        },
+		        tooltip: {
+		            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+		            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.f}人</b> 挂号<br/>'
+		        },
+		        series: [{
+		            name: '科室名称',
+		            colorByPoint: true,
+		            data:  dataList
+		        }],
+		        drilldown: {
+		            series:  seriesList
+		        }
+		    });
+		}
+	});
+	
+}
 </script>
 
 

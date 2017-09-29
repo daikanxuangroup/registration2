@@ -33,6 +33,8 @@ import com.dzl.service.CardsService;
 
 @Controller
 public class BooksConroller {
+	private static final int HashMap = 0;
+	private static final int String = 0;
 	@Resource(name = "booksService")
 	private BooksService booksService;
 	@Resource(name = "cardsService")
@@ -240,6 +242,7 @@ public class BooksConroller {
 		
 		
 		//获得所有部门及部门所有挂号人数信息
+		@AuthPassport
 		@RequestMapping("getall")
 		public ModelAndView getall( ){
 			Map<String,List<Integer>> map = new HashMap<String, List<Integer>>();
@@ -276,6 +279,58 @@ public class BooksConroller {
 					mv.setViewName("ticket/welcome");
 					return mv;
 
+		}
+		
+		//统计科室挂号
+		@AuthPassport
+		@RequestMapping("picDept")
+		@ResponseBody
+		public Object picDept(){
+			
+			
+			List<Map<String, Object>> sdatalist = new ArrayList<Map<String,Object>>();//存放sdata
+			
+			List<Map<String,Object>> serList = new ArrayList<Map<String,Object>>();//存放series
+			
+			
+			List<String > delist=booksService.getDename();
+			for (String dename : delist) {
+				
+				Map<String, Object> sdata =new HashMap<String, Object>();//name: '外科',y: 56,drilldown: '外科'
+				
+				List<List<Object>> ddatalist = new ArrayList<List<Object>>();//存放ddata
+				Map<String,Object> series = new HashMap<String, Object>();//name: '外科',  id: '外科', data: ddatalist
+				
+				int[] counts = new int[5];
+				counts[0]=booksService.getCount5(dename);//季
+				counts[1]=booksService.getCount4(dename);//月
+				counts[2]=booksService.getCount3(dename);//周
+				counts[3]=booksService.getCount2(dename);//昨
+				counts[4]=booksService.getCount1(dename);//今
+				
+				sdata.put("name", dename);
+				sdata.put("y", counts[0]);
+				sdata.put("drilldown", dename);
+				sdatalist.add(sdata);//总柱图
+				
+				String[] date = {"本季度","本月","本周","昨天","今天"	};
+				for (int i = 0; i < date.length; i++) {
+					List<Object> ddata = new ArrayList<Object>();//'本季度',56 or '今天',1
+					ddata.add(date[i]);
+					ddata.add(counts[i]);
+					ddatalist.add(ddata);
+				}
+				
+				series.put("name", dename);
+				series.put("id", dename);
+				series.put("data", ddatalist);
+				serList.add(series);//子柱图
+			}
+			
+			Map<String,Object> result = new HashMap<String, Object>();
+			result.put("seriesList", serList);
+			result.put("dataList", sdatalist);
+			return result;
 		}
 		
 }
