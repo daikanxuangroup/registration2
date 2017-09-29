@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/css/style.css" />
 
-<title>H-ui.admin v3.1</title>
+<title>三零一医院门诊后台管理系统</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 <style>
@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><i class="Hui-iconfont">&#xe727;</i> 药房业务<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="listPres" data-title="发药操作" href="javascript:;">发药操作</a></li>
+					<li><a data-href="listPres" data-title="发药操作" href="javascript:;">划价发药</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -161,9 +161,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<c:if test="${state eq 0}">
 					<li><a data-href="listAdmin" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
 					</c:if>
-					<li><a data-href="listSignals" data-title="发号员列表" href="javascript:void(0)">发号员列表</a></li>
+					<li><a data-href="listSignals" data-title="挂号收银员列表" href="javascript:void(0)">挂号收银员列表</a></li>
 					
-					<li><a data-href="dispensing" data-title="发号员列表" href="javascript:void(0)">发药员列表</a></li>
+					<li><a data-href="dispensing" data-title="划价发药员列表" href="javascript:void(0)">划价发药员列表</a></li>
 			</ul>
 		</dd>
 	</dl>
