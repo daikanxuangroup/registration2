@@ -22,6 +22,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="<%=path %>/lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="<%=path %>/static/h-ui.admin/css/style.css" />
+<style type="text/css">
+	.threed{
+		background: #EEE url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAHklEQVQImWNkYGBgYGD4//8/A5wF5SBYyAr+//8PAPOCFO0Q2zq7AAAAAElFTkSuQmCC) repeat;
+text-shadow: 5px -5px black, 4px -4px white;
+font-size:27px;
+font-weight: bold;
+-webkit-text-fill-color: transparent;
+-webkit-background-clip: text
+	}
+</style>
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
@@ -30,12 +40,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <div class="page-container">
-	<p class="f-20 text-success">欢迎来到301医院门诊部后台管理系统 <span class="f-14"></span></p>
-	<p>上次登录时间：<fmt:formatDate value="${adm.times }" type="both"/></p>
+	<div class="text-c"> 
+		<img src="<%=path %>/image/hosip.jpg" style="width:100%; height:180px">
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="threed"> 
+		欢迎登录301医院门诊后台管理系统 
+	</span> </div>
+	
+	<p></p>
 	<table class="table table-border table-bordered table-bg table-hover ">
 		<thead>
 			<tr>
-				<th colspan="7" scope="col">信息统计</th>
+				<th colspan="7" scope="col" class="text-c">信息统计</th>
 			</tr>
 			<tr class="text-c">
 				<th>门诊挂号人数统计</th>
@@ -84,6 +100,7 @@ $(function () {
     $('.table-hover').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
+		"bFilter": false,
 		"pading":false,
 		"bLengthChange": false,//是否显示每页大小的下拉框
 		"aLengthMenu": [[5], [5]],

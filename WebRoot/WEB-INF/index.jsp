@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
  <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs">三零一医院后台管理系统    </a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs">三零一医院门诊后台管理系统  </a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">v1.0 
 			&nbsp;  &nbsp;
 		上次登录时间：<fmt:formatDate value="${adm.times }" type="both"/>
@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 ${doctors.title }		
 				</c:if>
 			<c:if test="${state eq 3}">挂号收银</c:if>
-			<c:if test="${state eq 4}">发药员	</c:if>
+			<c:if test="${state eq 4}">划价发药</c:if>
 				<li class="dropDown dropDown_hover">
 					<a href="#" class="dropDown_A"> ${adm.by1 } <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
