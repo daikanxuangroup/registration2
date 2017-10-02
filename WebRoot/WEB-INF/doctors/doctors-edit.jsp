@@ -64,14 +64,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>医生职位：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<%-- <input type="text" class="input-text" value="${dr.title}" id="title" name="title" style="width: 225px;"> --%>
+			<div class="formControls col-xs-8 col-sm-9"><span class="select-box" style="width: 225px;">
+				 <%-- <input type="text" class="input-text" value="${dr.title}" id="title" name="title" style="width: 225px;"> --%>
 				<select class="select" size="1" name="title" style="width: 215px;">
 					<option value="1" ${dr.title==1?'selected':""}>住院医师</option>
 					<option value="2" ${dr.title==2?'selected':""}>主治医师</option>
 					<option value="3" ${dr.title==3?'selected':""}>副主任医师</option>
 					<option value="4" ${dr.title==4?'selected':""}>主任医师</option>
 				</select>
+				</span>
 			</div>
 		</div>
 		

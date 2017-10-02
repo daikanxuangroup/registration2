@@ -57,7 +57,7 @@ public class CardsController {
 		//过滤用户手机号及身份证
 		Consumer<Cards> privacy = c -> {
 			c.setPhone(replaceAction(c.getPhone(),"(?<=\\d{3})\\d(?=\\d{4})" ));
-			c.setIdcard(replaceAction(c.getIdcard(), "(?<=\\d{4})\\d(?=\\d{3})" ));
+			c.setIdcard(replaceAction(c.getIdcard(), "(?<=\\d{4})\\d(?=\\w{3})" ));
 		};
 		list.forEach(privacy);
 		

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 命名空间对应映射器接口 -->
+<mapper namespace="com.dkx.dao.TaskMapper">
+  
+</mapper>

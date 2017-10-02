@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td class="td-manage">
 			
 				<%-- <a title="" href="javascript:;" onclick="findprid(${hist.prescripton.prid})" class="ml-5" style="text-decoration:none"> --%>
-			<a href="javascript:addDrandPre(${dr.drug.drid},${rid})"  class="btn btn-primary radius"> <!-- <i class="Hui-iconfont">&#xe665;</i> -->使用此药品</a>
+			<a href="javascript:addDrandPre(${dr.drug.drid},${rid},${cid})"  class="btn btn-primary radius"> <!-- <i class="Hui-iconfont">&#xe665;</i> -->使用此药品</a>
 			</td>
 			
 			</tr>
@@ -119,11 +119,11 @@ function price_clear(){
 	$("#price2").val(""); 
 }
 
-function addDrandPre(drid,rid){
+function addDrandPre(drid,rid,cid){
 	$.ajax({
 			type:'post',
 			url:'drandpr',
-			data:{"drid":drid,"rid":rid},
+			data:{"drid":drid,"rid":rid,cid:cid},
  	
 			success: function(data){
 				if(data=="true"){

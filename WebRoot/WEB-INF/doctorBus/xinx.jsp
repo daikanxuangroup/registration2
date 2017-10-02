@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 						<div class="radio-box">
 							<input name="deal" type="radio" id="deal1" value="1" checked >
-							<label for="deal1">继续观察</label>
+							<label for="deal1">回家观察</label>
 						</div>
 						<div class="radio-box">
 							<input name="deal" type="radio" id="deal2" value="2" >
@@ -124,8 +124,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe615;</i> 提交病历</button>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 	<a onclick="javascript:baochun(${rid });" class="btn btn-secondary radius" ><i class="Hui-iconfont">&#xe632;</i>保存,待观察</a> 
-				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i> 返回上页&nbsp;</button>
+			 	<a onclick="javascript:baochun(${rid });" class="btn btn-secondary radius" ><i class="Hui-iconfont">&#xe632;</i>保存</a> 
+				<button onClick="layer_close();" class="btn btn-default radius" type="button"><i class="Hui-iconfont">&#xe6a6;</i>取消&nbsp;</button>
 			</div>
 		</div>
 	</form>

@@ -67,25 +67,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td rowspan=2>${bk.doid}</td>
 					<td rowspan=2>${bk.doname}</td>
 					<td>上午</td>
-					<td class="td-status"><span class="${bk.areg1 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg1 }</span></td>
-					<td class="td-status"><span class="${bk.areg2 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg2 }</span></td>
-					<td class="td-status"><span class="${bk.areg3 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg3 }</span></td>
-					<td class="td-status"><span class="${bk.areg4 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg4 }</span></td>
-					<td class="td-status"><span class="${bk.areg5 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg5 }</span></td>
-					<td class="td-status"><span class="${bk.areg6 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg6 }</span></td>
-					<td class="td-status"><span class="${bk.areg7 == '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg7 }</span></td>
+					<td class="td-status"><span class="${bk.areg1 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg1 }</span></td>
+					<td class="td-status"><span class="${bk.areg2 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg2 }</span></td>
+					<td class="td-status"><span class="${bk.areg3 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg3 }</span></td>
+					<td class="td-status"><span class="${bk.areg4 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg4 }</span></td>
+					<td class="td-status"><span class="${bk.areg5 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg5 }</span></td>
+					<td class="td-status"><span class="${bk.areg6 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg6 }</span></td>
+					<td class="td-status"><span class="${bk.areg7 == '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.areg7 }</span></td>
 				</tr>
 				<tr class="text-c">
 					<td hidden>${bk.doid}</td>
 					<td hidden>${bk.doname}</td>
 					<td>下午</td>
-					<td class="td-status"><span class="${bk.preg1 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg1 }</span></td>
-					<td class="td-status"><span class="${bk.preg2 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg2 }</span></td>
-					<td class="td-status"><span class="${bk.preg3 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg3 }</span></td>
-					<td class="td-status"><span class="${bk.preg4 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg4 }</span></td>
-					<td class="td-status"><span class="${bk.preg5 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg5 }</span></td>
-					<td class="td-status"><span class="${bk.preg6 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg6 }</span></td>
-					<td class="td-status"><span class="${bk.preg7 eq '可预约'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg7 }</span></td>
+					<td class="td-status"><span class="${bk.preg1 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg1 }</span></td>
+					<td class="td-status"><span class="${bk.preg2 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg2 }</span></td>
+					<td class="td-status"><span class="${bk.preg3 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg3 }</span></td>
+					<td class="td-status"><span class="${bk.preg4 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg4 }</span></td>
+					<td class="td-status"><span class="${bk.preg5 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg5 }</span></td>
+					<td class="td-status"><span class="${bk.preg6 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg6 }</span></td>
+					<td class="td-status"><span class="${bk.preg7 eq '值班坐诊'?'label label-warning radius':'label label-defaunt radius'}">${bk.preg7 }</span></td>
 				</tr>
 				</c:forEach>
  				

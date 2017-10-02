@@ -44,6 +44,7 @@ public class StatTest {
     public void tsalStatJson(){
 		List<String> mons = getMons();//半年时间
 		Collections.reverse(mons);
+		mons.forEach(System.out::print);
 		List<Drugtype> dts = service2.findAllDy();
 		List<Map<String, Object>> dt =new ArrayList<Map<String, Object>>();
 		for (Drugtype d : dts) {

@@ -31,7 +31,7 @@ public enum PTitle {
 	
 	public static PTitle getCode(String title){
 		for (PTitle pt	 : values()) {
-			if(pt.title == title){
+			if(pt.title.equals(title)){
 				return pt;
 			}
 		}

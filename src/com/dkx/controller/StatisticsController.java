@@ -241,11 +241,12 @@ public class StatisticsController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date); // 设置为当前时间
         List<String> mons = new ArrayList<String>();
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1); 
         for(int i = 0;i<6;i++){
-        	calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - i); 
+        	calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1); 
             date = calendar.getTime();
             String mon =  dateFormat.format(date);
-            System.out.println(mon	);
+            System.out.println("```````````````````````````````````````````"+mon	);
             mons.add(mon);
         }
         return mons;

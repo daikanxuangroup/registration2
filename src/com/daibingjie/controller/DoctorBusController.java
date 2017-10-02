@@ -146,6 +146,7 @@ public class DoctorBusController  {
 		modelMap.put("price2", price2);
 		modelMap.put("drlist", drlist);
 		modelMap.put("rid", rid);
+		modelMap.put("cid", cid);
 		return "doctorBus/drug";
 		
 	}
@@ -156,7 +157,7 @@ public class DoctorBusController  {
 	public String drandpr(ModelMap modelMap,
 			HttpSession session,
 			@RequestParam(value="drid")Integer drid
-			,@RequestParam("rid")Integer rid){
+			,@RequestParam("rid")Integer rid,@RequestParam("cid")Integer cid){
 		/**
 		 * 诊疗卡id
 		 * 页面拿到订单rid
@@ -172,7 +173,7 @@ public class DoctorBusController  {
 			// 拿出医生对象
 			Doctors doctors= (Doctors) session.getAttribute("doctors");
 			// 创建药方添加 药方项 
-			by2state=doctorBusService.allPrescripton(1, doctors.getDoid(), drid);
+			by2state=doctorBusService.allPrescripton(cid, doctors.getDoid(), drid);
 			// 修改状态 
 			if(0<doctorBusService.updaby2(rid, by2state)){
 		

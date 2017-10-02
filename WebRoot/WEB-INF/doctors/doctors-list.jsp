@@ -181,7 +181,7 @@ function dos_stop(){
 	    	else if(i!=0)
 	    		layer.msg('存在预约或挂号单的医生暂未停用！',{icon: 7,time:1700});
 	    	else 
-	    		layer.msg('存在超级管理员无法停用！',{icon: 7,time:1700});
+	    		layer.msg('存在超级管理员无法停用！',{icon: 7,time:1500});
 	    }
 	});    
 }
@@ -201,9 +201,9 @@ function doctors_stop(obj,id){
 					$(obj).remove();
 					layer.msg('已停用!',{icon: 5,time:1000});
 				}else if(data.result=="admin"){
-					layer.msg('超级管理员账号无法停用！',{icon: 2,time:1000});
+					layer.msg('超级管理员账号无法停用！',{icon: 2,time:1200});
 				}else{
-					layer.msg('该医生已接受病人就诊，无法停用！',{icon: 4,time:1000});
+					layer.msg('该医生已接受病人就诊，无法停用！',{icon: 4,time:1200});
 				}
 				
 			},

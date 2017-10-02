@@ -36,13 +36,13 @@ public interface DocStatMapper {
 	List<Drug> statDrugs(@Param("dyid") Integer dyid);
 
 	//查各类型销量
-	@Select("select dy.dyid, dy.dyname ,count(dp.drid) by2 from (drugtype dy left join drug dr on dy.dyid=dr.dyid ) "
+	@Select("select dy.dyid, dy.dyname ,nvl(sum(dp.drnum),0) by2 from (drugtype dy left join drug dr on dy.dyid=dr.dyid ) "
 			+ "left join (select * from  drugandprescripton dp left join prescripton pp on pp.prid=dp.prid  "
 			+ "where to_char(pp.prdate,'yyyy-MM') =#{mon} )dp "
 			+ "on  dr.drid = dp.drid where dy.dyid=#{dyid}  group by  dy.dyid,dy.dyname  ")
 	Drugtype statSalDt(@Param("dyid") Integer dyid, @Param("mon") String mon);
 
-	@Select("select dr.drid,dr.drname,count(dp.drid) by2 from drug dr left join (select * from  drugandprescripton dp "
+	@Select("select dr.drid,dr.drname,nvl(sum(dp.drnum),0) by2 from drug dr left join (select * from  drugandprescripton dp "
 			+ "left join prescripton pp on pp.prid=dp.prid where to_char(pp.prdate,'yyyy-MM') =#{mon}  )dp on dr.drid "
 			+ "= dp.drid where dr.drid = #{drid} group by dr.drid,dr.drname")
 	Drug statSalDr(@Param("drid") Integer drid,@Param("mon") String mon);

@@ -56,9 +56,9 @@
 					<th scope="col" colspan="4">所有科室及其医生</th>
 				</tr>
 				<tr class="text-c">
-					<th width="10">科室编号</th>
+					<th width="30">科室编号</th>
 					<th width="30">科室名称</th>
-					<th width="50" >科室介绍</th>
+					<th width="80" >科室介绍</th>
 					<th width="400" >可挂号医生</th>
 				</tr>
 			</thead>

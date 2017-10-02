@@ -172,11 +172,13 @@
 					  skin: 'layui-layer-lan', //样式类名
 					  closeBtn: 0, //不显示关闭按钮
 					  anim: 2
+					},function(){
+						layer.close(index);
+		  				setTimeout(function () { 
+					        location.reload();
+					    }, 50);
 					});
-					layer.close(index);
-	  				setTimeout(function () { 
-				        location.reload();
-				    }, 800);
+					
 				}
 			},
 			error:function(data) {
